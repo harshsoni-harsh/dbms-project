@@ -16,10 +16,18 @@ export async function POST(req: NextRequest) {
     if(!db) return NextResponse.json({ status: 'error' });
     await db.connect();
     const data = await req.json();
-    const queryResult = await db.execute(data.query);
+    const cleanQuery = data.query;
+    try {
+        const queryResult = await db.query(cleanQuery);
 
-    return NextResponse.json({
-        status: 'ok',
-        result: queryResult[0]
-    });
+        return NextResponse.json({
+            status: 'ok',
+            result: queryResult[0]
+        });
+    } catch(err) {
+        return NextResponse.json({
+            status: 'error',
+            result: err
+        });
+    }
 }
