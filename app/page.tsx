@@ -13,7 +13,7 @@ async function fetchData(query: string) {
 
 export default function Home() {
     const queryArea = useRef<HTMLTextAreaElement>(null);
-    const [result, setResult] = useState('Your result appears...');
+    const [result, setResult] = useState('Your result appears here...');
 
     const cb = async () => {
         if(!queryArea.current) return;
