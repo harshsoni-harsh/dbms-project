@@ -27,7 +27,7 @@ import { useState } from "react";
 export default function Sidenav({ params }: { params: { id: string } }) {
   const pathname = usePathname();
   const path = pathname.split("/")[3];
-  const [open, openSidebar] = useState(true);
+  const [open, openSidebar] = useState(false);
   const content = () => (
     <div className="h-screen flex flex-col justify-between p-4 w-64 bg-zinc-800 text-zinc-200">
       <div className="w-full overflow-auto flex flex-col gap-4">

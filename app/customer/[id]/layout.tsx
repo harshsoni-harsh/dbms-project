@@ -10,7 +10,7 @@ export default function RootLayout({
     return (
         <div className='min-h-screen flex'>
             <Sidenav params={params} />
-            <div className='w-64 m-4 max-md:hidden'></div>
+            <div className='shrink-0 w-64 max-md:hidden'></div>
             <div className='max-md:pt-4'>   
                 <div className="md:hidden mb-2 ml-12 flex gap-4 items-center font-bold text-lg">
                     <Image
