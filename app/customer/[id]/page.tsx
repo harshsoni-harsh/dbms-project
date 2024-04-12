@@ -83,8 +83,8 @@ const data = {
 
 export default function Page({ params }: any) {
   const { policies, quotes } = data
-  const topPolicies = policies.splice(0, 2)
-  let topQuotes = quotes.splice(0, 2)
+  const topPolicies = policies.slice(0, 2)
+  let topQuotes = quotes.slice(0, 2)
   return (
     <div className="p-4 flex flex-col gap-6 overflow-auto">
       <div className="w-fit flex flex-col gap-3">
