@@ -1,9 +1,7 @@
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
@@ -78,13 +76,38 @@ const data = {
     productId: "",
     coverageLevel: "comprehensive"
   }
-  ]
+  ],
+  claims: [{
+    claimId: "CLM-001",
+    agreementId: "AGR-123",
+    claimAmount: 500,
+    damageType: "Vehicle Collision",
+    dateOfClaim: "2024-04-05",
+    claimStatus: "Pending",
+  },
+  {
+    claimId: "CLM-002",
+    agreementId: "AGR-124",
+    claimAmount: 1000,
+    damageType: "Property Damage",
+    dateOfClaim: "2024-04-08",
+    claimStatus: "Approved",
+  },
+  {
+    claimId: "CLM-003",
+    agreementId: "AGR-125",
+    claimAmount: 750,
+    damageType: "Theft",
+    dateOfClaim: "2024-04-10",
+    claimStatus: "Rejected",
+  },]
 };
 
 export default function Page({ params }: any) {
-  const { policies, quotes } = data
+  const { policies, quotes, claims } = data
   const topPolicies = policies.slice(0, 2)
   let topQuotes = quotes.slice(0, 2)
+  let topClaims = claims.slice(0, 2)
   return (
     <div className="p-4 flex flex-col gap-6 overflow-auto">
       <div className="w-fit flex flex-col gap-3">
@@ -94,21 +117,22 @@ export default function Page({ params }: any) {
         <div className="flex gap-4 flex-wrap">
           {
             topPolicies.map(policy => (
-              <Link key={policy.aggrementId} href={`customer/${params.id}/policy/${policy.policyNum}`}>
+              <Link
+                key={policy.aggrementId}
+                href={`/customer/${params.id}/policy/${policy.policyNum}`}
+                className="w-96 max-sm:w-full"
+              >
                 <Card>
                   <CardHeader>
                     <CardTitle>
-                      <>
-                        <p>{policy.custName}</p>
-                      </>
+                      <p>{policy.policyNum}</p>
                     </CardTitle>
-                    <CardDescription>{policy.vehicleType} insurance</CardDescription>
+                    <CardDescription>
+                      {policy.vehicleType} insurance
+                    </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <div className="w-80 text-xs space-y-2">
-                      <div>
-                        <p>Policy Number: {policy.policyNum}</p>
-                      </div>
+                    <div className="text-xs space-y-2">
                       <div className="flex justify-between gap-4 flex-wrap">
                         <div>
                           <p>Vehicle Make: {policy.vehicleMake}</p>
@@ -128,26 +152,25 @@ export default function Page({ params }: any) {
         </div>
         {
           topPolicies.length !== policies.length ?
-            <Link href={`${params.id}/all-policies`} className="w-fit bg-zinc-800 rounded-md px-4 p-2">View more</Link>
+            <Link href={`/customer/${params.id}/all-policies`} className="w-fit bg-zinc-800 rounded-md px-4 p-2 hover:bg-zinc-400 hover:text-zinc-950">View more</Link>
             : ""
         }
       </div>
-      <div className="w-fit flex flex-col gap-3">
+      <div className="w-full flex flex-col gap-3">
         {
           quotes.length !== 0 && <p className="text-2xl">Quotes</p>
         }
         <div className="flex gap-4 flex-wrap">
           {
             topQuotes.map(quote => (
-              <Link key={quote.quoteId} href={`customer/${params.id}/quote/${quote.quoteId}`}>
+              <Link key={quote.quoteId} href={`/customer/${params.id}/quote/${quote.quoteId}`} className="w-96 max-sm:w-full">
                 <Card>
                   <CardHeader>
-                    <CardTitle>{quote.custName}</CardTitle>
-                    <CardDescription>Application Id: {quote.applicationId}</CardDescription>
+                    <CardTitle className="text-base">Application Id: {quote.applicationId}</CardTitle>
                   </CardHeader>
-                  <CardContent className="max-w-80 space-y-4">
+                  <CardContent className="space-y-4">
                     <p className="truncate">{quote.description}</p>
-                    <div className="flex text-xs space-x-4">
+                    <div className="flex max-md:flex-col justify-between text-xs">
                       <div>
                         Issued date: {quote.issueDate}
                       </div>
@@ -163,7 +186,51 @@ export default function Page({ params }: any) {
         </div>
         {
           topQuotes.length !== quotes.length ?
-            <Link href={`${params.id}/all-quotes`} className="w-fit bg-zinc-800 rounded-md p-2 px-4">View more</Link>
+            <Link href={`/customer/${params.id}/all-quotes`} className="w-fit bg-zinc-800 rounded-md px-4 p-2 hover:bg-zinc-400 hover:text-zinc-950">View more</Link>
+            : ""
+        }
+      </div>
+      <div className="w-fit flex flex-col gap-3">
+        {
+          claims.length !== 0 && <p className="text-2xl">Claims</p>
+        }
+        <div className="flex gap-4 flex-wrap">
+          {
+            topClaims.map(claim => (
+              <Link
+            key={claim.claimId}
+            href={`/customer/${params.id}/claim/${claim.claimId}`}
+            className="w-96 max-sm:w-full"
+          >
+            <Card>
+              <CardHeader>
+                <CardTitle>
+                  <p>{claim.claimId}</p>
+                </CardTitle>
+                <CardDescription>Agreement Id: {claim.agreementId}</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="text-xs space-y-2">
+                  <div className="flex justify-between gap-4 flex-wrap">
+                    <div>
+                      <p>Damage Type: {claim.damageType}</p>
+                      <p>Date of claim: {claim.dateOfClaim}</p>
+                    </div>
+                    <div>
+                      <p>Amount: {claim.claimAmount}</p>
+                      <p>Claim Status: {claim.claimStatus}</p>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </Link>
+            ))
+          }
+        </div>
+        {
+          topClaims.length !== claims.length ?
+            <Link href={`/customer/${params.id}/claims`} className="w-fit bg-zinc-800 rounded-md px-4 p-2 hover:bg-zinc-400 hover:text-zinc-950">View more</Link>
             : ""
         }
       </div>

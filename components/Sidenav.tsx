@@ -94,9 +94,9 @@ export default function Sidenav({ params }: { params: { id: string } }) {
             <p>Pay Premium</p>
           </div>
         </Link>
-        <Link href={`/customer/${params.id}/view-premium-receipts`}>
+        <Link href={`/customer/${params.id}/view-receipts`}>
           <div
-            className={`flex items-center gap-2 w-full hover:font-bold hover:text-zinc-800 hover:bg-zinc-400 rounded-md p-2 ${path === "view-premium-reciepts" &&
+            className={`flex items-center gap-2 w-full hover:font-bold hover:text-zinc-800 hover:bg-zinc-400 rounded-md p-2 ${path === "view-receipts" &&
               "font-bold text-zinc-800 bg-zinc-400"
               }`}
           >
