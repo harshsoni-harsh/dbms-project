@@ -1,7 +1,7 @@
-"use client";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+"use client"
+import { z } from "zod"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
 import {
   Form,
   FormControl,
@@ -10,11 +10,13 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+} from "@/components/ui/form"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Progress } from "../ui/progress"
+import { useEffect, useState } from "react"
 
-const fromSchema = z.object({
+const formSchema = z.object({
   registrationNumber: z
     .string({
       invalid_type_error: "Registration Number is Required",
@@ -28,16 +30,22 @@ const fromSchema = z.object({
     .length(10, {
       message: "Length must be 10",
     }),
-  price: z.number().positive(),
-  numberOfSeat: z.number().min(2),
+  price: z
+    .string()
+    .refine((x) => Number.isFinite(Number(x)), "Invalid number")
+    .refine((x) => Number(x) > 0, "Price should be > 0")
+    .transform((x) => Number(x)),
+  numberOfSeat: z
+    .string()
+    .refine((x) => Number.isFinite(Number(x)), "Invalid number")
+    .refine((x) => Number(x) > 0, "Price should be > 0")
+    .transform((x) => Number(x)),
   manufacturer: z.string(),
   vehicleNumber: z.string().length(17),
   engineNumber: z.string(),
   chasisNumber: z.string(),
-  modelNumber: z.string(),
-  registrationDate: z.date(),
-});
-
+  modelNumber: z.string()
+})
 
 /*
 VEHICLE_NUMBER = GET INPUT
@@ -50,207 +58,215 @@ VEHICLE_CHASIS_NUMBER = GET INPUT
 VEHICLE_MODEL_NUMBER = GET INPUT
 */
 const Vehicle = () => {
-
-  const form = useForm<z.infer<typeof fromSchema>>({
-    resolver: zodResolver(fromSchema),
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
       registrationNumber: "",
       numberOfSeat: 2,
+      price: 1,
       modelNumber: "",
-      registrationDate: new Date(),
-
+      manufacturer: "",
+      vehicleNumber: "",
+      engineNumber: "",
+      chasisNumber: ""
     },
-  });
-  const onSubmit = (value: z.infer<typeof fromSchema>) => {
-    console.log(value);
-  };
+  })
+
+
+  const onSubmit = (value: z.infer<typeof formSchema>) => {
+    console.log(1)
+    console.log(value)
+  }
   return (
+    <Form {...form}>
 
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="grid grid-cols-1 lg:grid-cols-2 gap-4 py-4">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="grid grid-cols-1 lg:grid-cols-2 place-items-center gap-4 p-2"
+      >
+        {/* RegistrationNumber */}
+        <FormField
+          control={form.control}
+          name="registrationNumber"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Registration Number</FormLabel>
+              <FormControl>
+                <Input
+                  className="input w-64 sm:w-72 md:w-80"
+                  placeholder="descriptive Destroyer"
+                  {...field}
+                />
+              </FormControl>
+              <FormDescription>
+                Enter Your Vehicle Registration Number
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-          {/* RegistrationNumber */}
-          <FormField
-            control={form.control}
-            name="registrationNumber"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Registration Number</FormLabel>
-                <FormControl>
-                  <Input
-                    className="input w-64 sm:w-72 md:w-80"
-                    placeholder="descriptive Destroyer"
-                    {...field}
-                  />
-                </FormControl>
-                <FormDescription>
-                  Enter Your Vehicle Registration Number
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+        {/* Model Number */}
+        <FormField
+          control={form.control}
+          name="modelNumber"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Make Variant</FormLabel>
+              <FormControl>
+                <Input
+                  className="input w-64 sm:w-72 md:w-80"
+                  placeholder="Enter The data"
+                  {...field}
+                />
+              </FormControl>
+              <FormDescription>
+                Enter Your Vehicle Model Number
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-          {/* Model Number */}
-          <FormField
-            control={form.control}
-            name="modelNumber"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Make Variant</FormLabel>
-                <FormControl>
-                  <Input
-                    className="input w-64 sm:w-72 md:w-80"
-                    placeholder="Enter The data"
-                    {...field}
-                  />
-                </FormControl>
-                <FormDescription>Enter Your Vehicle Model Number</FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+        {/* Price */}
+        <FormField
+          control={form.control}
+          name="price"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Price</FormLabel>
+              <FormControl>
+                <Input
+                  className="input w-64 sm:w-72 md:w-80"
+                  placeholder="Input Here"
+                  {...field}
+                />
+              </FormControl>
+              <FormDescription>Enter The Price</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-          {/* Price */}
-          <FormField
-            control={form.control}
-            name="price"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Registration Number</FormLabel>
-                <FormControl>
-                  <Input
-                    className="input w-64 sm:w-72 md:w-80"
-                    placeholder="Input Here"
-                    {...field}
-                  />
-                </FormControl>
-                <FormDescription>
-                  Enter The Price
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+        {/* Number Of Seat */}
+        <FormField
+          control={form.control}
+          name="numberOfSeat"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Number Of Seats</FormLabel>
+              <FormControl>
+                <Input
+                  className="input w-64 sm:w-72 md:w-80"
+                  placeholder="descriptive Destroyer"
+                  {...field}
+                />
+              </FormControl>
+              <FormDescription>
+                Number Of Seats in Your Vehicle
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-          {/* Number Of Seat */}
-          <FormField
-            control={form.control}
-            name="numberOfSeat"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Number Of Seats</FormLabel>
-                <FormControl>
-                  <Input
-                    className="input w-64 sm:w-72 md:w-80"
-                    placeholder="descriptive Destroyer"
-                    {...field}
-                  />
-                </FormControl>
-                <FormDescription>
-                  Number Of Seats in Your Vehicle
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+        {/* VEHICLE_MANUFACTURER */}
+        <FormField
+          control={form.control}
+          name="manufacturer"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Vehicle Manucfacturer</FormLabel>
+              <FormControl>
+                <Input
+                  className="input w-64 sm:w-72 md:w-80"
+                  placeholder="descriptive Destroyer"
+                  {...field}
+                />
+              </FormControl>
+              <FormDescription>
+                Enter Your Vehicle Manufacturer
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-          {/* VEHICLE_MANUFACTURER */}
-          <FormField
-            control={form.control}
-            name="manufacturer"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Vehicle Manucfacturer</FormLabel>
-                <FormControl>
-                  <Input
-                    className="input w-64 sm:w-72 md:w-80"
-                    placeholder="descriptive Destroyer"
-                    {...field}
-                  />
-                </FormControl>
-                <FormDescription>
-                  Enter Your Vehicle Manufacturer
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+        {/* vehicleNumber */}
+        <FormField
+          control={form.control}
+          name="vehicleNumber"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Vehicle Number</FormLabel>
+              <FormControl>
+                <Input
+                  className="input w-64 sm:w-72 md:w-80"
+                  placeholder="descriptive Destroyer"
+                  {...field}
+                />
+              </FormControl>
+              <FormDescription>Enter VIN</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-          {/* vehicleNumber */}
-          <FormField
-            control={form.control}
-            name="vehicleNumber"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Vehicle Number</FormLabel>
-                <FormControl>
-                  <Input
-                    className="input w-64 sm:w-72 md:w-80"
-                    placeholder="descriptive Destroyer"
-                    {...field}
-                  />
-                </FormControl>
-                <FormDescription>
-                  Enter VIN
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+        {/* Chasis Number */}
+        <FormField
+          control={form.control}
+          name="chasisNumber"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Chasis Number</FormLabel>
+              <FormControl>
+                <Input
+                  className="input w-64 sm:w-72 md:w-80"
+                  placeholder="descriptive Destroyer"
+                  {...field}
+                />
+              </FormControl>
+              <FormDescription>
+                Enter Your Chasis Number
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-          {/* Chasis Number */}
-          <FormField
-            control={form.control}
-            name="chasisNumber"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Chasis Number</FormLabel>
-                <FormControl>
-                  <Input
-                    className="input w-64 sm:w-72 md:w-80"
-                    placeholder="descriptive Destroyer"
-                    {...field}
-                  />
-                </FormControl>
-                <FormDescription>
-                  Enter Your Chasis Number
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+        {/* Engine Number */}
+        <FormField
+          control={form.control}
+          name="engineNumber"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Engine Number</FormLabel>
+              <FormControl>
+                <Input
+                  className="input w-64 sm:w-72 md:w-80"
+                  placeholder="descriptive Destroyer"
+                  {...field}
+                />
+              </FormControl>
+              <FormDescription>
+                Enter Your Engine Number
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-            {/* Engine Number */}
-          <FormField
-            control={form.control}
-            name="engineNumber"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Engine Number</FormLabel>
-                <FormControl>
-                  <Input
-                    className="input w-64 sm:w-72 md:w-80"
-                    placeholder="descriptive Destroyer"
-                    {...field}
-                  />
-                </FormControl>
-                <FormDescription>
-                  Enter Your Engine Number
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <Button type="submit" className="primary  lg:col-span-2 mt-6 w-max place-self-center">
-            Submit
-          </Button>
-        </form>
-      </Form>
-  );
-};
-export default Vehicle;
+        <Button
+          type="submit"
+          className="primary  lg:col-span-2 mt-6 w-max place-self-center"
+        >
+          Submit
+        </Button>
+      </form>
+    </Form>
+  )
+}
+export default Vehicle
 
 /*
 VEHICLE_ID = GENERATE
