@@ -54,7 +54,10 @@ COVERAGE_DESCRIPTION  // DEPEND ON DETAILS
 COVERAGE_TERMS // DEPEND ON DETAILS
 */
 
-const Coverage = () => {
+interface Props {
+  onClick: () => void;
+}
+const Coverage = ({ onClick }: Props) => {
 
 
   const form = useForm<z.infer<typeof fromSchema>>({
@@ -70,7 +73,7 @@ const Coverage = () => {
   return (
 
     <Form  {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="grid place-items-center gap-2 space-y-2 p-2" >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="grid grid-cols-1 lg:grid-cols-2 place-items-center gap-4 p-2" >
 
 
         {/* Coverage Type */}
@@ -79,7 +82,7 @@ const Coverage = () => {
           name="coverageType"
 
           render={({ field }) => (
-            <FormItem className="text-center content-center justify-center md:col-span-2 space-y-3">
+            <FormItem className="text-center content-center justify-center lg:col-span-2 space-y-3">
               <FormLabel className="font-bold text-xl p-1 m-1">Select A Type of Insurance</FormLabel>
               <FormControl>
                 <RadioGroup
@@ -125,7 +128,7 @@ const Coverage = () => {
           control={form.control}
           name="coverageAmount"
           render={({ field }) => (
-            <FormItem className=" col-span-2">
+            <FormItem className="lg:col-span-2">
               <FormLabel>Coverage Amount</FormLabel>
               <FormControl>
                 <Input
@@ -141,8 +144,11 @@ const Coverage = () => {
             </FormItem>
           )}
         />
+        <Button onClick={onClick} className="primary mt-6 min-w-20 place-self-center">
+          Previous
+        </Button>
 
-        <Button type="submit" className="primary md:col-span-2 mt-6 w-max place-self-center">
+        <Button type="submit" className="primary mt-6 min-w-20 place-self-center">
           Submit
         </Button>
       </form>

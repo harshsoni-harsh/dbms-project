@@ -45,6 +45,11 @@ const formSchema = z.object({
   modelNumber: z.string()
 })
 
+
+interface Props {
+  onClick: () => void;
+}
+
 /*
 VEHICLE_NUMBER = GET INPUT
 VEHICLE_REGISTRATION_NUMBER = GET INPUT //
@@ -55,7 +60,7 @@ VEHICLE_ENGINE_NUMBER = GET INPUT
 VEHICLE_CHASIS_NUMBER = GET INPUT
 VEHICLE_MODEL_NUMBER = GET INPUT
 */
-const Vehicle = () => {
+const Vehicle = ({ onClick }: Props) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -254,11 +259,18 @@ const Vehicle = () => {
           )}
         />
 
+
         <Button
           type="submit"
-          className="primary  lg:col-span-2 mt-6 w-max place-self-center"
+          className="primary mt-6 min-w-20 place-self-center"
         >
           Submit
+        </Button>
+        <Button
+          onClick={onClick}
+          className="primary mt-6 min-w-20 place-self-center"
+        >
+          Next
         </Button>
       </form>
     </Form>
