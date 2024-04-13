@@ -1,0 +1,32 @@
+by default database is insurance and user table is required for auth
+
+modify sql connector password in /dbConnector/db.js
+
+//run in workbench
+
+create database insurance;
+
+use insurance;
+
+-- if connection issues uncomment below
+-- ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';
+CREATE TABLE `User` (
+    `id` integer NOT NULL auto_increment,
+    `name` VARCHAR(191) NULL,
+    `username` VARCHAR(191) NULL,
+    `email` VARCHAR(191) NULL,
+    `password` VARCHAR(191) NULL,
+    `emailVerified` DATETIME(3) NULL,
+    `image` VARCHAR(191) NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
+    `role` varchar(191) NOT NULL default 'customer',
+
+    UNIQUE INDEX `User_username_key`(`username`),
+    UNIQUE INDEX `User_email_key`(`email`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+insert into user(id,email,password, createdAt,updatedAt) values ('1','ass@gmail.com', '123456', now(),now());
+
+
