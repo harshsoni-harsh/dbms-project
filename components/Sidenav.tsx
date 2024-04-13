@@ -1,6 +1,7 @@
 "use client";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -23,8 +24,10 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
+import { signOut } from "next-auth/react";
 
 export default function Sidenav({ params }: { params: { id: string } }) {
+  const router = useRouter();
   const pathname = usePathname();
   const path = pathname.split("/")[3];
   const [open, openSidebar] = useState(false);
@@ -41,13 +44,11 @@ export default function Sidenav({ params }: { params: { id: string } }) {
           />
           <p>Motor Insurance</p>
         </div>
-        <Link
-          href={`/customer/${params.id}/`}
-          className="flex items-center"
-        >
+        <Link href={`/customer/${params.id}/`} className="flex items-center">
           <div
-            className={`flex items-center gap-2 w-full hover:font-bold hover:text-zinc-800 hover:bg-zinc-400 rounded-md p-2 ${!path && "font-bold text-zinc-800 bg-zinc-400"
-              }`}
+            className={`flex items-center gap-2 w-full hover:font-bold hover:text-zinc-800 hover:bg-zinc-400 rounded-md p-2 ${
+              !path && "font-bold text-zinc-800 bg-zinc-400"
+            }`}
           >
             <Home className="h-4" />
             <p>Home</p>
@@ -58,8 +59,9 @@ export default function Sidenav({ params }: { params: { id: string } }) {
           className="flex items-center"
         >
           <div
-            className={`flex items-center gap-2 w-full hover:font-bold hover:text-zinc-800 hover:bg-zinc-400 rounded-md p-2 ${path === "new-policy" && "font-bold text-zinc-800 bg-zinc-400"
-              }`}
+            className={`flex items-center gap-2 w-full hover:font-bold hover:text-zinc-800 hover:bg-zinc-400 rounded-md p-2 ${
+              path === "new-policy" && "font-bold text-zinc-800 bg-zinc-400"
+            }`}
           >
             <CirclePlus className="h-4" />
             <p>New Policy</p>
@@ -67,9 +69,9 @@ export default function Sidenav({ params }: { params: { id: string } }) {
         </Link>
         <Link href={`/customer/${params.id}/all-policies`}>
           <div
-            className={`flex items-center gap-2 w-full hover:font-bold hover:text-zinc-800 hover:bg-zinc-400 rounded-md p-2 ${path === "all-policies" &&
-              "font-bold text-zinc-800 bg-zinc-400"
-              }`}
+            className={`flex items-center gap-2 w-full hover:font-bold hover:text-zinc-800 hover:bg-zinc-400 rounded-md p-2 ${
+              path === "all-policies" && "font-bold text-zinc-800 bg-zinc-400"
+            }`}
           >
             <BookText className="h-4" />
             <p>View Policies</p>
@@ -77,8 +79,9 @@ export default function Sidenav({ params }: { params: { id: string } }) {
         </Link>
         <Link href={`/customer/${params.id}/claims`}>
           <div
-            className={`flex items-center gap-2 w-full hover:font-bold hover:text-zinc-800 hover:bg-zinc-400 rounded-md p-2 ${path === "claims" && "font-bold text-zinc-800 bg-zinc-400"
-              }`}
+            className={`flex items-center gap-2 w-full hover:font-bold hover:text-zinc-800 hover:bg-zinc-400 rounded-md p-2 ${
+              path === "claims" && "font-bold text-zinc-800 bg-zinc-400"
+            }`}
           >
             <FileText className="h-4" />
             <p>Claims</p>
@@ -86,9 +89,9 @@ export default function Sidenav({ params }: { params: { id: string } }) {
         </Link>
         <Link href={`/customer/${params.id}/pay-premium`}>
           <div
-            className={`flex items-center gap-2 w-full hover:font-bold hover:text-zinc-800 hover:bg-zinc-400 rounded-md p-2 ${path === "pay-premium" &&
-              "font-bold text-zinc-800 bg-zinc-400"
-              }`}
+            className={`flex items-center gap-2 w-full hover:font-bold hover:text-zinc-800 hover:bg-zinc-400 rounded-md p-2 ${
+              path === "pay-premium" && "font-bold text-zinc-800 bg-zinc-400"
+            }`}
           >
             <IndianRupee className="h-4" />
             <p>Pay Premium</p>
@@ -96,9 +99,9 @@ export default function Sidenav({ params }: { params: { id: string } }) {
         </Link>
         <Link href={`/customer/${params.id}/view-receipts`}>
           <div
-            className={`flex items-center gap-2 w-full hover:font-bold hover:text-zinc-800 hover:bg-zinc-400 rounded-md p-2 ${path === "view-receipts" &&
-              "font-bold text-zinc-800 bg-zinc-400"
-              }`}
+            className={`flex items-center gap-2 w-full hover:font-bold hover:text-zinc-800 hover:bg-zinc-400 rounded-md p-2 ${
+              path === "view-receipts" && "font-bold text-zinc-800 bg-zinc-400"
+            }`}
           >
             <BookOpenText className="h-4" />
             <p>View Receipts</p>
@@ -126,7 +129,12 @@ export default function Sidenav({ params }: { params: { id: string } }) {
                 <p>Profile</p>
               </Button>
             </Link>
-            <Button className="w-full rounded-t-none flex gap-2 items-center justify-start bg-zinc-300 hover:bg-zinc-400 text-zinc-800">
+            <Button
+              className="w-full rounded-t-none flex gap-2 items-center justify-start bg-zinc-300 hover:bg-zinc-400 text-zinc-800"
+              onClick={() => {
+                signOut({ callbackUrl: "/" });
+              }}
+            >
               <LogOut className="rotate-180 h-4" />
               <p>Logout</p>
             </Button>
@@ -134,7 +142,7 @@ export default function Sidenav({ params }: { params: { id: string } }) {
         </PopoverContent>
       </Popover>
     </div>
-  )
+  );
   return (
     <>
       <div
@@ -151,9 +159,7 @@ export default function Sidenav({ params }: { params: { id: string } }) {
           <Menu />
         </Button>
       </div>
-      <div className="hidden md:flex fixed">
-        {content()}
-      </div>
+      <div className="hidden md:flex fixed">{content()}</div>
     </>
   );
 }
