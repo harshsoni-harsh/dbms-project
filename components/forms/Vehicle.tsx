@@ -13,8 +13,6 @@ import {
 } from "@/components/ui/form"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Progress } from "../ui/progress"
-import { useEffect, useState } from "react"
 
 const formSchema = z.object({
   registrationNumber: z
