@@ -119,7 +119,7 @@ export default function Sidenav({ params }: { params: { id: string } }) {
             </div>
           </div>
         </PopoverTrigger>
-        <PopoverContent asChild side="right" sideOffset="2">
+        <PopoverContent asChild side="right" sideOffset={2}>
           <div className="w-40 p-0 mb-2">
             <Link href={`/customer/${params.id}/profile`}>
               <Button className="w-full rounded-b-none flex gap-2 items-center justify-start bg-zinc-300 hover:bg-zinc-400 text-zinc-800">
@@ -134,7 +134,7 @@ export default function Sidenav({ params }: { params: { id: string } }) {
           </div>
         </PopoverContent>
       </Popover>
-    </div>
+    </div >
   )
   return (
     <>
