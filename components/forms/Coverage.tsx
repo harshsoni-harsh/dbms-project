@@ -61,7 +61,7 @@ const Coverage = () => {
     resolver: zodResolver(fromSchema),
     defaultValues: {
       coverageAmount: 1,
-      coverageType: ""
+      coverageType: coverageDetails[0].type
     }
   });
   const onSubmit = (value: z.infer<typeof fromSchema>) => {
@@ -90,7 +90,7 @@ const Coverage = () => {
                   {coverageDetails.map((cover) => (
                     <FormItem key={cover.type} className="m-2 w-64">
                       <FormLabel >
-                        <Card className={field.value == cover.type ? "m-1 p-2 bg-zinc-500" : "m-1 p-2"}>
+                        <Card className={field.value == cover.type ? "m-1 p-2 cursor-pointer bg-zinc-500" : "m-1 p-2 cursor-pointer"}>
                           <CardHeader className="flex flex-row items-center text-center space-x-2">
                             <FormControl className="p-0 m-0">
                               <RadioGroupItem value={cover.type} />

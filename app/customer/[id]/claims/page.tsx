@@ -1,3 +1,3 @@
 export default function Page() {
-    return "claim"
+  return "claim"
 }
