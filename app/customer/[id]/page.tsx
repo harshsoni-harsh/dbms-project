@@ -198,33 +198,33 @@ export default function Page({ params }: any) {
           {
             topClaims.map(claim => (
               <Link
-            key={claim.claimId}
-            href={`/customer/${params.id}/claim/${claim.claimId}`}
-            className="w-96 max-sm:w-full"
-          >
-            <Card>
-              <CardHeader>
-                <CardTitle>
-                  <p>{claim.claimId}</p>
-                </CardTitle>
-                <CardDescription>Agreement Id: {claim.agreementId}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="text-xs space-y-2">
-                  <div className="flex justify-between gap-4 flex-wrap">
-                    <div>
-                      <p>Damage Type: {claim.damageType}</p>
-                      <p>Date of claim: {claim.dateOfClaim}</p>
+                key={claim.claimId}
+                href={`/customer/${params.id}/claim/${claim.claimId}`}
+                className="w-96 max-sm:w-full"
+              >
+                <Card>
+                  <CardHeader>
+                    <CardTitle>
+                      <p>{claim.claimId}</p>
+                    </CardTitle>
+                    <CardDescription>Agreement Id: {claim.agreementId}</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-xs space-y-2">
+                      <div className="flex justify-between gap-4 flex-wrap">
+                        <div>
+                          <p>Damage Type: {claim.damageType}</p>
+                          <p>Date of claim: {claim.dateOfClaim}</p>
+                        </div>
+                        <div>
+                          <p>Amount: {claim.claimAmount}</p>
+                          <p>Claim Status: {claim.claimStatus}</p>
+                        </div>
+                      </div>
                     </div>
-                    <div>
-                      <p>Amount: {claim.claimAmount}</p>
-                      <p>Claim Status: {claim.claimStatus}</p>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </Link>
+                  </CardContent>
+                </Card>
+              </Link>
             ))
           }
         </div>

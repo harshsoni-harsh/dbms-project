@@ -46,9 +46,8 @@ export default function Sidenav({ params }: { params: { id: string } }) {
         </div>
         <Link href={`/customer/${params.id}/`} className="flex items-center">
           <div
-            className={`flex items-center gap-2 w-full hover:font-bold hover:text-zinc-800 hover:bg-zinc-400 rounded-md p-2 ${
-              !path && "font-bold text-zinc-800 bg-zinc-400"
-            }`}
+            className={`flex items-center gap-2 w-full hover:font-bold hover:text-zinc-800 hover:bg-zinc-400 rounded-md p-2 ${!path && "font-bold text-zinc-800 bg-zinc-400"
+              }`}
           >
             <Home className="h-4" />
             <p>Home</p>
@@ -59,9 +58,8 @@ export default function Sidenav({ params }: { params: { id: string } }) {
           className="flex items-center"
         >
           <div
-            className={`flex items-center gap-2 w-full hover:font-bold hover:text-zinc-800 hover:bg-zinc-400 rounded-md p-2 ${
-              path === "new-policy" && "font-bold text-zinc-800 bg-zinc-400"
-            }`}
+            className={`flex items-center gap-2 w-full hover:font-bold hover:text-zinc-800 hover:bg-zinc-400 rounded-md p-2 ${path === "new-policy" && "font-bold text-zinc-800 bg-zinc-400"
+              }`}
           >
             <CirclePlus className="h-4" />
             <p>New Policy</p>
@@ -69,9 +67,8 @@ export default function Sidenav({ params }: { params: { id: string } }) {
         </Link>
         <Link href={`/customer/${params.id}/all-policies`}>
           <div
-            className={`flex items-center gap-2 w-full hover:font-bold hover:text-zinc-800 hover:bg-zinc-400 rounded-md p-2 ${
-              path === "all-policies" && "font-bold text-zinc-800 bg-zinc-400"
-            }`}
+            className={`flex items-center gap-2 w-full hover:font-bold hover:text-zinc-800 hover:bg-zinc-400 rounded-md p-2 ${path === "all-policies" && "font-bold text-zinc-800 bg-zinc-400"
+              }`}
           >
             <BookText className="h-4" />
             <p>View Policies</p>
@@ -79,9 +76,8 @@ export default function Sidenav({ params }: { params: { id: string } }) {
         </Link>
         <Link href={`/customer/${params.id}/claims`}>
           <div
-            className={`flex items-center gap-2 w-full hover:font-bold hover:text-zinc-800 hover:bg-zinc-400 rounded-md p-2 ${
-              path === "claims" && "font-bold text-zinc-800 bg-zinc-400"
-            }`}
+            className={`flex items-center gap-2 w-full hover:font-bold hover:text-zinc-800 hover:bg-zinc-400 rounded-md p-2 ${path === "claims" && "font-bold text-zinc-800 bg-zinc-400"
+              }`}
           >
             <FileText className="h-4" />
             <p>Claims</p>
@@ -89,9 +85,8 @@ export default function Sidenav({ params }: { params: { id: string } }) {
         </Link>
         <Link href={`/customer/${params.id}/pay-premium`}>
           <div
-            className={`flex items-center gap-2 w-full hover:font-bold hover:text-zinc-800 hover:bg-zinc-400 rounded-md p-2 ${
-              path === "pay-premium" && "font-bold text-zinc-800 bg-zinc-400"
-            }`}
+            className={`flex items-center gap-2 w-full hover:font-bold hover:text-zinc-800 hover:bg-zinc-400 rounded-md p-2 ${path === "pay-premium" && "font-bold text-zinc-800 bg-zinc-400"
+              }`}
           >
             <IndianRupee className="h-4" />
             <p>Pay Premium</p>
@@ -99,9 +94,8 @@ export default function Sidenav({ params }: { params: { id: string } }) {
         </Link>
         <Link href={`/customer/${params.id}/view-receipts`}>
           <div
-            className={`flex items-center gap-2 w-full hover:font-bold hover:text-zinc-800 hover:bg-zinc-400 rounded-md p-2 ${
-              path === "view-receipts" && "font-bold text-zinc-800 bg-zinc-400"
-            }`}
+            className={`flex items-center gap-2 w-full hover:font-bold hover:text-zinc-800 hover:bg-zinc-400 rounded-md p-2 ${path === "view-receipts" && "font-bold text-zinc-800 bg-zinc-400"
+              }`}
           >
             <BookOpenText className="h-4" />
             <p>View Receipts</p>
