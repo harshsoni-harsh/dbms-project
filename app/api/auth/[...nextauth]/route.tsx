@@ -24,7 +24,7 @@ export const authOptions: NextAuthOptions = {
         if (!credentials?.email || !credentials?.password) return null;
 
         let user = await query(
-          `select * from user where email =  '${credentials.email}' `
+          `select * from USER where email =  '${credentials.email}' `
         );
         user = user[0];
 

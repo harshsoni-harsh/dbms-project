@@ -38,17 +38,17 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(validation.error.errors, { status: 400 });
 
   let users = await query(
-    `select * from user where email is not null and email =  '${body.cust_email}' `
+    `select * from USER where email is not null and email =  '${body.cust_email}' `
   );
   let user: User = users[0];
 
   if (user)
     return NextResponse.json({ error: "user already exists" }, { status: 401 });
 
-  await query(`insert into user(email,password, createdAt,updatedAt) values ('${body.cust_email}', '${body.cust_password}', now(),now());
+  await query(`insert into USER(email,password, createdAt,updatedAt) values ('${body.cust_email}', '${body.cust_password}', now(),now());
     `);
   users = await query(
-    `select * from user where email is not null and email =  '${body.cust_email}' `
+    `select * from USER where email is not null and email =  '${body.cust_email}' `
   );
   user = users[0];
   return NextResponse.json({ email: user.email }, { status: 201 });

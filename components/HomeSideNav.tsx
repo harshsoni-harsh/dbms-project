@@ -1,22 +1,11 @@
 "use client";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { redirect, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import {
-  LogOut,
   Home,
-  ChevronRight,
-  UserRound,
-  CirclePlus,
-  BookText,
   FileText,
   IndianRupee,
   BookOpenText,
@@ -27,12 +16,10 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
-import { signOut } from "next-auth/react";
 
-export default function defSideNav({ params }: { params: { id: string } }) {
-  const router = useRouter();
+export default function HomeSideNav({ params }: { params: { id: string } }) {
   const pathname = usePathname();
-  const path = pathname.split("/")[3];
+  const path = pathname.split("/")[1];
   const [open, openSidebar] = useState(false);
   const content = () => (
     <div className="h-screen flex flex-col justify-between p-4 w-64 bg-zinc-800 text-zinc-200">
@@ -57,32 +44,30 @@ export default function defSideNav({ params }: { params: { id: string } }) {
             <p>Home</p>
           </div>
         </Link>
-        <Link href={`/auth/login`} className="flex items-center">
+        <Link href={`/login`} className="flex items-center">
           <div
             className={`flex items-center gap-2 w-full hover:font-bold hover:text-zinc-800 hover:bg-zinc-400 rounded-md p-2 ${
-              path === "new-policy" && "font-bold text-zinc-800 bg-zinc-400"
+              path === "login" && "font-bold text-zinc-800 bg-zinc-400"
             }`}
           >
             <LogIn className="h-4" />
-
             <p>Login</p>
           </div>
         </Link>
-        <Link href={`/auth/register`}>
+        <Link href={`/register`}>
           <div
             className={`flex items-center gap-2 w-full hover:font-bold hover:text-zinc-800 hover:bg-zinc-400 rounded-md p-2 ${
-              path === "all-policies" && "font-bold text-zinc-800 bg-zinc-400"
+              path === "register" && "font-bold text-zinc-800 bg-zinc-400"
             }`}
           >
             <UserPlus className="h-4" />
-
             <p>Register</p>
           </div>
         </Link>
         <Link href={`/about`}>
           <div
             className={`flex items-center gap-2 w-full hover:font-bold hover:text-zinc-800 hover:bg-zinc-400 rounded-md p-2 ${
-              path === "claims" && "font-bold text-zinc-800 bg-zinc-400"
+              path === "about" && "font-bold text-zinc-800 bg-zinc-400"
             }`}
           >
             <FileText className="h-4" />
@@ -92,7 +77,7 @@ export default function defSideNav({ params }: { params: { id: string } }) {
         <Link href={`/privacy`}>
           <div
             className={`flex items-center gap-2 w-full hover:font-bold hover:text-zinc-800 hover:bg-zinc-400 rounded-md p-2 ${
-              path === "pay-premium" && "font-bold text-zinc-800 bg-zinc-400"
+              path === "products" && "font-bold text-zinc-800 bg-zinc-400"
             }`}
           >
             <IndianRupee className="h-4" />
@@ -102,11 +87,10 @@ export default function defSideNav({ params }: { params: { id: string } }) {
         <Link href={`/policies`}>
           <div
             className={`flex items-center gap-2 w-full hover:font-bold hover:text-zinc-800 hover:bg-zinc-400 rounded-md p-2 ${
-              path === "view-receipts" && "font-bold text-zinc-800 bg-zinc-400"
+              path === "support" && "font-bold text-zinc-800 bg-zinc-400"
             }`}
           >
             <MessageCircleQuestion className="h-4" />
-
             <p>Support</p>
           </div>
         </Link>

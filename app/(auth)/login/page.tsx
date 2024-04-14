@@ -70,7 +70,7 @@ function InputForm() {
         variant: "destructive",
         action: (
           <ToastAction altText="Try again">
-            <button onClick={() => router.push("/auth/register")}>Register</button>
+            <button onClick={() => router.push("/register")}>Register</button>
           </ToastAction>
         ),
       });
@@ -86,7 +86,7 @@ function InputForm() {
   }
 
   return (
-    <div className="flex justify-center items-center w-screen h-screen">
+    <div className="flex justify-center items-center w-full h-screen p-2">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmits)}
