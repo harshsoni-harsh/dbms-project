@@ -8,7 +8,7 @@ import { cookies } from "next/headers";
 
 const query = util.promisify(db.query).bind(db);
 
-export const authOptions: NextAuthOptions = {
+const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -24,7 +24,7 @@ export const authOptions: NextAuthOptions = {
         if (!credentials?.email || !credentials?.password) return null;
 
         let user = await query(
-          `select * from USER where email =  '${credentials.email}' `
+          `select * from USER where email = '${credentials.email}' `
         );
         user = user[0];
 
