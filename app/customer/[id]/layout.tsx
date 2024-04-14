@@ -8,10 +8,11 @@ export default function RootLayout({
     params: { id: string }
 }>) {
     return (
-        <div className='h-screen flex bg-zinc-950 text-white'>
+        <div className='min-h-screen flex'>
             <Sidenav params={params} />
-            <div className='max-md:pt-4 flex flex-col grow'>
-                <div className="md:hidden mb-2 ml-12 flex gap-4 p-2 font-bold text-lg">
+            <div className='shrink-0 w-64 max-md:hidden'></div>
+            <div className='max-md:pt-4 w-full'>
+                <div className="md:hidden mb-2 ml-12 flex gap-4 items-center font-bold text-lg">
                     <Image
                         src="/images/company-logo.png"
                         width="40"
