@@ -20,12 +20,18 @@ import {
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 
+// import { toast } from "sonner";
+
+import { ToastAction } from "@/components/ui/toast";
+import { useToast } from "@/components/ui/use-toast";
+
 const FormSchema = z.object({
   email: string().email(),
   password: string().min(3),
 });
 
 function InputForm() {
+  const { toast } = useToast();
   const router = useRouter();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -36,6 +42,13 @@ function InputForm() {
   });
 
   async function onSubmits(data: z.infer<typeof FormSchema>) {
+    toast({
+      title: "Loading...",
+      description: "",
+      variant: "default",
+      
+    });
+    
     const res = await signIn("credentials", {
       email: data.email,
       password: data.password,
@@ -51,15 +64,26 @@ function InputForm() {
       });
     } else {
       console.log("res: ", res);
+      toast({
+        title: "Uh oh! Invalid Credentials.",
+        description: "Not Registered?",
+        variant: "destructive",
+        action: (
+          <ToastAction altText="Try again">
+            <button onClick={() => router.push("/auth/register")}>Register</button>
+          </ToastAction>
+        ),
+      });
+
+      // toast("Invalid credentials", {
+      //   description: "Dont have account?",
+      //   action: {
+      //     label: "Register",
+      //     onClick: () => router.push("/auth/register"),
+      //   },
+      // })
     }
   }
-
-  // toast({
-  //   title: "You submitted the following values:",
-  //   description: (
-  //     98765
-  //   ),
-  // });
 
   return (
     <div className="flex justify-center items-center w-screen h-screen">
@@ -109,7 +133,7 @@ function InputForm() {
             className="w-full"
             type="button"
             onClick={() => {
-              router.push("/register");
+              router.push("/auth/register");
             }}
           >
             Register

@@ -16,10 +16,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 // import { toast } from "@/components/ui/use-toast";
-import { toast } from "sonner"
-import { Toaster } from "@/components/ui/sonner"
+import { ToastAction } from "@/components/ui/toast";
+import { useToast } from "@/components/ui/use-toast";
 
-import { defaultConfig } from "next/dist/server/config-shared";
+
 import { useRouter } from "next/navigation";
 import {
   Select,
@@ -51,6 +51,7 @@ const FormSchema = z.object({
 });
 
 function InputForm() {
+  const { toast } = useToast();
   const router = useRouter();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -69,6 +70,12 @@ function InputForm() {
   });
 
  async function onSubmits(data: z.infer<typeof FormSchema>) {
+  toast({
+    title: "Loading...",
+    description: "",
+    variant: "default",
+    
+  });
     const response = await fetch('/api/register',{ 
       method: "POST",
       body: JSON.stringify(data)
@@ -76,7 +83,42 @@ function InputForm() {
     console.log(response.status);
     const body = await response.json();
     console.log(body);
-    toast("Event has been created.");
+    switch(response.status){
+      case 201:
+        toast({
+          title: "Account successfully created",
+          description: "Let's Login",
+          action: (
+            <ToastAction altText="Login">
+              <button onClick={() => router.push("/auth/login")}>Login</button>
+            </ToastAction>
+          ),
+        });
+        break;
+        case 401:
+          toast({
+            title: "User Already exist",
+            description: "Use another Email or Login",
+            variant: "destructive",
+            action: (
+              <ToastAction altText="Login" className=" border-white">
+                <button  onClick={() => router.push("/auth/login")}>Login</button>
+              </ToastAction>
+            ),
+          });
+          break;
+          case 400:
+            toast({
+              title: "Invalid Form values",
+              description: "Please Enter correct details",
+              action: (
+                <ToastAction altText="Login">
+                  <button onClick={() => router.push("/auth/login")}>Login</button>
+                </ToastAction>
+              ),
+            });
+            break;
+    }
 
     // toast({
     //   title: "You submitted the following values:",
