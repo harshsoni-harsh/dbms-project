@@ -35,4 +35,13 @@ const NewPolicy = () => {
 			break;
 	}
 }
-export default NewPolicy
+
+const Page = () => {
+
+	return (
+		<div className="flex items-center justify-center">
+			<NewPolicy />
+		</div>
+	)
+};
+export default Page;
