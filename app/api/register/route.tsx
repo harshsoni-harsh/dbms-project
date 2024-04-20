@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
   ) as [RowDataPacket[], FieldPacket[]];
   if (results && results[0]) return NextResponse.json({ error: "user already exists" }, { status: 401 });;
 
-  await conn.query(`insert into USER(email,password, createdAt,updatedAt) values ('${body.cust_email}', '${body.cust_password}', now(),now());
+  await conn.query(`insert into USER(name, email, password, createdAt, updatedAt) values ('${body.cust_fname} ${body.cust_lname}', '${body.cust_email}', '${body.cust_password}', now(),now());
     `);
   [results] = await conn.query(
     `select * from USER where email is not null and email = '${body.cust_email}'`
