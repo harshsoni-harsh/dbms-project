@@ -46,9 +46,8 @@ function InputForm() {
       title: "Loading...",
       description: "",
       variant: "default",
-      
     });
-    
+
     const res = await signIn("credentials", {
       email: data.email,
       password: data.password,
@@ -117,7 +116,7 @@ function InputForm() {
                   Password<span className="text-red-400">*</span>
                 </FormLabel>
                 <FormControl>
-                  <Input placeholder="Password" {...field} />
+                  <Input placeholder="Password" type="password" {...field} />
                 </FormControl>
                 <FormDescription>Enter your password</FormDescription>
                 <FormMessage />
