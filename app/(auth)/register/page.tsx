@@ -28,17 +28,17 @@ import {
 
 const FormSchema = z.object({
   cust_email: string().email(),
-  cust_fname: string().min(3), //.max(20),
-  cust_lname: string(), //.max(20),
-  cust_gender: string().min(1), //.max(2),
+  cust_fname: string().min(3),
+  cust_lname: string(),
+  cust_gender: string().min(1),
   cust_address: string().min(3),
-  cust_mob_number: number()
+  cust_mob_number: string().min(6)
     .refine((x) => Number.isFinite(Number(x)), "Invalid number")
     .refine((x) => Number(x) >= 0, "Price should be > 0")
     .transform((x) => Number(x)),
   cust_passport_number: string().min(6),
   cust_marital_status: string().min(1),
-  cust_pps_number: number().refine((x) => Number.isFinite(Number(x)), "Invalid number")
+  cust_pps_number: string().min(1).refine((x) => Number.isFinite(Number(x)), "Invalid number")
     .refine((x) => Number(x) >= 0, "Price should be > 0")
     .transform((x) => Number(x)),
   cust_password: string().min(6),
@@ -55,10 +55,10 @@ export default function RegisterPage() {
       cust_lname: "Doe",
       cust_gender: "M",
       cust_address: "123 Main Street",
-      cust_mob_number: 1234567890,
+      cust_mob_number: undefined,
       cust_passport_number: "ABC123456",
       cust_marital_status: "U",
-      cust_pps_number: 123456789,
+      cust_pps_number: undefined,
       cust_password: "securepassword123",
     }
     ,
@@ -114,17 +114,10 @@ export default function RegisterPage() {
         });
         break;
     }
-
-    // toast({
-    //   title: "You submitted the following values:",
-    //   description: (
-    //     98765
-    //   ),
-    // });
   }
 
   return (
-    <div className="flex justify-center items-center w-full p-2 h-screen">
+    <div className="flex justify-center items-center w-full p-4 h-full">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmits)}
