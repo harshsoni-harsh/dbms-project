@@ -41,18 +41,14 @@ export async function POST(request: NextRequest) {
 
   let [results, fields] = await conn.query(
     `select * from USER where email is not null and email =  '${body.cust_email}' `
-  );
-  if (results) return null;
-  let user: (RowDataPacket & User) = results[0];
-
-  if (user)
-    return NextResponse.json({ error: "user already exists" }, { status: 401 });
+  ) as [RowDataPacket[], FieldPacket[]];
+  if (results && results[0]) return NextResponse.json({ error: "user already exists" }, { status: 401 });;
 
   await conn.query(`insert into USER(email,password, createdAt,updatedAt) values ('${body.cust_email}', '${body.cust_password}', now(),now());
     `);
   [results] = await conn.query(
     `select * from USER where email is not null and email = '${body.cust_email}'`
   ) as [RowDataPacket[], FieldPacket[]];
-  user = results[0] as (RowDataPacket & User);
+  const user = results[0] as (RowDataPacket & User);
   return NextResponse.json({ email: user.email }, { status: 201 });
 }
