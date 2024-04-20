@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { number, string, z, ZodNumber } from "zod";
-import util from "util";
-import db from "@/dbConnector/db";
-const query = util.promisify(db.query).bind(db);
+import { number, string, z } from "zod";
+import dbConn from "@/lib/dbConnector";
+import { FieldPacket, RowDataPacket } from "mysql2";
 
 export interface User {
   id: Number;
@@ -19,9 +18,9 @@ export interface User {
 
 const cust_schema = z.object({
   cust_email: string().email(),
-  cust_fname: string().min(3), //.max(20),
-  cust_lname: string(), //.max(20),
-  cust_gender: string().min(1), //.max(2),
+  cust_fname: string().min(3),
+  cust_lname: string(),
+  cust_gender: string().min(1),
   cust_address: string().min(3),
   cust_mob_number: number(),
   cust_passport_number: string().min(6),
@@ -37,19 +36,23 @@ export async function POST(request: NextRequest) {
   if (!validation.success)
     return NextResponse.json(validation.error.errors, { status: 400 });
 
-  let users = await query(
+  const conn = await dbConn;
+  await conn.connect();
+
+  let [results, fields] = await conn.query(
     `select * from USER where email is not null and email =  '${body.cust_email}' `
   );
-  let user: User = users[0];
+  if (results) return null;
+  let user: (RowDataPacket & User) = results[0];
 
   if (user)
     return NextResponse.json({ error: "user already exists" }, { status: 401 });
 
-  await query(`insert into USER(email,password, createdAt,updatedAt) values ('${body.cust_email}', '${body.cust_password}', now(),now());
+  await conn.query(`insert into USER(email,password, createdAt,updatedAt) values ('${body.cust_email}', '${body.cust_password}', now(),now());
     `);
-  users = await query(
-    `select * from USER where email is not null and email =  '${body.cust_email}' `
-  );
-  user = users[0];
+  [results] = await conn.query(
+    `select * from USER where email is not null and email = '${body.cust_email}'`
+  ) as [RowDataPacket[], FieldPacket[]];
+  user = results[0] as (RowDataPacket & User);
   return NextResponse.json({ email: user.email }, { status: 201 });
 }

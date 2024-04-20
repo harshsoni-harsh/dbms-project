@@ -2,11 +2,11 @@ import { NextAuthOptions } from "next-auth";
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
 import util from "util";
-import db from "@/dbConnector/db";
+import dbConn from "@/lib/dbConnector";
 import { cookies } from "next/headers";
-// import bcrypt from 'brcypt';
+import { FieldPacket, RowDataPacket } from "mysql2";
 
-const query = util.promisify(db.query).bind(db);
+// const query = util.promisify(dbConn.query).bind(dbConn);
 
 const authOptions: NextAuthOptions = {
   providers: [
@@ -23,13 +23,14 @@ const authOptions: NextAuthOptions = {
       async authorize(credentials, req) {
         if (!credentials?.email || !credentials?.password) return null;
 
-        let user = await query(
+        const conn = await dbConn
+        await conn.connect()
+        const [results, fields] = await conn.query(
           `select * from USER where email = '${credentials.email}' `
-        );
-        user = user[0];
-
-        if (!user) return null;
-        // const matchPass = await bcrypt.compare(credentials.password,user.password);
+        ) as [RowDataPacket[], FieldPacket[]];
+        if (!results) return null;
+        const user = results[0] as (RowDataPacket & { id: string });
+        user.id = user.id.toString();
         const matchPass = credentials.password === user.password;
         if (matchPass)
           cookies().set("user", JSON.stringify(user), { secure: true });
