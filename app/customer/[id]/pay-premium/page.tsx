@@ -244,10 +244,7 @@ const RenderForms = () => {
             <Label style={{ fontSize: "40px" }}>Payment successful!</Label>
           </div>
 
-          <div className="flex justify-between w-full">
-            <Button variant="default" onClick={onBack}>
-              Back
-            </Button>
+          <div className="flex justify-center w-full">
             <Button
               variant="default"
               onClick={() => router.push(`/customer/${param.id}`)}
