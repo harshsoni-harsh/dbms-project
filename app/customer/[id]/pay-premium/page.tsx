@@ -24,7 +24,7 @@ import Payment from "@/components/forms/Payment";
 import { Check } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 
-const renderForms = () => {
+const RenderForms = () => {
   const [formNo, setFormNo] = useState(1);
   const [edit, setEdit] = useState(false);
   const [policies, setPolicies] = useState([
@@ -263,7 +263,7 @@ const renderForms = () => {
 export default function Page() {
   return (
     <div className="max-w-3/5 p-8 h-full w-full flex flex-col justify-between items-center gap-3">
-      {renderForms()}
+      {RenderForms()}
     </div>
   );
 }
