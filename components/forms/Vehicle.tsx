@@ -1,7 +1,7 @@
-"use client"
-import { z } from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
+"use client";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
@@ -10,9 +10,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+} from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 const formSchema = z.object({
   registrationNumber: z
@@ -42,9 +42,8 @@ const formSchema = z.object({
   vehicleNumber: z.string().length(17),
   engineNumber: z.string(),
   chasisNumber: z.string(),
-  modelNumber: z.string()
-})
-
+  modelNumber: z.string(),
+});
 
 interface Props {
   onClick: () => void;
@@ -71,23 +70,22 @@ const Vehicle = ({ onClick }: Props) => {
       manufacturer: "",
       vehicleNumber: "",
       engineNumber: "",
-      chasisNumber: ""
+      chasisNumber: "",
     },
-  })
-
+  });
 
   const onSubmit = (value: z.infer<typeof formSchema>) => {
-    console.log(1)
-    console.log(value)
-  }
+    console.log(1);
+    console.log(value);
+  };
+
   return (
     <Form {...form}>
-
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className="grid grid-cols-1 lg:grid-cols-2 place-items-center gap-4 p-2"
       >
-        {/* RegistrationNumber */}
+        {/* Registration Number */}
         <FormField
           control={form.control}
           name="registrationNumber"
@@ -123,9 +121,7 @@ const Vehicle = ({ onClick }: Props) => {
                   {...field}
                 />
               </FormControl>
-              <FormDescription>
-                Enter Your Vehicle Model Number
-              </FormDescription>
+              <FormDescription>Enter Your Vehicle Model Number</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -165,9 +161,7 @@ const Vehicle = ({ onClick }: Props) => {
                   {...field}
                 />
               </FormControl>
-              <FormDescription>
-                Number Of Seats in Your Vehicle
-              </FormDescription>
+              <FormDescription>Number Of Seats in Your Vehicle</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -187,9 +181,7 @@ const Vehicle = ({ onClick }: Props) => {
                   {...field}
                 />
               </FormControl>
-              <FormDescription>
-                Enter Your Vehicle Manufacturer
-              </FormDescription>
+              <FormDescription>Enter Your Vehicle Manufacturer</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -229,9 +221,7 @@ const Vehicle = ({ onClick }: Props) => {
                   {...field}
                 />
               </FormControl>
-              <FormDescription>
-                Enter Your Chasis Number
-              </FormDescription>
+              <FormDescription>Enter Your Chasis Number</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -251,14 +241,11 @@ const Vehicle = ({ onClick }: Props) => {
                   {...field}
                 />
               </FormControl>
-              <FormDescription>
-                Enter Your Engine Number
-              </FormDescription>
+              <FormDescription>Enter Your Engine Number</FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
-
 
         <Button
           type="submit"
@@ -274,9 +261,9 @@ const Vehicle = ({ onClick }: Props) => {
         </Button>
       </form>
     </Form>
-  )
-}
-export default Vehicle
+  );
+};
+export default Vehicle;
 
 /*
 VEHICLE_ID = GENERATE
