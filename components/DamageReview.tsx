@@ -8,17 +8,25 @@ import { Textarea } from "./ui/textarea";
 interface Props {
   props: string,
   description: string | undefined,
+  onAccept: () => void,
+  onReject: () => void,
 }
-const DamageReview = ({ props, description }: Props) => {
+const DamageReview = ({ props, description, onAccept, onReject }: Props) => {
   const data = JSON.parse(props)
   const [pageNum, setPageNum] = useState(1);
+  const [incidentData, setIncidentData] = useState('');
+
+
+
   switch (pageNum) {
 
     case 1:
 
       return (
         <Dialog>
-          <DialogTrigger className="border rounded-lg p-2 bg-accent hover:bg-foreground hover:text-background  hover:border-background">Review</DialogTrigger>
+          <DialogTrigger className="border rounded-lg p-2 bg-accent hover:bg-foreground hover:text-background  hover:border-background">
+            Review
+          </DialogTrigger>
           <DialogContent>
             <DialogHeader >
               <DialogTitle className="text-center text-xl mb-4">{data.CUST_ID}</DialogTitle>
@@ -71,17 +79,18 @@ const DamageReview = ({ props, description }: Props) => {
           <DialogContent>
             <DialogHeader >
               <DialogTitle className="text-center text-xl mb-4">{data.CUST_ID}</DialogTitle>
-
-              <Textarea />
-
+              <Textarea onChange={(e) => setIncidentData(e.target.value)} placeholder="Write Incident Description In 100 Words . . . . . . . " />
+              {incidentData.length > 100 && < p className="text-sm text-destructive">The Report must be within 100 letters.</p>}
               <DialogClose
+                disabled={incidentData === '' || incidentData.length > 100}
                 className="flex items-center justify-center text-background rounded-md text-sm font-medium  bg-foreground disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 hover:bg-green-500"
-                onClick={() => console.log(2)}>
+                onClick={onAccept}>
                 Accept
               </DialogClose>
               <DialogClose
+                disabled={incidentData === '' || incidentData.length > 100}
                 className="flex items-center  justify-center text-background rounded-md text-sm font-medium  bg-foreground disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 hover:bg-red-500"
-                onClick={() => console.log(1)}>
+                onClick={onReject}>
                 Reject
               </DialogClose>
 

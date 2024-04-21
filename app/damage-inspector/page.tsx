@@ -9,6 +9,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import DamageReview from "@/components/DamageReview";
+import { useEffect, useState } from "react";
 
 const claimData = [
   {
@@ -177,6 +178,32 @@ const incident = [
 ]
 
 const DamageInspector = () => {
+  const [claimInfo, setClaimInfo] = useState(claimData);
+
+  const onAccept = (id: string) => {
+    const updatedClaim = claimInfo.map((item) => {
+
+      if (item.CLAIM_ID === id)
+        return ({ ...item, CLAIM_STATUS: "Approved" })
+      else
+        return item
+    });
+
+    setClaimInfo(updatedClaim)
+
+  }
+
+  const onReject = (id: string) => {
+    const updatedClaim = claimInfo.map((item) => {
+
+      if (item.CLAIM_ID === id)
+        return ({ ...item, CLAIM_STATUS: "Rejected" })
+      else
+        return item
+    });
+
+    setClaimInfo(updatedClaim)
+  }
 
   return (
     <div className="max-w-full max-h-full flex flex-col p-4">
@@ -208,7 +235,8 @@ const DamageInspector = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {claimData.map((data) => (
+          {claimInfo.map((data) => (
+            data.CLAIM_STATUS === 'Pending' &&
             <TableRow key={data.CLAIM_ID}>
               <TableCell className="font-medium">{data.CLAIM_ID}</TableCell>
               <TableCell>
@@ -233,7 +261,11 @@ const DamageInspector = () => {
                 {data.CLAIM_STATUS}
               </TableCell>
               <TableCell>
-                <DamageReview props={JSON.stringify(data)} description={incident.find((d) => d.INCIDENT_ID === data.INCIDENT_ID)?.DESCRIPTION} />
+                <DamageReview
+                  onReject={() => onReject(data.CLAIM_ID)}
+                  onAccept={() => onAccept(data.CLAIM_ID)}
+                  props={JSON.stringify(data)}
+                  description={incident.find((d) => d.INCIDENT_ID === data.INCIDENT_ID)?.DESCRIPTION} />
               </TableCell>
             </TableRow>
           ))}
