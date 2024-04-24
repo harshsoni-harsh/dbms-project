@@ -1,5 +1,4 @@
 "use client"
-import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -9,7 +8,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import DamageReview from "@/components/DamageReview";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const claimData = [
   {
@@ -190,7 +189,7 @@ const DamageInspector = () => {
     });
 
     setClaimInfo(updatedClaim)
-
+    console.log(updatedClaim);
   }
 
   const onReject = (id: string) => {
@@ -203,10 +202,11 @@ const DamageInspector = () => {
     });
 
     setClaimInfo(updatedClaim)
+    console.log(updatedClaim);
   }
 
   return (
-    <div className="max-w-full max-h-full flex flex-col p-4">
+    <div className="max-w-full max-h-full flex flex-col p-4 overflow-auto">
       <Table>
         <TableHeader>
           <TableRow>

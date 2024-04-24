@@ -11,7 +11,7 @@ export default function RootLayout({
         <div className='min-h-screen flex'>
             <Sidenav params={params} />
             <div className='shrink-0 w-64 max-md:hidden'></div>
-            <div className='max-md:pt-4 min-h-screen w-full'>
+            <div className='max-md:pt-4 w-full overflow-auto'>
                 <div className="md:hidden mb-2 ml-12 flex gap-4 items-center font-bold text-lg">
                     <Image
                         src="/images/company-logo.png"
