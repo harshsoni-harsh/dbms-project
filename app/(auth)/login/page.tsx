@@ -5,7 +5,9 @@ import { signIn } from "next-auth/react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { number, string, z } from "zod";
+import { string, z } from "zod";
+
+import { useFormStatus } from "react-dom";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -20,8 +22,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 
-// import { toast } from "sonner";
-
 import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
 
@@ -29,6 +29,21 @@ const FormSchema = z.object({
   email: string().email(),
   password: string().min(3),
 });
+
+const SubmitBtn = () => {
+  const { pending } = useFormStatus();
+
+  return (
+    <Button
+      disabled={pending}
+      onClick={() => console.log(pending)}
+      className="w-full mt-6 bg-zinc-300"
+      type="submit"
+    >
+      Login
+    </Button>
+  );
+};
 
 function InputForm() {
   const { toast } = useToast();
@@ -41,7 +56,7 @@ function InputForm() {
     },
   });
 
-  async function onSubmits(data: z.infer<typeof FormSchema>) {
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
     toast({
       title: "Loading...",
       description: "",
@@ -73,22 +88,17 @@ function InputForm() {
           </ToastAction>
         ),
       });
-
-      // toast("Invalid credentials", {
-      //   description: "Dont have account?",
-      //   action: {
-      //     label: "Register",
-      //     onClick: () => router.push("/auth/register"),
-      //   },
-      // })
     }
   }
+  const submitForm = async () => {
+    await form.handleSubmit(onSubmit)()
+  };
 
   return (
     <div className="flex justify-center items-center w-full h-screen p-2">
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(onSubmits)}
+          action={submitForm}
           className="h-fit w-fit p-4 py-6 rounded-lg border-2 border-zinc-800 flex flex-wrap max-w-xl justify-between gap-2"
         >
           <FormField
@@ -123,20 +133,7 @@ function InputForm() {
               </FormItem>
             )}
           />
-
-          <Button className="w-full" type="submit">
-            Login
-          </Button>
-
-          <Button
-            className="w-full"
-            type="button"
-            onClick={() => {
-              router.push("/auth/register");
-            }}
-          >
-            Register
-          </Button>
+          <SubmitBtn />
         </form>
       </Form>
     </div>
