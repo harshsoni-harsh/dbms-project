@@ -12,25 +12,32 @@ import {
 } from "@/components/ui/popover";
 import {
   LogOut,
-  Home,
   ChevronRight,
   UserRound,
-  CirclePlus,
-  BookText,
-  FileText,
-  IndianRupee,
-  BookOpenText,
   Menu,
 } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import { signOut } from "next-auth/react";
 
-export default function Sidenav({ params }: { params: { id: string } }) {
+export default function Sidenav({
+  params,
+  linksList,
+}: {
+  params: { id: string };
+  linksList: {
+    link: string;
+    id: string;
+    displayText: string;
+    icon: React.JSX.Element;
+  }[];
+}) {
   const router = useRouter();
   const pathname = usePathname();
-  const path = pathname.split("/")[3];
+  const splittedPath = pathname.split("/");
+  const path = splittedPath[splittedPath.length - 1] || "";
   const [open, openSidebar] = useState(false);
+
   const content = () => (
     <div className="h-screen flex flex-col justify-between p-4 w-64 bg-zinc-800 text-zinc-200">
       <div className="w-full overflow-auto flex flex-col gap-4">
@@ -44,63 +51,19 @@ export default function Sidenav({ params }: { params: { id: string } }) {
           />
           <p>Motor Insurance</p>
         </div>
-        <Link href={`/customer/${params.id}/`} className="flex items-center">
-          <div
-            className={`flex items-center gap-2 w-full hover:font-bold hover:text-zinc-800 hover:bg-zinc-400 rounded-md p-2 ${!path && "font-bold text-zinc-800 bg-zinc-400"
+        {linksList.map((obj) => (
+          <Link key={obj.id} href={obj.link} className="flex items-center">
+            <div
+              className={`flex items-center gap-2 w-full hover:font-bold hover:text-zinc-800 hover:bg-zinc-400 rounded-md p-2 ${
+                path === obj.link.split("/")[3] &&
+                "font-bold text-zinc-800 bg-zinc-400"
               }`}
-          >
-            <Home className="h-4" />
-            <p>Home</p>
-          </div>
-        </Link>
-        <Link
-          href={`/customer/${params.id}/new-policy`}
-          className="flex items-center"
-        >
-          <div
-            className={`flex items-center gap-2 w-full hover:font-bold hover:text-zinc-800 hover:bg-zinc-400 rounded-md p-2 ${path === "new-policy" && "font-bold text-zinc-800 bg-zinc-400"
-              }`}
-          >
-            <CirclePlus className="h-4" />
-            <p>New Policy</p>
-          </div>
-        </Link>
-        <Link href={`/customer/${params.id}/all-policies`}>
-          <div
-            className={`flex items-center gap-2 w-full hover:font-bold hover:text-zinc-800 hover:bg-zinc-400 rounded-md p-2 ${path === "all-policies" && "font-bold text-zinc-800 bg-zinc-400"
-              }`}
-          >
-            <BookText className="h-4" />
-            <p>View Policies</p>
-          </div>
-        </Link>
-        <Link href={`/customer/${params.id}/claims`}>
-          <div
-            className={`flex items-center gap-2 w-full hover:font-bold hover:text-zinc-800 hover:bg-zinc-400 rounded-md p-2 ${path === "claims" && "font-bold text-zinc-800 bg-zinc-400"
-              }`}
-          >
-            <FileText className="h-4" />
-            <p>Claims</p>
-          </div>
-        </Link>
-        <Link href={`/customer/${params.id}/pay-premium`}>
-          <div
-            className={`flex items-center gap-2 w-full hover:font-bold hover:text-zinc-800 hover:bg-zinc-400 rounded-md p-2 ${path === "pay-premium" && "font-bold text-zinc-800 bg-zinc-400"
-              }`}
-          >
-            <IndianRupee className="h-4" />
-            <p>Pay Premium</p>
-          </div>
-        </Link>
-        <Link href={`/customer/${params.id}/view-receipts`}>
-          <div
-            className={`flex items-center gap-2 w-full hover:font-bold hover:text-zinc-800 hover:bg-zinc-400 rounded-md p-2 ${path === "view-receipts" && "font-bold text-zinc-800 bg-zinc-400"
-              }`}
-          >
-            <BookOpenText className="h-4" />
-            <p>View Receipts</p>
-          </div>
-        </Link>
+            >
+              {obj.icon}
+              <p>{obj.displayText}</p>
+            </div>
+          </Link>
+        ))}
       </div>
       <Popover>
         <PopoverTrigger>
