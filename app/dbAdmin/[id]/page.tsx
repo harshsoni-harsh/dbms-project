@@ -20,7 +20,7 @@ const DBAdmin = () => {
   const [input, setInput] = useState("");
   const sendReq = async () => {
     const startTime = Date.now();
-    const response = await fetch("http://localhost:3000/api/db-query", {
+    const response = await fetch("/api/db-query", {
       method: "POST",
       body: (input)
     })
