@@ -10,12 +10,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import {
-  LogOut,
-  ChevronRight,
-  UserRound,
-  Menu,
-} from "lucide-react";
+import { LogOut, ChevronRight, UserRound, Menu } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import { signOut } from "next-auth/react";
@@ -35,9 +30,8 @@ export default function Sidenav({
   const router = useRouter();
   const pathname = usePathname();
   const splittedPath = pathname.split("/");
-  const path = splittedPath[splittedPath.length - 1] || "";
+  const path = splittedPath[splittedPath.length - 1];
   const [open, openSidebar] = useState(false);
-
   const content = () => (
     <div className="h-screen flex flex-col justify-between p-4 w-64 bg-zinc-800 text-zinc-200">
       <div className="w-full overflow-auto flex flex-col gap-4">
@@ -55,7 +49,7 @@ export default function Sidenav({
           <Link key={obj.id} href={obj.link} className="flex items-center">
             <div
               className={`flex items-center gap-2 w-full hover:font-bold hover:text-zinc-800 hover:bg-zinc-400 rounded-md p-2 ${
-                path === obj.link.split("/")[3] &&
+                path === obj.link.split("/")[obj.link.split('/').length - 1] &&
                 "font-bold text-zinc-800 bg-zinc-400"
               }`}
             >

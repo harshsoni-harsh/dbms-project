@@ -23,7 +23,7 @@ export default function RootLayout({
 }>) {
   const linksList = [
     {
-      link: "/customer/" + params.id + "/",
+      link: "/customer/" + params.id,
       id: uuid(),
       displayText: "Home",
       icon: <Home className="h-4" />,
