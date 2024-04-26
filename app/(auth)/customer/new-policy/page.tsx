@@ -1,4 +1,5 @@
 "use client"
+
 import Coverage from "@/components/forms/Coverage"
 import Vehicle from "@/components/forms/Vehicle"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
@@ -10,7 +11,7 @@ const NewPolicy = () => {
 	switch (pageNum) {
 		case 1:
 			return (
-				<Card className="max-w-4xl">
+				<Card className="max-w-4xl h-fit max-h-full overflow-auto">
 					<CardHeader className="font-bold text-4xl text-center">
 						Vehicle Details
 					</CardHeader>
@@ -22,7 +23,7 @@ const NewPolicy = () => {
 
 		case 2:
 			return (
-				<Card className="max-w-4xl">
+				<Card className="max-w-4xl h-fit max-h-full overflow-auto">
 					<CardHeader className="font-bold text-4xl text-center">
 						Coverage Details
 					</CardHeader>
@@ -39,7 +40,7 @@ const NewPolicy = () => {
 const Page = () => {
 
 	return (
-		<div className="flex items-center justify-center w-full h-full">
+		<div className="overflow-auto flex flex-col items-center justify-center w-full max-h-full p-2">
 			<NewPolicy />
 		</div>
 	)

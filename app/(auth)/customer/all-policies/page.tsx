@@ -48,7 +48,7 @@ export default function Page({ params }: any) {
         {policies.map((policy) => (
           <Link
             key={policy.aggrementId}
-            href={`/customer/${params.id}/policy/${policy.policyNum}`}
+            href={`/customer/policy/${policy.policyNum}`}
             className="w-96 max-sm:w-full"
           >
             <Card>

@@ -22,7 +22,7 @@ import {
 import { Input } from "@/components/ui/input";
 import Payment from "@/components/forms/Payment";
 import { Check } from "lucide-react";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const RenderForms = () => {
   const [formNo, setFormNo] = useState(1);
@@ -63,7 +63,6 @@ const RenderForms = () => {
   const [selectedPolicy, setSelectedPolicy] = useState(policies[0]?.policyNum);
   const [isPaid, setIsPaid] = useState<boolean>(false);
   const router = useRouter();
-  const param = useParams<{ id: string }>();
 
   const onBack = () => {
     if (formNo <= 1) return;
@@ -247,7 +246,7 @@ const RenderForms = () => {
           <div className="flex justify-center w-full">
             <Button
               variant="default"
-              onClick={() => router.push(`/customer/${param.id}`)}
+              onClick={() => router.push(`/customer`)}
             >
               Go Home
             </Button>

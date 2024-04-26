@@ -2,8 +2,9 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { number, string, z } from "zod";
+import { string, z } from "zod";
 import { useRouter } from "next/navigation";
+import { useFormStatus } from "react-dom";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -44,6 +45,20 @@ const FormSchema = z.object({
   cust_password: string().min(6),
 });
 
+const SubmitBtn = () => {
+  const { pending } = useFormStatus();
+
+  return (
+    <Button
+      disabled={pending}
+      className="min-w-full mt-6 bg-zinc-300"
+      type="submit"
+    >
+      Register
+    </Button>
+  );
+};
+
 export default function RegisterPage() {
   const { toast } = useToast();
   const router = useRouter();
@@ -64,7 +79,7 @@ export default function RegisterPage() {
     ,
   });
 
-  async function onSubmits(data: z.infer<typeof FormSchema>) {
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
     toast({
       title: "Loading...",
       description: "",
@@ -75,9 +90,7 @@ export default function RegisterPage() {
       method: "POST",
       body: JSON.stringify(data)
     });
-    console.log(response.status);
     const body = await response.json();
-    console.log(body);
     switch (response.status) {
       case 201:
         toast({
@@ -115,12 +128,15 @@ export default function RegisterPage() {
         break;
     }
   }
+  const submitForm = async () => {
+    await form.handleSubmit(onSubmit)()
+  };
 
   return (
     <div className="flex justify-center items-center w-full p-4 h-full">
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(onSubmits)}
+          action={submitForm}
           className="h-fit w-fit p-4 py-6 rounded-lg [&>*]:w-5/12 [&>*]:pb-2 border-2 border-zinc-800 flex flex-wrap max-w-xl justify-between gap-2"
         >
           <FormField
@@ -286,9 +302,7 @@ export default function RegisterPage() {
               </FormItem>
             )}
           />
-          <Button className="min-w-full" type="submit">
-            Submit
-          </Button>
+          <SubmitBtn />
         </form>
       </Form>
     </div>

@@ -1,15 +1,19 @@
-import Sidenav from '@/components/Sidenav'
+import { getServerSession } from 'next-auth';
 import Image from 'next/image';
+import { redirect } from 'next/navigation';
 
-export default function RootLayout({
-  children, params
+export default async function RootLayout({
+  children
 }: Readonly<{
   children: React.ReactNode,
-  params: { id: string }
 }>) {
+  const session = await getServerSession();
+  if(!session || !session.user) redirect('/login');
+  // @ts-expect-error wonky code
+  session.user = JSON.parse(session.user.name);
+  if(session!.user!.role !== 'damage-inspector') redirect(`/${session!.user!.role}`);
   return (
-    <div className='min-h-screen flex'>
-      <Sidenav linksList={[]} params={params} />
+    <>
       <div className='shrink-0 w-64 max-md:hidden'></div>
       <div className='max-md:pt-4 w-full max-h-screen overflow-auto flex flex-col'>
         <div className="md:hidden mb-2 ml-12 flex gap-4 items-center font-bold text-lg">
@@ -24,6 +28,6 @@ export default function RootLayout({
         </div>
         {children}
       </div>
-    </div>
+    </>
   );
 }

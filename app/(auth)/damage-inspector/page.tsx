@@ -189,7 +189,6 @@ const DamageInspector = () => {
     });
 
     setClaimInfo(updatedClaim)
-    console.log(updatedClaim);
   }
 
   const onReject = (id: string) => {
@@ -202,7 +201,6 @@ const DamageInspector = () => {
     });
 
     setClaimInfo(updatedClaim)
-    console.log(updatedClaim);
   }
 
   return (

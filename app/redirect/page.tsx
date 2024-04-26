@@ -1,10 +1,12 @@
-import { cookies } from "next/headers";
+import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import { User } from "../api/register/route";
 
-export default function Page() {
-  const cookieStore = cookies();
-  const c = cookieStore.get("user");
-  const user: User = JSON.parse(c?.value!);
-  redirect(`/${user?.role}/${user?.id}`);
+export default async function Page() {
+  const session = await getServerSession();
+  if (session) {
+    const user = JSON.parse(session.user!.name!);
+    return redirect(`/${user.role}`);
+  } else {
+    return redirect("/");
+  }
 }
