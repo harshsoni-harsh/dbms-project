@@ -39,13 +39,13 @@ export default function Page({ params }: any) {
     <div className="p-4 flex flex-col gap-6 overflow-auto w-full">
       <div className="flex justify-between items-center">
         <p className="text-2xl">Claims</p>
-        <Link href={`/customer/${params.id}/new-claim`} className="w-fit bg-zinc-800 rounded-md px-4 p-2 hover:bg-zinc-400 hover:text-zinc-950">File a claim</Link>
+        <Link href={`/customer/new-claim`} className="w-fit bg-zinc-800 rounded-md px-4 p-2 hover:bg-zinc-400 hover:text-zinc-950">File a claim</Link>
       </div>
       <div className="flex gap-4 flex-wrap w-full">
         {claims.map((claim) => (
           <Link
             key={claim.claimId}
-            href={`/customer/${params.id}/claim/${claim.claimId}`}
+            href={`/customer/claim/${claim.claimId}`}
             className="w-96 max-sm:w-full"
           >
             <Card>

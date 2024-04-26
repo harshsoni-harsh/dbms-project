@@ -1,4 +1,3 @@
-import Sidenav from '@/components/Sidenav'
 import Image from 'next/image';
 
 export default function RootLayout({
@@ -8,8 +7,7 @@ export default function RootLayout({
   params: { id: string }
 }>) {
   return (
-    <div className='min-h-screen flex'>
-      <Sidenav linksList={[]} params={params} />
+    <>
       <div className='shrink-0 w-64 max-md:hidden'></div>
       <div className='max-md:pt-4 w-full max-h-screen overflow-auto flex flex-col'>
         <div className="md:hidden mb-2 ml-12 flex gap-4 items-center font-bold text-lg">
@@ -24,6 +22,6 @@ export default function RootLayout({
         </div>
         {children}
       </div>
-    </div>
+    </>
   );
 }

@@ -5,6 +5,7 @@ import dbConn from "@/lib/dbConnector";
 import { FieldPacket, RowDataPacket } from "mysql2";
 
 const authOptions: NextAuthOptions = {
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [
     CredentialsProvider({
       name: "Credentials",

@@ -122,7 +122,7 @@ export default function Page({ params }: any) {
           {topPolicies.map((policy) => (
             <Link
               key={policy.aggrementId}
-              href={`/customer/${params.id}/policy/${policy.policyNum}`}
+              href={`/customer/policy/${policy.policyNum}`}
               className="w-96 max-sm:w-full"
             >
               <Card>
@@ -154,7 +154,7 @@ export default function Page({ params }: any) {
         </div>
         {topPolicies.length !== policies.length ? (
           <Link
-            href={`/customer/${params.id}/all-policies`}
+            href={`/customer/all-policies`}
             className="w-fit bg-zinc-800 rounded-md px-4 p-2 hover:bg-zinc-400 hover:text-zinc-950"
           >
             View more
@@ -169,7 +169,7 @@ export default function Page({ params }: any) {
           {topQuotes.map((quote) => (
             <Link
               key={quote.quoteId}
-              href={`/customer/${params.id}/quote/${quote.quoteId}`}
+              href={`/customer/quote/${quote.quoteId}`}
               className="w-96 max-sm:w-full"
             >
               <Card>
@@ -191,7 +191,7 @@ export default function Page({ params }: any) {
         </div>
         {topQuotes.length !== quotes.length ? (
           <Link
-            href={`/customer/${params.id}/all-quotes`}
+            href={`/customer/all-quotes`}
             className="w-fit bg-zinc-800 rounded-md px-4 p-2 hover:bg-zinc-400 hover:text-zinc-950"
           >
             View more
@@ -206,7 +206,7 @@ export default function Page({ params }: any) {
           {topClaims.map((claim) => (
             <Link
               key={claim.claimId}
-              href={`/customer/${params.id}/claim/${claim.claimId}`}
+              href={`/customer/claim/${claim.claimId}`}
               className="w-96 max-sm:w-full"
             >
               <Card>
@@ -238,7 +238,7 @@ export default function Page({ params }: any) {
         </div>
         {topClaims.length !== claims.length ? (
           <Link
-            href={`/customer/${params.id}/claims`}
+            href={`/customer/claims`}
             className="w-fit bg-zinc-800 rounded-md px-4 p-2 hover:bg-zinc-400 hover:text-zinc-950"
           >
             View more

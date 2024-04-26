@@ -5,7 +5,7 @@ export default async function Page() {
   const session = await getServerSession();
   if (session) {
     const user = JSON.parse(session.user!.name!);
-    return redirect(`/${user.role}/${user.id}`);
+    return redirect(`/${user.role}`);
   } else {
     return redirect("/");
   }

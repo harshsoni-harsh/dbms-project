@@ -1,4 +1,5 @@
 "use client"
+
 import Coverage from "@/components/forms/Coverage"
 import Vehicle from "@/components/forms/Vehicle"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"

@@ -9,23 +9,111 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { LogOut, ChevronRight, UserRound, Menu } from "lucide-react";
+import { LogOut, ChevronRight, UserRound, Menu, Home, Cookie, FileText, LogIn, MessageCircleQuestion, UserPlus, BookOpenText, BookText, CirclePlus, IndianRupee } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import { signOut } from "next-auth/react";
+import { v4 as uuid } from 'uuid';
 
-export default function Sidenav({
-  params,
-  linksList,
-}: {
-  params: { id: string };
-  linksList: {
-    link: string;
-    id: string;
-    displayText: string;
-    icon: React.JSX.Element;
-  }[];
-}) {
+type LinksList = {
+  link: string;
+  id: string;
+  displayText: string;
+  icon: React.JSX.Element;
+}[];
+
+const homeLinksList: LinksList = [
+  {
+    link: "/",
+    id: uuid(),
+    displayText: "Home",
+    icon: <Home className="h-4" />,
+  },
+  {
+    link: "/login",
+    id: uuid(),
+    displayText: "Login",
+    icon: <LogIn className="h-4" />,
+  },
+  {
+    link: "/register",
+    id: uuid(),
+    displayText: "Register",
+    icon: <UserPlus className="h-4" />,
+  },
+  {
+    link: "/about",
+    id: uuid(),
+    displayText: "About",
+    icon: <FileText className="h-4" />,
+  },
+  {
+    link: "/privacy",
+    id: uuid(),
+    displayText: "Privacy Policy",
+    icon: <Cookie className="h-4" />,
+  },
+  {
+    link: "/support",
+    id: uuid(),
+    displayText: "Support",
+    icon: <MessageCircleQuestion className="h-4" />,
+  },
+];
+
+const customerLinksList: LinksList = [
+  {
+    link: "/customer/",
+    id: uuid(),
+    displayText: "Home",
+    icon: <Home className="h-4" />,
+  },
+  {
+    link: "/customer/new-policy",
+    id: uuid(),
+    displayText: "New Policy",
+    icon: <CirclePlus className="h-4" />,
+  },
+  {
+    link: "/customer/all-policies",
+    id: uuid(),
+    displayText: "View Policies",
+    icon: <BookText className="h-4" />,
+  },
+  {
+    link: "/customer/claims",
+    id: uuid(),
+    displayText: "Claims",
+    icon: <FileText className="h-4" />,
+  },
+  {
+    link: "/customer/pay-premium",
+    id: uuid(),
+    displayText: "Pay Premium",
+    icon: <IndianRupee className="h-4" />,
+  },
+  {
+    link: "/customer/view-receipts",
+    id: uuid(),
+    displayText: "View Receipts",
+    icon: <BookOpenText className="h-4" />,
+  },
+];
+
+const damageInspectorLinksList: LinksList = [];
+const dbAdminLinksList: LinksList = [];
+
+function useLinksList() {
+  const pathname = usePathname();
+  if(pathname === '/') return homeLinksList;
+  if(pathname.startsWith('/customer')) return customerLinksList;
+  if(pathname.startsWith('/damage-inspector')) return damageInspectorLinksList;
+  if(pathname.startsWith('/db-admin')) return dbAdminLinksList;
+  return homeLinksList;
+}
+
+export default function Sidenav() {
+  const linksList = useLinksList();
   const pathname = usePathname();
   const splittedPath = pathname.split("/");
   const path = splittedPath[splittedPath.length - 1];
@@ -74,7 +162,7 @@ export default function Sidenav({
           </PopoverTrigger>
           <PopoverContent asChild side="right" sideOffset={0}>
             <div className="w-full p-0 mb-2 bg-transparent border-0">
-              <Link href={`/customer/${params.id}/profile`}>
+              <Link href={`/customer/profile`}>
                 <Button className="w-full rounded-b-none flex gap-2 items-center justify-start bg-zinc-300 hover:bg-zinc-400 text-zinc-800">
                   <UserRound className="h-4" />
                   <p>Profile</p>
