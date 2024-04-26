@@ -36,7 +36,6 @@ const SubmitBtn = () => {
   return (
     <Button
       disabled={pending}
-      onClick={() => console.log(pending)}
       className="w-full mt-6 bg-zinc-300"
       type="submit"
     >
@@ -69,15 +68,12 @@ function InputForm() {
       redirect: false,
     });
     if (res?.ok) {
-      console.log("res: ", res);
-
       await signIn("credentials", {
         callbackUrl: `/redirect`,
         email: data.email,
         password: data.password,
       });
     } else {
-      console.log("res: ", res);
       toast({
         title: "Uh oh! Invalid Credentials.",
         description: "Not Registered?",
@@ -91,7 +87,7 @@ function InputForm() {
     }
   }
   const submitForm = async () => {
-    await form.handleSubmit(onSubmit)()
+    await form.handleSubmit(onSubmit)();
   };
 
   return (

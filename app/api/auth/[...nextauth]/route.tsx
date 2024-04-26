@@ -1,12 +1,8 @@
 import { NextAuthOptions } from "next-auth";
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
-import util from "util";
 import dbConn from "@/lib/dbConnector";
-import { cookies } from "next/headers";
 import { FieldPacket, RowDataPacket } from "mysql2";
-
-// const query = util.promisify(dbConn.query).bind(dbConn);
 
 const authOptions: NextAuthOptions = {
   providers: [
@@ -23,22 +19,26 @@ const authOptions: NextAuthOptions = {
       async authorize(credentials, req) {
         if (!credentials?.email || !credentials?.password) return null;
 
-        const conn = await dbConn
-        await conn.connect()
-        const [results, fields] = await conn.query(
+        const conn = await dbConn;
+        await conn.connect();
+        const [results, fields] = (await conn.query(
           `select * from USER where email = '${credentials.email}' `
-        ) as [RowDataPacket[], FieldPacket[]];
+        )) as [RowDataPacket[], FieldPacket[]];
         if (!results) return null;
-        const user = results[0] as (RowDataPacket & { id: string });
+        const user = results[0] as RowDataPacket & { id: string; role: string };
         user.id = user.id.toString();
-        const matchPass = credentials.password === user.password;
-        if (matchPass)
-          cookies().set("user", JSON.stringify(user), { secure: true });
+        user.name = JSON.stringify(user);
 
-        return matchPass ? user : null;
+        return user;
       },
     }),
   ],
+  callbacks: {
+    session: async ({ session }) => {
+      if (session) session.user = JSON.parse(session.user!.name!);
+      return session;
+    },
+  },
   session: {
     strategy: "jwt",
   },

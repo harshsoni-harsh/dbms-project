@@ -51,7 +51,6 @@ const SubmitBtn = () => {
   return (
     <Button
       disabled={pending}
-      onClick={() => console.log(pending)}
       className="min-w-full mt-6 bg-zinc-300"
       type="submit"
     >
@@ -91,9 +90,7 @@ export default function RegisterPage() {
       method: "POST",
       body: JSON.stringify(data)
     });
-    console.log(response.status);
     const body = await response.json();
-    console.log(body);
     switch (response.status) {
       case 201:
         toast({

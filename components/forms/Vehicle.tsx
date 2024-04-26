@@ -74,10 +74,7 @@ const Vehicle = ({ onClick }: Props) => {
     },
   });
 
-  const onSubmit = (value: z.infer<typeof formSchema>) => {
-    console.log(1);
-    console.log(value);
-  };
+  const onSubmit = (value: z.infer<typeof formSchema>) => {};
 
   return (
     <Form {...form}>

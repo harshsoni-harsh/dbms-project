@@ -50,9 +50,7 @@ const Payment = ({
     [form]
   );
 
-  const onSubmit = (value: z.infer<typeof formSchema>) => {
-    console.log(value);
-  };
+  const onSubmit = (value: z.infer<typeof formSchema>) => {};
 
   useEffect(() => {
     onSub(form.formState.isValid);
