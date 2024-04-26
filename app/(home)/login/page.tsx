@@ -91,17 +91,17 @@ function InputForm() {
   };
 
   return (
-    <div className="flex justify-center items-center w-full h-screen p-2">
+    <div className="w-full flex justify-center max-w-sm">
       <Form {...form}>
         <form
           action={submitForm}
-          className="h-fit w-fit p-4 py-6 rounded-lg border-2 border-zinc-800 flex flex-wrap max-w-xl justify-between gap-2"
+          className="h-fit w-full p-4 py-6 rounded-lg border-2 border-zinc-800 max-w-3xl flex flex-col justify-between gap-4"
         >
           <FormField
             control={form.control}
             name="email"
             render={({ field }) => (
-              <FormItem className="w-5/12">
+              <FormItem>
                 <FormLabel>
                   Email<span className="text-red-400">*</span>
                 </FormLabel>
@@ -117,7 +117,7 @@ function InputForm() {
             control={form.control}
             name="password"
             render={({ field }) => (
-              <FormItem className="w-5/12">
+              <FormItem>
                 <FormLabel>
                   Password<span className="text-red-400">*</span>
                 </FormLabel>
@@ -138,7 +138,8 @@ function InputForm() {
 
 const logPage = () => {
   return (
-    <div className="">
+    <div className="flex flex-col justify-center items-center w-full h-full p-4 gap-6">
+      <p className="font-bold text-xl md:hidden text-center">Login Form</p>
       <InputForm />
     </div>
   );

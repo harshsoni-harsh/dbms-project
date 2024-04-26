@@ -1,7 +1,6 @@
 "use client";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { redirect, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -27,7 +26,6 @@ export default function Sidenav({
     icon: React.JSX.Element;
   }[];
 }) {
-  const router = useRouter();
   const pathname = usePathname();
   const splittedPath = pathname.split("/");
   const path = splittedPath[splittedPath.length - 1];
@@ -48,8 +46,9 @@ export default function Sidenav({
         {linksList.map((obj) => (
           <Link key={obj.id} href={obj.link} className="flex items-center">
             <div
+              onClick={() => openSidebar(false)}
               className={`flex items-center gap-2 w-full hover:font-bold hover:text-zinc-800 hover:bg-zinc-400 rounded-md p-2 ${
-                path === obj.link.split("/")[obj.link.split('/').length - 1] &&
+                path === obj.link.split("/")[obj.link.split("/").length - 1] &&
                 "font-bold text-zinc-800 bg-zinc-400"
               }`}
             >
@@ -59,39 +58,43 @@ export default function Sidenav({
           </Link>
         ))}
       </div>
-      <Popover>
-        <PopoverTrigger>
-          <div className="p-2 flex items-center">
-            <Avatar>
-              <AvatarImage src="https://github.com/shadcn.png" />
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
-            <div className="grow px-4 flex justify-between">
-              <p className="truncate">Person Name</p>
-              <ChevronRight />
+      {splittedPath.length > 2 ? (
+        <Popover>
+          <PopoverTrigger>
+            <div className="p-2 flex items-center">
+              <Avatar>
+                <AvatarImage src="https://github.com/shadcn.png" />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
+              <div className="grow px-4 flex justify-between">
+                <p className="truncate">Person Name</p>
+                <ChevronRight />
+              </div>
             </div>
-          </div>
-        </PopoverTrigger>
-        <PopoverContent asChild side="right" sideOffset={0}>
-          <div className="w-full p-0 mb-2 bg-transparent border-0">
-            <Link href={`/customer/${params.id}/profile`}>
-              <Button className="w-full rounded-b-none flex gap-2 items-center justify-start bg-zinc-300 hover:bg-zinc-400 text-zinc-800">
-                <UserRound className="h-4" />
-                <p>Profile</p>
+          </PopoverTrigger>
+          <PopoverContent asChild side="right" sideOffset={0}>
+            <div className="w-full p-0 mb-2 bg-transparent border-0">
+              <Link href={`/customer/${params.id}/profile`}>
+                <Button className="w-full rounded-b-none flex gap-2 items-center justify-start bg-zinc-300 hover:bg-zinc-400 text-zinc-800">
+                  <UserRound className="h-4" />
+                  <p>Profile</p>
+                </Button>
+              </Link>
+              <Button
+                className="w-full rounded-t-none flex gap-2 items-center justify-start bg-zinc-300 hover:bg-zinc-400 text-zinc-800"
+                onClick={() => {
+                  signOut({ callbackUrl: "/" });
+                }}
+              >
+                <LogOut className="rotate-180 h-4" />
+                <p>Logout</p>
               </Button>
-            </Link>
-            <Button
-              className="w-full rounded-t-none flex gap-2 items-center justify-start bg-zinc-300 hover:bg-zinc-400 text-zinc-800"
-              onClick={() => {
-                signOut({ callbackUrl: "/" });
-              }}
-            >
-              <LogOut className="rotate-180 h-4" />
-              <p>Logout</p>
-            </Button>
-          </div>
-        </PopoverContent>
-      </Popover>
+            </div>
+          </PopoverContent>
+        </Popover>
+      ) : (
+        ""
+      )}
     </div>
   );
   return (
@@ -101,10 +104,12 @@ export default function Sidenav({
           ? "ease-in duration-200 translate-x-0"
           : "ease-out duration-200 -translate-x-64 "
         ).concat(" flex z-10 fixed md:hidden")}
+        onBlur={() => openSidebar(false)}
+        onFocus={() => openSidebar(true)}
       >
         {content()}
         <Button
-          className="md:hidden mt-4 rounded-r-full p-2 bg-zinc-800 border-none"
+          className="md:hidden mt-4 rounded-r-full p-2 text-zinc-300 bg-zinc-800 border-none hover:bg-zinc-800 focus:bg-zinc-800"
           onClick={() => openSidebar(!open)}
         >
           <Menu />
