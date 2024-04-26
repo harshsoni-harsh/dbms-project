@@ -1,15 +1,12 @@
 import Image from 'next/image';
 
 export default function RootLayout({
-  children, params
+  children
 }: Readonly<{
   children: React.ReactNode,
-  params: { id: string }
 }>) {
 
   return (
-    // <div className='min-h-screen flex'>
-    //   <Sidenav linksList={linksList} params={params} />
     <>
       <div className='shrink-0 w-64 max-md:hidden'></div>
       <div className='max-md:pt-4 w-full'>
@@ -26,6 +23,5 @@ export default function RootLayout({
         {children}
       </div>
     </>
-    // </div>
   );
 }

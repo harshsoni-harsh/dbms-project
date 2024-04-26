@@ -63,7 +63,7 @@ const homeLinksList: LinksList = [
 
 const customerLinksList: LinksList = [
   {
-    link: "/customer/",
+    link: "/customer",
     id: uuid(),
     displayText: "Home",
     icon: <Home className="h-4" />,
@@ -116,7 +116,6 @@ export default function Sidenav() {
   const linksList = useLinksList();
   const pathname = usePathname();
   const splittedPath = pathname.split("/");
-  const path = splittedPath[splittedPath.length - 1];
   const [open, openSidebar] = useState(false);
   const content = () => (
     <div className="h-screen flex flex-col justify-between p-4 w-64 bg-zinc-800 text-zinc-200">
@@ -136,7 +135,8 @@ export default function Sidenav() {
             <div
               onClick={() => openSidebar(false)}
               className={`flex items-center gap-2 w-full hover:font-bold hover:text-zinc-800 hover:bg-zinc-400 rounded-md p-2 ${
-                path === obj.link.split("/")[obj.link.split("/").length - 1] &&
+                // path === obj.link.split("/")[obj.link.split("/").length - 1] &&
+                pathname === obj.link &&
                 "font-bold text-zinc-800 bg-zinc-400"
               }`}
             >
