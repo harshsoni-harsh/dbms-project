@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { NextResponse } from "next/server";
 
-export default async function Page(request: Request) {
+export default async function Page() {
   const session = await getServerSession();
   if (session) {
     const user = JSON.parse(session.user!.name!);
