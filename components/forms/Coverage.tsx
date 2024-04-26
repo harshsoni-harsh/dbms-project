@@ -67,7 +67,9 @@ const Coverage = ({ onClick }: Props) => {
       coverageType: coverageDetails[0].type
     }
   });
-  const onSubmit = (value: z.infer<typeof fromSchema>) => {};
+  const onSubmit = (value: z.infer<typeof fromSchema>) => {
+    console.log(value);
+  };
   return (
 
     <Form  {...form}>
