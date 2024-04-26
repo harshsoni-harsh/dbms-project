@@ -80,7 +80,7 @@ const Vehicle = ({ onClick }: Props) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="grid grid-cols-1 lg:grid-cols-2 place-items-center gap-4 p-2"
+        className="grid grid-cols-1 lg:grid-cols-2 place-items-center gap-4 p-2 w-full"
       >
         {/* Registration Number */}
         <FormField
@@ -243,19 +243,20 @@ const Vehicle = ({ onClick }: Props) => {
             </FormItem>
           )}
         />
-
-        <Button
-          type="submit"
-          className="primary mt-6 min-w-20 place-self-center"
-        >
-          Submit
-        </Button>
-        <Button
-          onClick={onClick}
-          className="primary mt-6 min-w-20 place-self-center"
-        >
-          Next
-        </Button>
+        <div className="flex justify-between w-full max-w-64 lg:max-w-96 flex-wrap lg:col-span-2">
+          <Button
+            type="submit"
+            className="primary mt-6 min-w-20 place-self-center"
+          >
+            Submit
+          </Button>
+          <Button
+            onClick={onClick}
+            className="primary mt-6 min-w-20 place-self-center"
+          >
+            Next
+          </Button>
+        </div>
       </form>
     </Form>
   );

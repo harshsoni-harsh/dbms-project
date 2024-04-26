@@ -16,23 +16,23 @@ import { Input } from "@/components/ui/input";
 import { RadioGroupItem, RadioGroup } from "../ui/radio-group";
 import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
 
-
 const coverageDetails = [
   {
     type: "Comprehensive Car Insurance",
-    description: "It covers damages to your own vehicle as well as third-party liability. Comprehensive insurance protects against various risks including accidents, theft, vandalism, natural disasters, and other perils."
+    description:
+      "It covers damages to your own vehicle as well as third-party liability. Comprehensive insurance protects against various risks including accidents, theft, vandalism, natural disasters, and other perils.",
   },
   {
     type: "Third Party Liability Car Insurance",
-    description: "It covers damages and injuries caused to a third party by your vehicle. It includes compensation for bodily injury or death of a third party and damage to their property. However, it does not cover damages to your own vehicle."
+    description:
+      "It covers damages and injuries caused to a third party by your vehicle. It includes compensation for bodily injury or death of a third party and damage to their property. However, it does not cover damages to your own vehicle.",
   },
   {
     type: "Own Damage Car Insurance",
-    description: "This cover provides compensation in case of accidental death or permanent disability of the owner-driver of the insured vehicle. It ensures financial protection for the policyholder and their family in the event of a tragic accident."
-  }
-
-]
-
+    description:
+      "This cover provides compensation in case of accidental death or permanent disability of the owner-driver of the insured vehicle. It ensures financial protection for the policyholder and their family in the event of a tragic accident.",
+  },
+];
 
 const fromSchema = z.object({
   coverageAmount: z
@@ -40,7 +40,7 @@ const fromSchema = z.object({
     .refine((x) => Number.isFinite(Number(x)), "Invalid number")
     .refine((x) => Number(x) > 0, "Price should be > 0")
     .transform((x) => Number(x)),
-  coverageType: z.string()
+  coverageType: z.string(),
 });
 
 /*
@@ -58,60 +58,63 @@ interface Props {
   onClick: () => void;
 }
 const Coverage = ({ onClick }: Props) => {
-
-
   const form = useForm<z.infer<typeof fromSchema>>({
     resolver: zodResolver(fromSchema),
     defaultValues: {
       coverageAmount: 1,
-      coverageType: coverageDetails[0].type
-    }
+      coverageType: coverageDetails[0].type,
+    },
   });
   const onSubmit = (value: z.infer<typeof fromSchema>) => {
     console.log(value);
   };
   return (
-
-    <Form  {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="grid grid-cols-1 lg:grid-cols-2 place-items-center gap-4 p-2" >
-
-
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="grid grid-cols-1 lg:grid-cols-2 place-items-center gap-4 p-2"
+      >
         {/* Coverage Type */}
         <FormField
           control={form.control}
           name="coverageType"
-
           render={({ field }) => (
-            <FormItem className="text-center content-center justify-center lg:col-span-2 space-y-3">
-              <FormLabel className="font-bold text-xl p-1 m-1">Select A Type of Insurance</FormLabel>
+            <FormItem className="text-center content-center mb-4 h-max justify-center lg:col-span-2 space-y-3">
+              <FormLabel className="font-bold text-xl p-1 m-1 h-full">
+                Select A Type of Insurance
+              </FormLabel>
               <FormControl>
                 <RadioGroup
                   onValueChange={field.onChange}
                   defaultValue={field.value}
-                  className="grid lg:grid-cols-3 grid-cols-1 items-center"
+                  className="grid lg:grid-cols-3 grid-cols-1 items-center h-full gap-4"
                 >
                   {coverageDetails.map((cover) => (
-                    <FormItem key={cover.type} className="m-2 w-64">
-                      <FormLabel >
-                        <Card className={field.value == cover.type ? "m-1 p-2 cursor-pointer bg-zinc-500" : "m-1 p-2 cursor-pointer"}>
+                    <FormItem
+                      key={cover.type}
+                      className="m-2 w-60 h-full max-lg:w-full"
+                    >
+                      <FormLabel>
+                        <Card
+                          className={
+                            field.value == cover.type
+                              ? "m-1 p-2 h-full cursor-pointer bg-zinc-500"
+                              : "m-1 p-2 h-full cursor-pointer"
+                          }
+                        >
                           <CardHeader className="flex flex-row items-center text-center space-x-2">
                             <FormControl className="p-0 m-0">
                               <RadioGroupItem value={cover.type} />
                             </FormControl>
-                            <p className="font-bold p-0 m-0">
-                              {cover.type}
-                            </p>
+                            <p className="font-bold p-0 m-0">{cover.type}</p>
                           </CardHeader>
                           <CardContent>
-                            <p className=" text-wrap">
-                              {cover.description}
-                            </p>
+                            <p className=" text-wrap">{cover.description}</p>
                           </CardContent>
                         </Card>
                       </FormLabel>
                     </FormItem>
-                  ))
-                  }
+                  ))}
                 </RadioGroup>
               </FormControl>
               <FormMessage />
@@ -119,16 +122,12 @@ const Coverage = ({ onClick }: Props) => {
           )}
         />
 
-
-
-
-
         {/* Price */}
         <FormField
           control={form.control}
           name="coverageAmount"
           render={({ field }) => (
-            <FormItem className="lg:col-span-2">
+            <FormItem className="lg:col-span-2 ">
               <FormLabel>Coverage Amount</FormLabel>
               <FormControl>
                 <Input
@@ -137,22 +136,28 @@ const Coverage = ({ onClick }: Props) => {
                   {...field}
                 />
               </FormControl>
-              <FormDescription>
-                Enter The Amount
-              </FormDescription>
+              <FormDescription>Enter The Amount</FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button onClick={onClick} className="primary mt-6 min-w-20 place-self-center">
-          Previous
-        </Button>
+        <div className="flex justify-between w-full max-w-64 lg:max-w-96 flex-wrap lg:col-span-2">
+          <Button
+            onClick={onClick}
+            className="primary mt-6 min-w-20 place-self-center"
+          >
+            Previous
+          </Button>
 
-        <Button type="submit" className="primary mt-6 min-w-20 place-self-center">
-          Submit
-        </Button>
+          <Button
+            type="submit"
+            className="primary mt-6 min-w-20 place-self-center"
+          >
+            Submit
+          </Button>
+        </div>
       </form>
-    </Form >
+    </Form>
   );
 };
 export default Coverage;
