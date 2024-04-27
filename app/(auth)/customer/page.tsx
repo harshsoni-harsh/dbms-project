@@ -125,7 +125,7 @@ export default function Page({ params }: any) {
               href={`/customer/policy/${policy.policyNum}`}
               className="w-96 max-sm:w-full"
             >
-              <Card>
+              <Card className="border-2 bg-zinc-900">
                 <CardHeader>
                   <CardTitle>
                     <p>{policy.policyNum}</p>
@@ -172,7 +172,7 @@ export default function Page({ params }: any) {
               href={`/customer/quote/${quote.quoteId}`}
               className="w-96 max-sm:w-full"
             >
-              <Card>
+              <Card className="border-2 bg-zinc-900">
                 <CardHeader>
                   <CardTitle className="text-base">
                     Application Id: {quote.applicationId}
@@ -209,7 +209,7 @@ export default function Page({ params }: any) {
               href={`/customer/claim/${claim.claimId}`}
               className="w-96 max-sm:w-full"
             >
-              <Card>
+              <Card className="border-2 bg-zinc-900">
                 <CardHeader>
                   <CardTitle>
                     <p>{claim.claimId}</p>

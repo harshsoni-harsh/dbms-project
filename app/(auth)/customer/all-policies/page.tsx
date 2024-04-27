@@ -51,7 +51,7 @@ export default function Page({ params }: any) {
             href={`/customer/policy/${policy.policyNum}`}
             className="w-96 max-sm:w-full"
           >
-            <Card>
+            <Card className="border-2 bg-zinc-900">
               <CardHeader>
                 <CardTitle>
                   <p>{policy.policyNum}</p>
