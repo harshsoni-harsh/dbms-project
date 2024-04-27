@@ -42,33 +42,33 @@ const Page = ({ params }: { params: { policyNum: string } }) => {
 
   return (
     <div className="overflow-auto flex flex-col items-center justify-center w-full h-full p-4">
-      <Card className="bg-zinc-900 border-2 border-zinc-600">
+      <Card className="bg-zinc-900 border-2">
         <CardHeader>
           <CardTitle>Policy Details</CardTitle>
         </CardHeader>
         <CardContent className="grid grid-cols-1 lg:grid-cols-2 place-items-center gap-4 p-6 w-full">
-          <p className="border-2 rounded-lg p-2 border-zinc-600 w-full">
+          <p className="border-2 rounded-lg p-2 w-full">
             Policy Number: {currPolicy?.policyNum}
           </p>
-          <p className="border-2 rounded-lg p-2 border-zinc-600 w-full">
+          <p className="border-2 rounded-lg p-2 w-full">
             Application ID: {currPolicy?.applicationId}
           </p>
-          <p className="border-2 rounded-lg p-2 border-zinc-600 w-full">
+          <p className="border-2 rounded-lg p-2 w-full">
             Agreement ID: {currPolicy?.aggrementId}
           </p>
-          <p className="border-2 rounded-lg p-2 border-zinc-600 w-full">
+          <p className="border-2 rounded-lg p-2 w-full">
             Vehicle Number: {currPolicy?.vehicleNum}
           </p>
-          <p className="border-2 rounded-lg p-2 border-zinc-600 w-full">
+          <p className="border-2 rounded-lg p-2 w-full">
             Vehicle Model: {currPolicy?.vehicleModel}
           </p>
-          <p className="border-2 rounded-lg p-2 border-zinc-600 w-full">
+          <p className="border-2 rounded-lg p-2 w-full">
             Vehicle Make: {currPolicy?.vehicleMake}
           </p>
-          <p className="border-2 rounded-lg p-2 border-zinc-600 w-full">
+          <p className="border-2 rounded-lg p-2 w-full">
             Vehicle Type: {currPolicy?.vehicleType}
           </p>
-          <p className="border-2 rounded-lg p-2 border-zinc-600 w-full">
+          <p className="border-2 rounded-lg p-2 w-full">
             End Date: {currPolicy?.endDate}
           </p>
         </CardContent>

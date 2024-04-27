@@ -34,27 +34,27 @@ const Page = ({ params }: { params: { claimId: string } }) => {
 
   return (
     <div className="overflow-auto flex flex-col items-center justify-center w-full h-full p-4">
-      <Card className="bg-zinc-900 border-2 border-zinc-600">
+      <Card className="bg-zinc-900 border-2">
         <CardHeader>
           <CardTitle>Claim Details</CardTitle>
         </CardHeader>
         <CardContent className="grid grid-cols-1 lg:grid-cols-2 place-items-center gap-4 p-6 w-full">
-          <p className="border-2 rounded-lg p-2 border-zinc-600 w-full">
+          <p className="border-2 rounded-lg p-2 w-full">
             claim ID: {currClaim?.claimId}
           </p>
-          <p className="border-2 rounded-lg p-2 border-zinc-600 w-full">
+          <p className="border-2 rounded-lg p-2 w-full">
             Agreement ID: {currClaim?.agreementId}
           </p>
-          <p className="border-2 rounded-lg p-2 border-zinc-600 w-full">
+          <p className="border-2 rounded-lg p-2 w-full">
             Damage Type: {currClaim?.damageType}
           </p>
-          <p className="border-2 rounded-lg p-2 border-zinc-600 w-full">
+          <p className="border-2 rounded-lg p-2 w-full">
             Date Of Claim: {currClaim?.dateOfClaim}
           </p>
-          <p className="border-2 rounded-lg p-2 border-zinc-600 w-full">
+          <p className="border-2 rounded-lg p-2 w-full">
             Claim Amount: {currClaim?.claimAmount}
           </p>
-          <p className="border-2 rounded-lg p-2 border-zinc-600 w-full">
+          <p className="border-2 rounded-lg p-2 w-full">
             Claim Status: {currClaim?.claimStatus}
           </p>
         </CardContent>

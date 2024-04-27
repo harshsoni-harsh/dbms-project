@@ -57,7 +57,7 @@ export default function Page({ params }: any) {
             href={`/customer/quote/${quote.quoteId}`}
             className="w-96 max-sm:w-full"
           >
-            <Card className="border-2">
+            <Card className="border-2 bg-zinc-900">
               <CardHeader>
                 <CardTitle>
                   <p>{quote.quoteId}</p>

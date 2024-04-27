@@ -46,36 +46,36 @@ const Page = ({ params }: { params: { quoteId: string } }) => {
 
   return (
     <div className="overflow-auto flex flex-col items-center justify-center w-full h-full p-4">
-      <Card className="bg-zinc-900 border-2 border-zinc-600">
+      <Card className="bg-zinc-900 border-2">
         <CardHeader>
           <CardTitle>Policy Details</CardTitle>
         </CardHeader>
         <CardContent className="grid grid-cols-1 lg:grid-cols-2 place-items-center gap-4 p-6 w-full">
-          <p className="border-2 rounded-lg p-2 border-zinc-600 w-full">
+          <p className="border-2 rounded-lg p-2 w-full">
             Quote ID: {currQuote?.quoteId}
           </p>
-          <p className="border-2 rounded-lg p-2 border-zinc-600 w-full">
+          <p className="border-2 rounded-lg p-2 w-full">
             Customer Name: {currQuote?.custName}
           </p>
-          <p className="border-2 rounded-lg p-2 border-zinc-600 w-full">
+          <p className="border-2 rounded-lg p-2 w-full">
             Application ID: {currQuote?.applicationId}
           </p>
-          <p className="border-2 rounded-lg p-2 border-zinc-600 w-full">
+          <p className="border-2 rounded-lg p-2 w-full">
             Product ID: {currQuote?.productId}
           </p>
-          <p className="border-2 rounded-lg p-2 border-zinc-600 w-full">
+          <p className="border-2 rounded-lg p-2 w-full">
             Description: {currQuote?.description}
           </p>
-          <p className="border-2 rounded-lg p-2 border-zinc-600 w-full">
+          <p className="border-2 rounded-lg p-2 w-full">
             Issue Date: {currQuote?.issueDate}
           </p>
-          <p className="border-2 rounded-lg p-2 border-zinc-600 w-full">
+          <p className="border-2 rounded-lg p-2 w-full">
             Valid From: {currQuote?.validFrom}
           </p>
-          <p className="border-2 rounded-lg p-2 border-zinc-600 w-full">
+          <p className="border-2 rounded-lg p-2 w-full">
             Valid Till: {currQuote?.validTill}
           </p>
-          <p className="border-2 rounded-lg p-2 border-zinc-600 w-full">
+          <p className="border-2 rounded-lg p-2 w-full">
             Coverage Level: {currQuote?.coverageLevel}
           </p>
         </CardContent>
