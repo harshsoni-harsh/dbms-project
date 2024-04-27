@@ -9,11 +9,26 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { LogOut, ChevronRight, UserRound, Menu, Home, Cookie, FileText, LogIn, MessageCircleQuestion, UserPlus, BookOpenText, BookText, CirclePlus, IndianRupee } from "lucide-react";
+import {
+  LogOut,
+  ChevronRight,
+  UserRound,
+  Menu,
+  Home,
+  Cookie,
+  FileText,
+  LogIn,
+  MessageCircleQuestion,
+  UserPlus,
+  BookOpenText,
+  BookText,
+  CirclePlus,
+  IndianRupee,
+} from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
-import { signOut } from "next-auth/react";
-import { v4 as uuid } from 'uuid';
+import { signOut, useSession } from "next-auth/react";
+import { v4 as uuid } from "uuid";
 
 type LinksList = {
   link: string;
@@ -100,22 +115,36 @@ const customerLinksList: LinksList = [
   },
 ];
 
-const damageInspectorLinksList: LinksList = [];
-const dbAdminLinksList: LinksList = [];
+const damageInspectorLinksList: LinksList = [
+  {
+    link: "/damage-inspector",
+    id: uuid(),
+    displayText: "Home",
+    icon: <Home className="h-4" />,
+  },
+];
+const dbAdminLinksList: LinksList = [
+  {
+    link: "/db-admin",
+    id: uuid(),
+    displayText: "Home",
+    icon: <Home className="h-4" />,
+  },
+];
 
 function useLinksList() {
   const pathname = usePathname();
-  if(pathname === '/') return homeLinksList;
-  if(pathname.startsWith('/customer')) return customerLinksList;
-  if(pathname.startsWith('/damage-inspector')) return damageInspectorLinksList;
-  if(pathname.startsWith('/db-admin')) return dbAdminLinksList;
+  if (pathname === "/") return homeLinksList;
+  if (pathname.startsWith("/customer")) return customerLinksList;
+  if (pathname.startsWith("/damage-inspector")) return damageInspectorLinksList;
+  if (pathname.startsWith("/db-admin")) return dbAdminLinksList;
   return homeLinksList;
 }
 
 export default function Sidenav() {
   const linksList = useLinksList();
   const pathname = usePathname();
-  const splittedPath = pathname.split("/");
+  const { data: session } = useSession();
   const [open, openSidebar] = useState(false);
   const content = () => (
     <div className="h-screen flex flex-col justify-between p-4 w-64 bg-zinc-800 text-zinc-200">
@@ -135,9 +164,7 @@ export default function Sidenav() {
             <div
               onClick={() => openSidebar(false)}
               className={`flex items-center gap-2 w-full hover:font-bold hover:text-zinc-800 hover:bg-zinc-400 rounded-md p-2 ${
-                // path === obj.link.split("/")[obj.link.split("/").length - 1] &&
-                pathname === obj.link &&
-                "font-bold text-zinc-800 bg-zinc-400"
+                pathname === obj.link && "font-bold text-zinc-800 bg-zinc-400"
               }`}
             >
               {obj.icon}
@@ -146,7 +173,7 @@ export default function Sidenav() {
           </Link>
         ))}
       </div>
-      {splittedPath.length > 2 ? (
+      {linksList !== homeLinksList ? (
         <Popover>
           <PopoverTrigger>
             <div className="p-2 flex items-center">
@@ -155,14 +182,14 @@ export default function Sidenav() {
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
               <div className="grow px-4 flex justify-between">
-                <p className="truncate">Person Name</p>
+                <p className="truncate">{session?.user?.name}</p>
                 <ChevronRight />
               </div>
             </div>
           </PopoverTrigger>
           <PopoverContent asChild side="right" sideOffset={0}>
             <div className="w-full p-0 mb-2 bg-transparent border-0">
-              <Link href={`/customer/profile`}>
+              <Link href={`/${pathname.split("/")[1]}/profile`}>
                 <Button className="w-full rounded-b-none flex gap-2 items-center justify-start bg-zinc-300 hover:bg-zinc-400 text-zinc-800">
                   <UserRound className="h-4" />
                   <p>Profile</p>
