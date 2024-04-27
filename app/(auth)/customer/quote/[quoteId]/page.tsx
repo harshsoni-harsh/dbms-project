@@ -46,9 +46,9 @@ const Page = ({ params }: { params: { quoteId: string } }) => {
 
   return (
     <div className="overflow-auto flex flex-col items-center justify-center w-full h-full p-4">
-      <Card className="bg-zinc-900 border-2">
+      <Card className="bg-zinc-900 border-2 max-h-full max-w-xl overflow-auto">
         <CardHeader>
-          <CardTitle>Policy Details</CardTitle>
+          <CardTitle>Quote Details</CardTitle>
         </CardHeader>
         <CardContent className="grid grid-cols-1 lg:grid-cols-2 place-items-center gap-4 p-6 w-full">
           <p className="border-2 rounded-lg p-2 w-full">

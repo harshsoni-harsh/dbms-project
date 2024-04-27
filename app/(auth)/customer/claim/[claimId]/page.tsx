@@ -34,7 +34,7 @@ const Page = ({ params }: { params: { claimId: string } }) => {
 
   return (
     <div className="overflow-auto flex flex-col items-center justify-center w-full h-full p-4">
-      <Card className="bg-zinc-900 border-2">
+      <Card className="bg-zinc-900 border-2 max-h-full overflow-auto">
         <CardHeader>
           <CardTitle>Claim Details</CardTitle>
         </CardHeader>
