@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { number, string, z } from "zod";
 import dbConn from "@/lib/dbConnector";
 import { FieldPacket, RowDataPacket } from "mysql2";
+import { hashSync } from "bcrypt";
+
 
 export interface User {
   id: Number;
@@ -44,7 +46,9 @@ export async function POST(request: NextRequest) {
   ) as [RowDataPacket[], FieldPacket[]];
   if (results && results[0]) return NextResponse.json({ error: "user already exists" }, { status: 401 });;
 
-  await conn.query(`insert into USER(name, email, password, createdAt, updatedAt) values ('${body.cust_fname} ${body.cust_lname}', '${body.cust_email}', '${body.cust_password}', now(),now());
+  const hashedPassword = hashSync(body.cust_password, 10);
+
+  await conn.query(`insert into USER(name, email, password, createdAt, updatedAt) values ('${body.cust_fname} ${body.cust_lname}', '${body.cust_email}', '${hashedPassword}', now(),now());
     `);
   [results] = await conn.query(
     `select * from USER where email is not null and email = '${body.cust_email}'`

@@ -111,6 +111,9 @@ importers:
         specifier: ^3.22.4
         version: 3.22.4
     devDependencies:
+      '@types/bcrypt':
+        specifier: ^5.0.2
+        version: 5.0.2
       '@types/node':
         specifier: ^20.11.28
         version: 20.11.28
@@ -709,6 +712,9 @@ packages:
     resolution: {integrity: sha512-+nXLMB0JK0XwTJ+lQt49DPNLrbSppni9N5W5yMR085yW3YaRKRUFhfVTER3TvQd1UycHpoGPFnt1gHiijXERAg==}
     peerDependencies:
       react: ^18.0.0
+
+  '@types/bcrypt@5.0.2':
+    resolution: {integrity: sha512-6atioO8Y75fNcbmj0G7UjI9lXN2pQ/IGJ2FWT4a/btd0Lk9lQalHLKhkgKVZ3r+spnmWUKfbMi1GEe9wyHQfNQ==}
 
   '@types/json5@0.0.29':
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
@@ -2980,6 +2986,10 @@ snapshots:
     dependencies:
       '@tanstack/query-core': 5.32.1
       react: 18.2.0
+
+  '@types/bcrypt@5.0.2':
+    dependencies:
+      '@types/node': 20.11.28
 
   '@types/json5@0.0.29': {}
 

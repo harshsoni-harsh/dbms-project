@@ -3,6 +3,8 @@ import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
 import dbConn from "@/lib/dbConnector";
 import { FieldPacket, RowDataPacket } from "mysql2";
+import { compareSync } from "bcrypt";
+
 
 const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
@@ -29,8 +31,9 @@ const authOptions: NextAuthOptions = {
         const user = results[0] as RowDataPacket & { id: string; role: string };
         user.id = user.id.toString();
         user.name = JSON.stringify(user);
-
-        return user;
+        if (compareSync(credentials.password, user.password))
+          return user;
+        return null;
       },
     }),
   ],

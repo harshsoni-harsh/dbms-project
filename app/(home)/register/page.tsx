@@ -86,7 +86,7 @@ export default function RegisterPage() {
       variant: "default",
 
     });
-    const response = await fetch('/api/register', {
+    const response = await fetch('/api/auth/register', {
       method: "POST",
       body: JSON.stringify(data)
     });
