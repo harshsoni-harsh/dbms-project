@@ -1,3 +1,4 @@
+import { QueryProvider } from '@/components/QueryProvider';
 import Image from 'next/image';
 
 export default function RootLayout({
@@ -20,7 +21,9 @@ export default function RootLayout({
           />
           <p>Motor Insurance</p>
         </div>
-        {children}
+        <QueryProvider>
+          {children}
+        </QueryProvider>
       </div>
     </>
   );
