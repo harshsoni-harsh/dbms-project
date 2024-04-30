@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
 import { Toaster } from "@/components/ui/toaster";
+import { Toaster as Sonner } from 'sonner';
 import { SessionProvider } from "@/components/SessionProvider";
 import "./globals.css";
 import Sidenav from '@/components/Sidenav';
@@ -27,6 +28,7 @@ export default function RootLayout({
             {children}
           </div>
           <Toaster />
+          <Sonner />
         </SessionProvider>
       </body>
     </html>

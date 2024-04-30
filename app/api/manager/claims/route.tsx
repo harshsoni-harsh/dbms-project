@@ -57,7 +57,7 @@ export async function POST(req: NextRequest) {
         );
     }
 
-    const parseResult = postBodySchema.safeParse(req.body);
+    const parseResult = postBodySchema.safeParse(req.json());
 
     if (!parseResult.success) {
         return NextResponse.json({

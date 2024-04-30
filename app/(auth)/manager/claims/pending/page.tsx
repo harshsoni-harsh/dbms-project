@@ -4,11 +4,11 @@ import { useQuery } from '@tanstack/react-query';
 import type * as Db from '@/types/dbSchema';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
-export default function ManagerClaimsPage() {
+export default function ManagerPendingClaimsPage() {
     const claimsQuery = useQuery({
-        queryKey: ['manager/claims'],
+        queryKey: ['manager/claims/pending'],
         queryFn: async () => {
-            const res = await fetch('/api/manager/claims');
+            const res = await fetch('/api/manager/claims/pending');
             if (!res.ok) throw res.statusText;
             const json = await res.json();
             if ('error' in json) throw json.error;

@@ -6,7 +6,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 
 export default function ManagerCustomersPage() {
     const customersQuery = useQuery({
-        queryKey: ['manager', 'claims'],
+        queryKey: ['manager/customers'],
         queryFn: async () => {
             const res = await fetch('/api/manager/customers');
             if (!res.ok) throw res.statusText;
