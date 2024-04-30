@@ -9,7 +9,7 @@ export async function viewAllPendingClaims() {
     from claim 
     where claim.status = 'pending';
   `;
-  const res = await conn.query(queryStatement);
+  const [res] = await conn.query(queryStatement);
   return res;
 
 }

@@ -2,7 +2,7 @@ import { getServerSession } from 'next-auth';
 import Image from 'next/image';
 import { redirect } from 'next/navigation';
 
-export default async function RootLayout({
+export default async function ManagerLayout({
   children
 }: Readonly<{
   children: React.ReactNode,
@@ -11,7 +11,7 @@ export default async function RootLayout({
   if(!session || !session.user) redirect('/login');
   // @ts-expect-error wonky code
   session.user = JSON.parse(session.user.name);
-  if(session!.user!.role !== 'inspector') redirect(`/${session!.user!.role}`);
+  if(session!.user!.role !== 'manager') redirect(`/${session!.user!.role}`);
   return (
     <>
       <div className='shrink-0 w-64 max-md:hidden'></div>

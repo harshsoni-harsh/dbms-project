@@ -9,7 +9,6 @@ export async function viewAllPolicies() {
     from policy;
   `;
 
-  const res = await conn.query(queryStatement);
+  const [res] = await conn.query(queryStatement);
   return res;
-
 }

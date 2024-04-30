@@ -9,7 +9,7 @@ export async function viewPendingIncidentReport() {
     from incident_report 
     where incident_report.status = 'pending';
   `;
-  const res = await conn.query(queryStatement);
+  const [res] = await conn.query(queryStatement);
   return res;
 
 }

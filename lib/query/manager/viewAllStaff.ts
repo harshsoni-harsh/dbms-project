@@ -8,7 +8,6 @@ export async function viewAllStaff() {
     select * 
     from staff;
   `;
-  const res = await conn.query(queryStatement);
+  const [res] = await conn.query(queryStatement);
   return res;
-
 }

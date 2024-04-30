@@ -123,6 +123,7 @@ const damageInspectorLinksList: LinksList = [
     icon: <Home className="h-4" />,
   },
 ];
+
 const dbAdminLinksList: LinksList = [
   {
     link: "/db-admin",
@@ -132,12 +133,82 @@ const dbAdminLinksList: LinksList = [
   },
 ];
 
+const managerLinksList: LinksList = [
+  {
+    link: '/manager',
+    id: uuid(),
+    displayText: 'Index',
+    icon: <Home className="h-4" />,
+  },
+  {
+    link: '/manager/claims',
+    id: uuid(),
+    displayText: 'View all claims',
+    icon: <></>
+  },
+  {
+    link: '/manager/claims/pending',
+    id: uuid(),
+    displayText: 'View pending claims',
+    icon: <></>,
+  },
+  {
+    link: '/manager/customers',
+    id: uuid(),
+    displayText: 'View all customers',
+    icon: <></>,
+  },
+  {
+    link: '/manager/policies',
+    id: uuid(),
+    displayText: 'View all policies',
+    icon: <></>,
+  },
+  {
+    link: '/manager/policies/pending',
+    id: uuid(),
+    displayText: 'View pending policies',
+    icon: <></>,
+  },
+  {
+    link: '/manager/policyType',
+    id: uuid(),
+    displayText: 'View all policy types',
+    icon: <></>,
+  },
+  {
+    link: '/manager/policyType/create',
+    id: uuid(),
+    displayText: 'Create policy type',
+    icon: <></>,
+  },
+  {
+    link: '/manager/policyType/update',
+    id: uuid(),
+    displayText: 'Update policy type',
+    icon: <></>,
+  },
+  {
+    link: '/manager/policyType/delte',
+    id: uuid(),
+    displayText: 'Delete policy type',
+    icon: <></>,
+  },
+  {
+    link: '/manager/staff',
+    id: uuid(),
+    displayText: 'View all staff',
+    icon: <></>,
+  },
+];
+
 function useLinksList() {
   const pathname = usePathname();
   if (pathname === "/") return homeLinksList;
   if (pathname.startsWith("/customer")) return customerLinksList;
   if (pathname.startsWith("/damage-inspector")) return damageInspectorLinksList;
   if (pathname.startsWith("/db-admin")) return dbAdminLinksList;
+  if (pathname.startsWith("/manager")) return managerLinksList;
   return homeLinksList;
 }
 

@@ -14,6 +14,6 @@ export async function viewClaims(customerId: number) {
     where claim.customer_id = ? and claim.claim_id = claim_receipt.claim_id;
   `;
 
-  const res = await conn.query(queryStatement, [customerId]);
+  const [res] = await conn.query(queryStatement, [customerId]);
   return res;
 }
