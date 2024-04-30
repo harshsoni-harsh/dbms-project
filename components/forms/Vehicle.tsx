@@ -19,30 +19,24 @@ const formSchema = z.object({
     .string({
       invalid_type_error: "Registration Number is Required",
     })
-    .regex(
-      new RegExp(
-        /[a-zA-Z][a-zA-Z][a-zA-Z][a-zA-Z][a-zA-Z][a-zA-Z][0-9][0-9][0-9][0-9]/
-      ),
-      { message: "RegNumber is of Form ABCD-EFGHI-0000" }
-    )
-    .length(10, {
-      message: "Length must be 10",
-    }),
+    .max(20, "Maxixmum Length is 20"),
   price: z
-    .string()
-    .refine((x) => Number.isFinite(Number(x)), "Invalid number")
-    .refine((x) => Number(x) > 0, "Price should be > 0")
-    .transform((x) => Number(x)),
+    .number().positive(),
   numberOfSeat: z
     .string()
     .refine((x) => Number.isFinite(Number(x)), "Invalid number")
     .refine((x) => Number(x) > 0, "Price should be > 0")
     .transform((x) => Number(x)),
-  manufacturer: z.string(),
-  vehicleNumber: z.string().length(17),
-  engineNumber: z.string(),
-  chasisNumber: z.string(),
-  modelNumber: z.string(),
+  manufacturer: z.string().max(20, "Maxixmum Length is 20"),
+  vehicleNumber: z.string().max(20, "Maxixmum Length is 20"),
+  engineNumber:
+    z.number(),
+  chasisNumber: z
+    .string()
+    .refine((x) => Number.isFinite(Number(x)), "Invalid number")
+    .refine((x) => Number(x) > 0, "Chasis Number should be > 0")
+    .transform((x) => Number(x)),
+  modelNumber: z.string().max(20, "Maxixmum Length is 20"),
 });
 
 interface Props {
@@ -69,12 +63,12 @@ const Vehicle = ({ onClick }: Props) => {
       modelNumber: "",
       manufacturer: "",
       vehicleNumber: "",
-      engineNumber: "",
-      chasisNumber: "",
+      engineNumber: 1234,
+      chasisNumber: 1234,
     },
   });
 
-  const onSubmit = (value: z.infer<typeof formSchema>) => {};
+  const onSubmit = (value: z.infer<typeof formSchema>) => { };
 
   return (
     <Form {...form}>

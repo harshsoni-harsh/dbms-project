@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
 import { Separator } from "./ui/separator";
@@ -75,9 +75,9 @@ const DamageReview = ({ props, description, onAccept, onReject }: Props) => {
     case 2:
       return (
         <Dialog>
-          <DialogTrigger className="border rounded-lg p-2 bg-accent hover:bg-foreground hover:text-background  hover:border-background">Review</DialogTrigger>
-          <DialogContent>
-            <DialogHeader >
+          <DialogTrigger onClick={() => setPageNum(1)} className="border rounded-lg p-2 bg-accent hover:bg-foreground hover:text-background  hover:border-background">Review</DialogTrigger>
+          <DialogContent  >
+            <DialogHeader>
               <DialogTitle className="text-center text-xl mb-4">{data.CUST_ID}</DialogTitle>
               <Textarea onChange={(e) => setIncidentData(e.target.value)} placeholder="Write Incident Description In 100 Words . . . . . . . " />
               {incidentData.length > 100 && < p className="text-sm text-destructive">The Report must be within 100 letters.</p>}
