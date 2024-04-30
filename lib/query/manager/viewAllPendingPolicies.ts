@@ -10,8 +10,7 @@ export async function viewAllPendingPolicies() {
     where policy.status = 'pending';
   `;
 
-  await conn.query("use sql6691668;");
-  const res = await conn.query(queryStatement);
+  const [res] = await conn.query(queryStatement);
   return res;
 
 }

@@ -8,7 +8,7 @@ export async function viewPolicies(customerId: string) {
     select * from policy 
     where policy.customer_id = ?;
   `;
-  const res = await conn.query(queryStatement, [customerId]);
+  const [res] = await conn.query(queryStatement, [customerId]);
   return res;
 
 }
