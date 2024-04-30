@@ -20,25 +20,32 @@ const authOptions: NextAuthOptions = {
       },
       async authorize(credentials, req) {
         if (!credentials?.email || !credentials?.password) return null;
-        
+
         const conn = await dbConn;
         await conn.connect();
         const [results, fields] = (await conn.query(
           `select * from USER where email = '${credentials.email}'`
         )) as [RowDataPacket[], FieldPacket[]];
+        
         if (!results) return null;
+        
         const user = results[0] as RowDataPacket & { id: string; role: string };
         user.id = user.uid.toString();
         user.name = JSON.stringify(user);
-        if (compareSync(credentials.password, user.pwd_hash)) {
-          return user;
-        }
+        
+        const hash = user.pwd_hash;
+        delete user.pwd_hash;
+        delete user.name;
+        user.name = JSON.stringify(user);
+        
+        if (compareSync(credentials.password, hash)) return user;
         return null;
       },
     }),
   ],
   callbacks: {
     session: async ({ session }) => {
+      console.log('session:', session);
       if (session) session.user = JSON.parse(session.user!.name!);
       return session;
     },
