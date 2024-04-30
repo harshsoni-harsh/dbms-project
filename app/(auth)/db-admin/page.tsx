@@ -71,7 +71,10 @@ const DBAdmin = () => {
           <p className="text-2xl">Query Result</p>
           <div key={data[0].id} className="h-fit w-full flex">
             <ResizablePanelGroup direction="horizontal">
-              <ResizablePanel className="rounded-md rounded-r-none">
+              <ResizablePanel
+                className="rounded-md rounded-r-none"
+                defaultSize={50}
+              >
                 <p className="w-full text-center border-r-2 border-r-zinc-700 p-2 border-b-2 border-b-zinc-900 bg-zinc-800 text-zinc-300">
                   Query
                 </p>
@@ -82,7 +85,10 @@ const DBAdmin = () => {
                 />
               </ResizablePanel>
               <ResizableHandle />
-              <ResizablePanel className="rounded-md rounded-l-none">
+              <ResizablePanel
+                className="rounded-md rounded-l-none"
+                defaultSize={50}
+              >
                 <p className="w-full text-center border-r-2 border-r-zinc-700 p-2 border-b-2 border-b-zinc-900 bg-zinc-800 text-zinc-300">
                   Result
                 </p>
@@ -99,7 +105,10 @@ const DBAdmin = () => {
       <div className="flex flex-col gap-4">
         <p className="text-2xl">Results</p>
         <ResizablePanelGroup className="max-h-fit" direction="horizontal">
-          <ResizablePanel className="rounded-md rounded-r-none">
+          <ResizablePanel
+            className="rounded-md rounded-r-none"
+            defaultSize={33}
+          >
             <p className="w-full text-center border-r-2 border-r-zinc-700 p-2 border-b-2 border-b-zinc-900 bg-zinc-800 text-zinc-300">
               Query
             </p>
@@ -113,7 +122,10 @@ const DBAdmin = () => {
             ))}
           </ResizablePanel>
           <ResizableHandle />
-          <ResizablePanel className="rounded-none flex flex-col">
+          <ResizablePanel
+            className="rounded-none flex flex-col"
+            defaultSize={33}
+          >
             <p className="w-full text-center border-r-2 border-r-zinc-700 p-2 border-b-2 border-b-zinc-900 bg-zinc-800 text-zinc-300">
               Result
             </p>
@@ -126,7 +138,10 @@ const DBAdmin = () => {
             ))}
           </ResizablePanel>
           <ResizableHandle />
-          <ResizablePanel className="rounded-md rounded-l-none flex flex-col">
+          <ResizablePanel
+            className="rounded-md rounded-l-none flex flex-col"
+            defaultSize={33}
+          >
             <p className="w-full text-center p-2 border-b-2 border-b-zinc-900 bg-zinc-800 text-zinc-300">
               Response time
             </p>
