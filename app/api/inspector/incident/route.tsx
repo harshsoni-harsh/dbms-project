@@ -1,4 +1,3 @@
-import dbConn from "@/lib/dbConnector";
 import { updateIncidentReport } from '@/lib/query/inspector/updateIncidentReport';
 import { viewPendingIncidentReport } from '@/lib/query/inspector/viewPendingIncidentReports';
 import { getServerSession } from "next-auth";
@@ -25,7 +24,7 @@ export async function POST(req: NextRequest) {
 
   const parseResult = postBodySchema.safeParse(req.body);
 
-  if(!parseResult.success) {
+  if (!parseResult.success) {
     return NextResponse.json({
       error: 'Invalid body: ' + parseResult.error.message
     }, {
@@ -40,7 +39,7 @@ export async function POST(req: NextRequest) {
       message: 'success',
       data: result
     });
-  } catch(err) {
+  } catch (err) {
     return NextResponse.json({
       error: err
     }, {
@@ -69,7 +68,7 @@ export async function GET(req: NextRequest) {
       message: 'success',
       data: result
     });
-  } catch(err) {
+  } catch (err) {
     return NextResponse.json({
       error: err
     }, {

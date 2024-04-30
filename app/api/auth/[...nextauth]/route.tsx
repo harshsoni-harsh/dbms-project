@@ -45,7 +45,6 @@ const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     session: async ({ session }) => {
-      console.log('session:', session);
       if (session) session.user = JSON.parse(session.user!.name!);
       return session;
     },
