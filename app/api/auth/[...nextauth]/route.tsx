@@ -5,7 +5,6 @@ import dbConn from "@/lib/dbConnector";
 import { FieldPacket, RowDataPacket } from "mysql2";
 import { compareSync } from "bcrypt";
 
-
 const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   providers: [
@@ -25,20 +24,28 @@ const authOptions: NextAuthOptions = {
         const conn = await dbConn;
         await conn.connect();
         const [results, fields] = (await conn.query(
-          `select * from USER where email = '${credentials.email}' `
+          `select * from USER where email = '${credentials.email}'`
         )) as [RowDataPacket[], FieldPacket[]];
+        
         if (!results) return null;
+        
         const user = results[0] as RowDataPacket & { id: string; role: string };
-        user.id = user.id.toString();
+        user.id = user.uid.toString();
         user.name = JSON.stringify(user);
-        if (compareSync(credentials.password, user.password))
-          return user;
+        
+        const hash = user.pwd_hash;
+        delete user.pwd_hash;
+        delete user.name;
+        user.name = JSON.stringify(user);
+        
+        if (compareSync(credentials.password, hash)) return user;
         return null;
       },
     }),
   ],
   callbacks: {
     session: async ({ session }) => {
+      console.log('session:', session);
       if (session) session.user = JSON.parse(session.user!.name!);
       return session;
     },
