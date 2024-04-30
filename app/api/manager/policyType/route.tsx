@@ -29,7 +29,8 @@ export async function POST(req: NextRequest) {
         );
     }
 
-    const parseResult = postBodySchema.safeParse(req.body);
+    const body = await req.json();
+    const parseResult = postBodySchema.safeParse(body);
 
     if (!parseResult.success) {
         return NextResponse.json({
@@ -77,7 +78,8 @@ export async function PUT(req: NextRequest) {
         );
     }
 
-    const parseResult = putBodySchema.safeParse(req.body);
+    const body = await req.json();
+    const parseResult = putBodySchema.safeParse(body);
 
     if (!parseResult.success) {
         return NextResponse.json({
@@ -127,7 +129,8 @@ export async function DELETE(req: NextRequest) {
         );
     }
 
-    const parseResult = postBodySchema.safeParse(req.body);
+    const body = await req.json();
+    const parseResult = deleteBodySchema.safeParse(body);
 
     if (!parseResult.success) {
         return NextResponse.json({
