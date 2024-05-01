@@ -8,6 +8,6 @@ export async function viewCustomer(customerId: number) {
     select * 
     from customer 
     where customer.customer_id = ?;`;
-    const res = await conn.query(queryStatement, [customerId]);
+    const [res] = await conn.query(queryStatement, [customerId]);
     return res;
 }
