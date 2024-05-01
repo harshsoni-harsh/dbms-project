@@ -40,7 +40,7 @@ export default function Page({ params }: any) {
       <div className="flex justify-between items-center">
         <p className="text-2xl">Claims</p>
         <Link
-          href={`/customer/new-claim`}
+          href={`/customer/claims/new`}
           className="w-fit bg-zinc-800 rounded-md px-4 p-2 hover:bg-zinc-400 hover:text-zinc-950"
         >
           File a claim
