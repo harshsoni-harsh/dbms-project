@@ -1,7 +1,7 @@
 import dbConn from "@/lib/dbConnector";
 export async function createClaim(
-    customerId: string,
-    policyId: string,
+    customerId: number,
+    policyId: number,
     claimAmount: number,
     incidentId: number,
     createdAt: Date
