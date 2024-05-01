@@ -7,6 +7,7 @@ export async function viewPolicyTypes() {
   const queryStatement = `
     select * from policy_type;
   `;
+  
   const [results]= await conn.query(queryStatement);
   return results;
 }

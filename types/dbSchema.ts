@@ -42,6 +42,7 @@ export type Policy = {
     vehicle_manufacturer: string
     vehicle_type: string
     vehicle_make: string
+    vehicle_price: number
     registration_year: number
     registration_month: number
     vehicle_number: string

@@ -84,13 +84,13 @@ const customerLinksList: LinksList = [
     icon: <Home className="h-4" />,
   },
   {
-    link: "/customer/new-policy",
+    link: "/customer/policy/new",
     id: uuid(),
     displayText: "New Policy",
     icon: <CirclePlus className="h-4" />,
   },
   {
-    link: "/customer/all-policies",
+    link: "/customer/policy/all",
     id: uuid(),
     displayText: "View Policies",
     icon: <BookText className="h-4" />,
