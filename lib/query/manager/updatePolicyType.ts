@@ -15,14 +15,20 @@ export async function updatePolicyType(
   const conn = await dbConn;
   await conn.connect();
 
+  const keyToColumnMap = {
+    'maturityDuration': 'maturity_duration',
+    'renewDuration': 'renew_duration',
+    'title': 'title',
+    'description': 'description',
+    'coverage': 'coverage'
+  };
+
   const updateKeys = Object.keys(updates);
   const updateValues = Object.values(updates);
 
   let query = `UPDATE policy_type SET `;
-  for (let key of updateKeys) {
-    query += `${key} = ?`;
-    if (key != updateKeys[updateKeys.length - 1]) query += ", ";
-  }
+  // @ts-expect-error
+  query += updateKeys.map(k => `${keyToColumnMap[k]} = ?`).join(', ');
   query += " WHERE policy_type_id = ?";
 
   const result = conn.query(query, [...updateValues, policyTypeId]);

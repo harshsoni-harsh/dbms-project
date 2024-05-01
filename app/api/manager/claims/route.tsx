@@ -37,11 +37,11 @@ export async function GET(req: NextRequest) {
 const postBodySchema = z.object({
     claimId: z.coerce.number().int(),
     status: z.string(),
-    receipt: z.object({
+    receipt: z.optional(z.object({
         created: z.coerce.date(),
         amount: z.coerce.number().int(),
         txnId: z.coerce.number().int()
-    })
+    }))
 });
 
 export async function POST(req: NextRequest) {
@@ -68,10 +68,19 @@ export async function POST(req: NextRequest) {
         });
     }
 
+    if(parseResult.data.status === 'accepted' && !parseResult.data.receipt) {
+        return NextResponse.json({
+            error: 'Invalid body: Must provide receipt details when status is accepted'
+        }, {
+            status: 400
+        });
+    }
+
     try {
         const data = parseResult.data;
         const result1 = await updateClaim(data.claimId, data.status);
-        const result2 = await createClaimReceipt(data.claimId, data.receipt.created, data.receipt.amount, data.receipt.txnId);
+        let result2: unknown = null;
+        if(data.status === 'accepted') result2 = await createClaimReceipt(data.claimId, data.receipt!.created, data.receipt!.amount, data.receipt!.txnId);
 
         return NextResponse.json({
             message: 'success',
