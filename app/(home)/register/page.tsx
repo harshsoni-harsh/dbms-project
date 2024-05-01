@@ -25,22 +25,24 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "@/components/ui/select"
 
 const FormSchema = z.object({
-  email: string().email(),
-  first_name: string().min(3),
-  last_name: string(),
-  gender: string().min(1).max(1),
-  // cust_address: string().min(3),
-  phone_no: string()
-    .min(10)
-    .max(10)
+  cust_email: string().email(),
+  cust_fname: string().min(3),
+  cust_lname: string(),
+  cust_gender: string().min(1),
+  cust_address: string().min(3),
+  cust_mob_number: string().min(6)
     .refine((x) => Number.isFinite(Number(x)), "Invalid number")
     .refine((x) => Number(x) >= 0, "Price should be > 0")
     .transform((x) => Number(x)),
-  pan_no: string().min(10).max(10),
-  password: string().min(6),
+  cust_passport_number: string().min(6),
+  cust_marital_status: string().min(1),
+  cust_pps_number: string().min(1).refine((x) => Number.isFinite(Number(x)), "Invalid number")
+    .refine((x) => Number(x) >= 0, "Price should be > 0")
+    .transform((x) => Number(x)),
+  cust_password: string().min(6),
 });
 
 const SubmitBtn = () => {
@@ -63,14 +65,18 @@ export default function RegisterPage() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      email: "john.doe@example.com",
-      first_name: "John",
-      last_name: "Doe",
-      gender: "M",
-      phone_no: undefined,
-      pan_no: "ABCD123456",
-      password: "123456789",
-    },
+      cust_email: "john.doe@example.com",
+      cust_fname: "John",
+      cust_lname: "Doe",
+      cust_gender: "M",
+      cust_address: "123 Main Street",
+      cust_mob_number: undefined,
+      cust_passport_number: "ABC123456",
+      cust_marital_status: "U",
+      cust_pps_number: undefined,
+      cust_password: "securepassword123",
+    }
+    ,
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
@@ -78,20 +84,11 @@ export default function RegisterPage() {
       title: "Loading...",
       description: "",
       variant: "default",
+
     });
-  
-    const response = await fetch("/api/auth/register", {
+    const response = await fetch('/api/auth/register', {
       method: "POST",
-      body: JSON.stringify({
-        email: data.email,
-        first_name: data.first_name,
-        last_name: data.last_name,
-        gender: data.gender,
-        // cust_address: string().min(3),
-        phone_no: data.phone_no.toString(),
-        pan_no: data.pan_no,
-        password: data.password,
-      }),
+      body: JSON.stringify(data)
     });
     const body = await response.json();
     switch (response.status) {
@@ -132,7 +129,7 @@ export default function RegisterPage() {
     }
   }
   const submitForm = async () => {
-    await form.handleSubmit(onSubmit)();
+    await form.handleSubmit(onSubmit)()
   };
 
   return (
@@ -144,12 +141,10 @@ export default function RegisterPage() {
         >
           <FormField
             control={form.control}
-            name="first_name"
+            name="cust_fname"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>
-                  First Name<span className="text-red-400">*</span>
-                </FormLabel>
+                <FormLabel>First Name<span className="text-red-400">*</span></FormLabel>
                 <FormControl>
                   <Input placeholder="First Name" {...field} />
                 </FormControl>
@@ -162,7 +157,7 @@ export default function RegisterPage() {
           />
           <FormField
             control={form.control}
-            name="last_name"
+            name="cust_lname"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Last Name</FormLabel>
@@ -178,12 +173,10 @@ export default function RegisterPage() {
           />
           <FormField
             control={form.control}
-            name="email"
+            name="cust_email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>
-                  Email<span className="text-red-400">*</span>
-                </FormLabel>
+                <FormLabel>Email<span className="text-red-400">*</span></FormLabel>
                 <FormControl>
                   <Input placeholder="Email" {...field} />
                 </FormControl>
@@ -196,12 +189,10 @@ export default function RegisterPage() {
           />
           <FormField
             control={form.control}
-            name="password"
+            name="cust_password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>
-                  Password<span className="text-red-400">*</span>
-                </FormLabel>
+                <FormLabel>Password<span className="text-red-400">*</span></FormLabel>
                 <FormControl>
                   <Input placeholder="Password" {...field} />
                 </FormControl>
@@ -214,12 +205,10 @@ export default function RegisterPage() {
           />
           <FormField
             control={form.control}
-            name="phone_no"
+            name="cust_mob_number"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>
-                  Mobile number<span className="text-red-400">*</span>
-                </FormLabel>
+                <FormLabel>Mobile number<span className="text-red-400">*</span></FormLabel>
                 <FormControl>
                   <Input placeholder="mobile number" {...field} />
                 </FormControl>
@@ -230,19 +219,39 @@ export default function RegisterPage() {
               </FormItem>
             )}
           />
-
           <FormField
             control={form.control}
-            name="gender"
+            name="cust_marital_status"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>
-                  Gender<span className="text-red-400">*</span>
-                </FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
+                <FormLabel>Marital Status<span className="text-red-400">*</span></FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="M">Married</SelectItem>
+                    <SelectItem value="U">Unmarried</SelectItem>
+                    <SelectItem value="D">Divorced</SelectItem>
+                    <SelectItem value="W">Widowed</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormDescription className="text-xs">
+                  Select your current Marital status
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="cust_gender"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Gender<span className="text-red-400">*</span></FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Select" />
@@ -263,17 +272,31 @@ export default function RegisterPage() {
           />
           <FormField
             control={form.control}
-            name="pan_no"
+            name="cust_pps_number"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>
-                  PanCard<span className="text-red-400">*</span>
-                </FormLabel>
+                <FormLabel>Public Personal Phone<span className="text-red-400">*</span></FormLabel>
                 <FormControl>
-                  <Input placeholder="PAN Number" {...field} />
+                  <Input placeholder="Public Telephone" {...field} />
                 </FormControl>
                 <FormDescription className="text-xs">
-                  Enter your PAN number
+                  Enter your Public Telephone Number
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="cust_passport_number"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Passport<span className="text-red-400">*</span></FormLabel>
+                <FormControl>
+                  <Input placeholder="passport" {...field} />
+                </FormControl>
+                <FormDescription className="text-xs">
+                  Enter your Passport number
                 </FormDescription>
                 <FormMessage />
               </FormItem>

@@ -24,7 +24,7 @@ const authOptions: NextAuthOptions = {
         const conn = await dbConn;
         await conn.connect();
         const [results, fields] = (await conn.query(
-          `select * from user where email = '${credentials.email}'`
+          `select * from USER where email = '${credentials.email}'`
         )) as [RowDataPacket[], FieldPacket[]];
         
         if (!results) return null;
@@ -45,7 +45,6 @@ const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     session: async ({ session }) => {
-      console.log('session:', session);
       if (session) session.user = JSON.parse(session.user!.name!);
       return session;
     },
