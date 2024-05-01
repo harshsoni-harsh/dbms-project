@@ -5,7 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useQuery } from '@tanstack/react-query';
+import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 
 const data = {
@@ -154,7 +154,7 @@ export default function Page({ params }: any) {
         </div>
         {topPolicies.length !== policies.length ? (
           <Link
-            href={`/customer/all-policies`}
+            href={`/customer/policy/all`}
             className="w-fit bg-zinc-800 rounded-md px-4 p-2 hover:bg-zinc-400 hover:text-zinc-950"
           >
             View more
