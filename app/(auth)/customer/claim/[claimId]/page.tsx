@@ -1,14 +1,16 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useClaims } from '@/hooks/customer/useClaims';
+import { useClaims } from "@/hooks/customer/useClaims";
 
-const Page = ({ params }: { params: { claimId: number } }) => {
+const Page = ({ params }: { params: { claimId: string } }) => {
   const claimsQuery = useClaims();
 
-  if(!claimsQuery.isSuccess || !claimsQuery.data) return <></>;
+  if (!claimsQuery.isSuccess || !claimsQuery.data) return <></>;
 
-  const claim = claimsQuery.data.find(v => v.claim_id === params.claimId)!;
+  const claim = claimsQuery.data.find(
+    (v) => v.claim_id === parseInt(params.claimId)
+  )!;
 
   return (
     <div className="overflow-auto flex flex-col items-center justify-center w-full h-full p-4">
