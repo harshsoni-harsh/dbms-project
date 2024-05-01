@@ -24,6 +24,11 @@ import {
   BookText,
   CirclePlus,
   IndianRupee,
+  NotebookPen,
+  Users,
+  NotebookTabs,
+  BookType,
+  PersonStanding,
 } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
@@ -84,13 +89,13 @@ const customerLinksList: LinksList = [
     icon: <Home className="h-4" />,
   },
   {
-    link: "/customer/new-policy",
+    link: "/customer/policy/new",
     id: uuid(),
     displayText: "New Policy",
     icon: <CirclePlus className="h-4" />,
   },
   {
-    link: "/customer/all-policies",
+    link: "/customer/policy/all",
     id: uuid(),
     displayText: "View Policies",
     icon: <BookText className="h-4" />,
@@ -144,43 +149,43 @@ const managerLinksList: LinksList = [
     link: '/manager/claims',
     id: uuid(),
     displayText: 'All claims',
-    icon: <></>
+    icon: <BookText className="h-4" />,
   },
   {
     link: '/manager/claims/pending',
     id: uuid(),
     displayText: 'Review pending claims',
-    icon: <></>,
+    icon: <NotebookPen className="h-4" />,
   },
   {
     link: '/manager/customers',
     id: uuid(),
     displayText: 'All customers',
-    icon: <></>,
+    icon: <Users className="h-4" />,
   },
   {
     link: '/manager/policies',
     id: uuid(),
     displayText: 'All policies',
-    icon: <></>,
+    icon: <NotebookTabs className="h-4" />,
   },
   {
     link: '/manager/policies/pending',
     id: uuid(),
     displayText: 'Review pending policies',
-    icon: <></>,
+    icon: <NotebookPen className="h-4" />,
   },
   {
     link: '/manager/policyType',
     id: uuid(),
     displayText: 'All policy types',
-    icon: <></>,
+    icon: <BookType className="h-4" />,
   },
   {
     link: '/manager/staff',
     id: uuid(),
     displayText: 'View all staff',
-    icon: <></>,
+    icon: <PersonStanding className="h-4" />,
   },
 ];
 
@@ -230,19 +235,15 @@ export default function Sidenav() {
         <Popover>
           <PopoverTrigger>
             <div className="p-2 flex items-center">
-              <Avatar>
-                <AvatarImage src="https://github.com/shadcn.png" />
-                <AvatarFallback>CN</AvatarFallback>
-              </Avatar>
-              <div className="grow px-4 flex justify-between">
-                <p className="truncate">{session?.user?.name}</p>
+                <div className="grow px-4 flex justify-between">
+                <p className="truncate">{session?.user?.email}</p>
                 <ChevronRight />
               </div>
             </div>
           </PopoverTrigger>
           <PopoverContent asChild side="right" sideOffset={0}>
             <div className="w-full p-0 mb-2 bg-transparent border-0">
-              <Link href={`/${pathname.split("/")[1]}/profile`}>
+              <Link href={`/${session?.user?.role}/profile`}>
                 <Button className="w-full rounded-b-none flex gap-2 items-center justify-start bg-zinc-300 hover:bg-zinc-400 text-zinc-800">
                   <UserRound className="h-4" />
                   <p>Profile</p>

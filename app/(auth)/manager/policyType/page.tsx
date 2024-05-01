@@ -20,41 +20,6 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { DialogClose } from '@radix-ui/react-dialog';
 
-const sampleData: Db.PolicyType[] = [
-    {
-        policy_type_id: 1,
-        maturity_duration: 10,
-        renew_duration: 1,
-        title: "Life Insurance",
-        description: "Life insurance policy provides financial protection and security to the insured's family in case of the insured's death.",
-        coverage: 50.00
-    },
-    {
-        policy_type_id: 2,
-        maturity_duration: 15,
-        renew_duration: 1,
-        title: "Health Insurance",
-        description: "Health insurance policy covers the medical expenses incurred by the insured individual due to illness or injury.",
-        coverage: 65.50
-    },
-    {
-        policy_type_id: 3,
-        maturity_duration: 5,
-        renew_duration: 1,
-        title: "Home Insurance",
-        description: "Home insurance policy provides coverage for damage or destruction to the insured's home and belongings.",
-        coverage: 85.00
-    },
-    {
-        policy_type_id: 4,
-        maturity_duration: 20,
-        renew_duration: 1,
-        title: "Car Insurance",
-        description: "Car insurance policy provides coverage for damage or theft of the insured vehicle, as well as liability coverage for injuries or damage caused to other people or property.",
-        coverage: 35.00
-    }
-];
-
 const policyTypeSchema = z.object({
     title: z.string(),
     description: z.string(),
@@ -97,11 +62,12 @@ export default function ManagerPolicyTypesPage() {
             const json = await res.json();
             if ('error' in json) throw json.error;
 
-            toast('Success');
             queryClient.invalidateQueries({
                 queryKey: ['manager/policies']
             });
-        }
+        },
+        onError: (e) => toast(`${e}`),
+        onSuccess: () => toast('Success')
     });
 
     const updateMutation = useMutation({
@@ -115,11 +81,12 @@ export default function ManagerPolicyTypesPage() {
             const json = await res.json();
             if ('error' in json) throw json.error;
 
-            toast('Success');
             queryClient.invalidateQueries({
                 queryKey: ['manager/policies']
             });
-        }
+        },
+        onError: (e) => toast(`${e}`),
+        onSuccess: () => toast('Success')
     })
 
     const createMutation = useMutation({
@@ -133,11 +100,12 @@ export default function ManagerPolicyTypesPage() {
             const json = await res.json();
             if ('error' in json) throw json.error;
 
-            toast('Success');
             queryClient.invalidateQueries({
                 queryKey: ['manager/policies']
             });
-        }
+        },
+        onError: (e) => toast(`${e}`),
+        onSuccess: () => toast('Success')
     })
 
     if (!policyTypes.isSuccess || !policyTypes.data) return <div></div>;
@@ -155,77 +123,77 @@ export default function ManagerPolicyTypesPage() {
                         <TableHead>%Coverage</TableHead>
                         <TableHead className='flex justify-center items-center'>
                             <Dialog>
-                                    <DialogTrigger asChild>
-                                        <Button size='sm' className='whitespace-pre'>   New  </Button>
-                                    </DialogTrigger>
-                                    <DialogContent>
-                                        <Form {...policyTypeForm}>
-                                            <form
-                                                onSubmit={policyTypeForm.handleSubmit((values) => createMutation.mutate({ policyType: values }))}
-                                                className='flex flex-col gap-2'
-                                            >
-                                                <FormField
-                                                    control={policyTypeForm.control}
-                                                    name='title'
-                                                    render={({ field }) => (
-                                                        <FormItem>
-                                                            <FormLabel>Title</FormLabel>
-                                                            <Input {...field} />
-                                                            <FormMessage />
-                                                        </FormItem>
-                                                    )}
-                                                />
-                                                <FormField
-                                                    control={policyTypeForm.control}
-                                                    name='description'
-                                                    render={({ field }) => (
-                                                        <FormItem>
-                                                            <FormLabel>Description</FormLabel>
-                                                            <Textarea {...field} />
-                                                            <FormMessage />
-                                                        </FormItem>
-                                                    )}
-                                                />
-                                                <FormField
-                                                    control={policyTypeForm.control}
-                                                    name='maturityDuration'
-                                                    render={({ field }) => (
-                                                        <FormItem>
-                                                            <FormLabel>Maturity Duration (Months)</FormLabel>
-                                                            <Input {...field} />
-                                                            <FormMessage />
-                                                        </FormItem>
-                                                    )}
-                                                />
-                                                <FormField
-                                                    control={policyTypeForm.control}
-                                                    name='renewDuration'
-                                                    render={({ field }) => (
-                                                        <FormItem>
-                                                            <FormLabel>Renew Duration (Months)</FormLabel>
-                                                            <Input {...field} />
-                                                            <FormMessage />
-                                                        </FormItem>
-                                                    )}
-                                                />
-                                                <FormField
-                                                    control={policyTypeForm.control}
-                                                    name='coverage'
-                                                    render={({ field }) => (
-                                                        <FormItem>
-                                                            <FormLabel>% Coverage</FormLabel>
-                                                            <Input {...field} />
-                                                        </FormItem>
-                                                    )}
-                                                />
+                                <DialogTrigger asChild>
+                                    <Button size='sm' className='whitespace-pre'>   New  </Button>
+                                </DialogTrigger>
+                                <DialogContent>
+                                    <Form {...policyTypeForm}>
+                                        <form
+                                            onSubmit={policyTypeForm.handleSubmit((values) => createMutation.mutate({ policyType: values }))}
+                                            className='flex flex-col gap-2'
+                                        >
+                                            <FormField
+                                                control={policyTypeForm.control}
+                                                name='title'
+                                                render={({ field }) => (
+                                                    <FormItem>
+                                                        <FormLabel>Title</FormLabel>
+                                                        <Input {...field} />
+                                                        <FormMessage />
+                                                    </FormItem>
+                                                )}
+                                            />
+                                            <FormField
+                                                control={policyTypeForm.control}
+                                                name='description'
+                                                render={({ field }) => (
+                                                    <FormItem>
+                                                        <FormLabel>Description</FormLabel>
+                                                        <Textarea {...field} />
+                                                        <FormMessage />
+                                                    </FormItem>
+                                                )}
+                                            />
+                                            <FormField
+                                                control={policyTypeForm.control}
+                                                name='maturityDuration'
+                                                render={({ field }) => (
+                                                    <FormItem>
+                                                        <FormLabel>Maturity Duration (Months)</FormLabel>
+                                                        <Input {...field} />
+                                                        <FormMessage />
+                                                    </FormItem>
+                                                )}
+                                            />
+                                            <FormField
+                                                control={policyTypeForm.control}
+                                                name='renewDuration'
+                                                render={({ field }) => (
+                                                    <FormItem>
+                                                        <FormLabel>Renew Duration (Months)</FormLabel>
+                                                        <Input {...field} />
+                                                        <FormMessage />
+                                                    </FormItem>
+                                                )}
+                                            />
+                                            <FormField
+                                                control={policyTypeForm.control}
+                                                name='coverage'
+                                                render={({ field }) => (
+                                                    <FormItem>
+                                                        <FormLabel>% Coverage</FormLabel>
+                                                        <Input {...field} />
+                                                    </FormItem>
+                                                )}
+                                            />
 
-                                                <DialogClose asChild>
-                                                    <Button type='submit' className='mt-6 place-self-center'>Submit</Button>
-                                                </DialogClose>
-                                            </form>
-                                        </Form>
-                                    </DialogContent>
-                                </Dialog>
+                                            <DialogClose asChild>
+                                                <Button type='submit' className='mt-6 place-self-center'>Submit</Button>
+                                            </DialogClose>
+                                        </form>
+                                    </Form>
+                                </DialogContent>
+                            </Dialog>
                         </TableHead>
                     </TableRow>
                 </TableHeader>

@@ -7,6 +7,6 @@ export async function viewAllClaims() {
     select * from claim;
   `;
 
-  const [res] = await conn.query(queryStatement);
-  return res;
+  const [results] = await conn.query(queryStatement);
+  return results;
 }

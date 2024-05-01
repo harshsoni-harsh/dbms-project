@@ -1,6 +1,5 @@
-import { createClaimReceipt } from '@/lib/query/manager/createClaimReceipt';
-import { updateClaim } from '@/lib/query/manager/updateClaim';
-import { viewAllClaims } from '@/lib/query/manager/viewAllClaims';
+import { createPremiumPayment } from '@/lib/query/customer/createPremiumPayment';
+import { viewReceipts } from '@/lib/query/customer/viewReceipts';
 import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
@@ -19,7 +18,7 @@ export async function GET(req: NextRequest) {
     }
 
     try {
-        const result = await viewAllClaims();
+        const result = await viewReceipts(session.user.uid);
 
         return NextResponse.json({
             message: 'success',
@@ -34,17 +33,13 @@ export async function GET(req: NextRequest) {
     }
 }
 
-const postBodySchema = z.object({
-    claimId: z.coerce.number().int(),
-    status: z.string(),
-    receipt: z.optional(z.object({
-        created: z.coerce.date(),
-        amount: z.coerce.number().int(),
-        txnId: z.coerce.number().int()
-    }))
+const putBodySchema = z.object({
+    policyId: z.coerce.number(),
+    amount: z.coerce.number().positive(),
+    txnId: z.coerce.number()
 });
 
-export async function POST(req: NextRequest) {
+export async function PUT(req: NextRequest) {
     const session = await getServerSession();
     if (!session || !session.user) {
         return NextResponse.json(
@@ -58,7 +53,7 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json();
-    const parseResult = postBodySchema.safeParse(body);
+    const parseResult = putBodySchema.safeParse(body);
 
     if (!parseResult.success) {
         return NextResponse.json({
@@ -68,23 +63,13 @@ export async function POST(req: NextRequest) {
         });
     }
 
-    if(parseResult.data.status === 'accepted' && !parseResult.data.receipt) {
-        return NextResponse.json({
-            error: 'Invalid body: Must provide receipt details when status is accepted'
-        }, {
-            status: 400
-        });
-    }
-
     try {
         const data = parseResult.data;
-        const result1 = await updateClaim(data.claimId, data.status);
-        let result2: unknown = null;
-        if(data.status === 'accepted') result2 = await createClaimReceipt(data.claimId, data.receipt!.created, data.receipt!.amount, data.receipt!.txnId);
+        const result = await createPremiumPayment(data.amount, data.policyId, new Date(), data.txnId);
 
         return NextResponse.json({
             message: 'success',
-            data: [result1, result2]
+            data: result
         });
     } catch (err) {
         return NextResponse.json({

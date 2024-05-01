@@ -1,163 +1,155 @@
 "use client";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+
+import type * as db from "@/types/dbSchema";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { RadioGroupItem, RadioGroup } from "../ui/radio-group";
-import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
+import { Label } from "@/components/ui/label";
+import { RadioGroupItem, RadioGroup } from "@/components/ui/radio-group";
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import { usePolicyTypes } from "@/hooks/usePolicyTypes";
+import { cn } from "@/lib/utils";
+import { PolicyForm } from "@/types/form";
+import { Loader } from "lucide-react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import { useState } from "react";
 
-const coverageDetails = [
-  {
-    type: "Comprehensive Car Insurance",
-    description:
-      "It covers damages to your own vehicle as well as third-party liability. Comprehensive insurance protects against various risks including accidents, theft, vandalism, natural disasters, and other perils.",
-  },
-  {
-    type: "Third Party Liability Car Insurance",
-    description:
-      "It covers damages and injuries caused to a third party by your vehicle. It includes compensation for bodily injury or death of a third party and damage to their property. However, it does not cover damages to your own vehicle.",
-  },
-  {
-    type: "Own Damage Car Insurance",
-    description:
-      "This cover provides compensation in case of accidental death or permanent disability of the owner-driver of the insured vehicle. It ensures financial protection for the policyholder and their family in the event of a tragic accident.",
-  },
-];
 
-const fromSchema = z.object({
-  coverageAmount: z
-    .string()
-    .refine((x) => Number.isFinite(Number(x)), "Invalid number")
-    .refine((x) => Number(x) > 0, "Price should be > 0")
-    .transform((x) => Number(x)),
-  coverageType: z.string(),
-});
+type CoverageProps = {
+  back: () => void,
+  formData: PolicyForm,
+  setFormData: React.Dispatch<React.SetStateAction<PolicyForm>>
+};
 
-/*
-COVERAGE_ID // GENERATE
-COMPANY_NAME // GENERATE
-COVERAGE_AMOUNT // INPUT
-COVERAGE_TYPE // INPUT  
-COVERAGE_LEVEL // DEPEND ON POLICY TYPE = LEVEL
-PRODUCT_ID // 
-COVERAGE_DESCRIPTION  // DEPEND ON DETAILS
-COVERAGE_TERMS // DEPEND ON DETAILS
-*/
 
-interface Props {
-  onClick: () => void;
-}
-const Coverage = ({ onClick }: Props) => {
-  const form = useForm<z.infer<typeof fromSchema>>({
-    resolver: zodResolver(fromSchema),
-    defaultValues: {
-      coverageAmount: 1,
-      coverageType: coverageDetails[0].type,
-    },
-  });
-  const onSubmit = (value: z.infer<typeof fromSchema>) => {
-    console.log(value);
-  };
+const CoverageForm = ({ policyTypes, back, formData, setFormData }: { policyTypes: db.PolicyType[] } & CoverageProps) => {
+  
+  const [selected, setSelected] = useState(formData.policy_type_id || policyTypes[0].policy_type_id);
+  
+  const onSubmit = () => {
+    setFormData({
+      ...formData,
+      policy_type_id: selected
+    });
+    console.log({
+      ...formData,
+      policy_type_id: selected
+    })
+  }
+
+  const onBack = () => {
+    setFormData({
+      ...formData,
+      policy_type_id: selected
+    });
+    back();
+  }
+
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="grid grid-cols-1 lg:grid-cols-2 place-items-center gap-4 p-2"
-      >
-        {/* Coverage Type */}
-        <FormField
-          control={form.control}
-          name="coverageType"
-          render={({ field }) => (
-            <FormItem className="text-center content-center mb-4 h-max justify-center lg:col-span-2 space-y-3">
-              <FormLabel className="font-bold text-xl p-1 m-1 h-full">
-                Select A Type of Insurance
-              </FormLabel>
-              <FormControl>
-                <RadioGroup
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                  className="grid lg:grid-cols-3 grid-cols-1 items-center h-full gap-4"
-                >
-                  {coverageDetails.map((cover) => (
-                    <FormItem
-                      key={cover.type}
-                      className="m-2 w-60 h-full max-lg:w-full"
-                    >
-                      <FormLabel>
-                        <Card
-                          className={
-                            field.value == cover.type
-                              ? "m-1 p-2 h-full cursor-pointer bg-zinc-500"
-                              : "m-1 p-2 h-full cursor-pointer"
-                          }
-                        >
-                          <CardHeader className="flex flex-row items-center text-center space-x-2">
-                            <FormControl className="p-0 m-0">
-                              <RadioGroupItem value={cover.type} />
-                            </FormControl>
-                            <p className="font-bold p-0 m-0">{cover.type}</p>
-                          </CardHeader>
-                          <CardContent>
-                            <p className=" text-wrap">{cover.description}</p>
-                          </CardContent>
-                        </Card>
-                      </FormLabel>
-                    </FormItem>
-                  ))}
-                </RadioGroup>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        {/* Price */}
-        <FormField
-          control={form.control}
-          name="coverageAmount"
-          render={({ field }) => (
-            <FormItem className="lg:col-span-2 ">
-              <FormLabel>Coverage Amount</FormLabel>
-              <FormControl>
-                <Input
-                  className="input w-64 sm:w-72 md:w-80"
-                  placeholder="Input Here"
-                  {...field}
-                />
-              </FormControl>
-              <FormDescription>Enter The Amount</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <div className="flex justify-between w-full max-w-64 lg:max-w-96 flex-wrap lg:col-span-2">
-          <Button
-            onClick={onClick}
-            className="primary mt-6 min-w-20 place-self-center"
-          >
-            Previous
-          </Button>
-
-          <Button
-            type="submit"
-            className="primary mt-6 min-w-20 place-self-center"
-          >
-            Submit
-          </Button>
+    <div className="flex flex-col w-full items-center">
+      <div className="text-center content-center mb-4 h-max justify-center w-full space-y-3">
+        <div className="font-bold lg:text-xl p-1 m-1">
+          Select an insurance policy type
         </div>
-      </form>
-    </Form>
+        <div>
+          <RadioGroup
+            className="flex w-full justify-center px-10"
+          >
+            <Carousel
+              opts={{
+                align: "start",
+              }}
+              className="w-full max-w-xs lg:max-w-4xl md:max-w-l"
+            >
+              <CarouselContent>
+                {policyTypes.map(policyType => (
+                    <CarouselItem className="md:basis-1/2 lg:basis-1/3" key={policyType.policy_type_id}>
+                      <Label htmlFor={policyType.policy_type_id.toString()}>
+                        <div className="p-1">
+                          <Card
+                            className={cn("cursor-pointer", policyType.policy_type_id.toString() === selected.toString() && "bg-zinc-500")}
+                          >
+                            <RadioGroupItem id={policyType.policy_type_id.toString()} value={policyType.policy_type_id.toString()} hidden onClick={() => setSelected(policyType.policy_type_id)} />
+                            <CardHeader className="flex items-center text-center space-x-2 text-lg">
+                              {policyType.title}
+                            </CardHeader>
+                            <CardContent className="flex flex-col aspect-square items-center justify-center px-6">
+                              <div>
+                                { policyType.description }
+                              </div>
+                              <span className="p-2 m-2 md:p-4 md:m-4">
+                                Coverage: { policyType.coverage }%
+                              </span>
+                            </CardContent>
+                          </Card>
+                        </div>
+                      </Label>
+                    </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious />
+              <CarouselNext />
+            </Carousel>
+          </RadioGroup>
+        </div>
+      </div>
+
+      <div className="flex justify-between w-full max-w-64 lg:max-w-96 flex-wrap lg:col-span-2">
+        <Button
+          onClick={onBack}
+          className="primary mt-6 min-w-20 place-self-center"
+        >
+          Previous
+        </Button>
+
+        <Button
+          className="primary mt-6 min-w-20 place-self-center"
+          onClick={onSubmit}
+        >
+          Submit
+        </Button>
+      </div>
+    </div>
   );
 };
+
+
+
+const Coverage = (props: CoverageProps) => {
+
+  const policyTypes = usePolicyTypes();
+
+  if (policyTypes.isLoading) {
+    return (
+      <div className="w-full h-full flex items-center justify-center">
+        <Loader className="animate-spin" />
+      </div>
+    );
+  }
+
+  if (!policyTypes.isSuccess) {
+    return (
+      <div>
+        Something went wrong
+      </div>
+    );
+  }
+
+  if (!policyTypes.data) {
+    return (
+      <div>
+        No Policies
+      </div>
+    );
+  }
+
+  return <CoverageForm {...props} policyTypes={policyTypes.data} />
+
+};
+
+
 export default Coverage;

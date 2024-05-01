@@ -10,9 +10,9 @@ export async function createPolicyType(
   const conn = await dbConn;
   await conn.connect();
 
-  const result = await conn.query(
+  const [results] = await conn.query(
     `insert into policy_type(maturity_duration, renew_duration, title, description, coverage)  values (?,?,?,?,?)`,
     [maturityDuration, renewDuration, title, description, coverage]
   );
-  return result;
+  return results;
 }

@@ -14,7 +14,7 @@ export async function createPolicy(
     const conn = await dbConn;
     await conn.connect();
 
-    const result = await conn.query(
+    const [results]= await conn.query(
         `insert into policy(customer_id,policy_type,vehicle_number,vehicle_type,vehicle_make,registration_year,registration_month,vehicle_number,vehicle_price,premium_amount) values (?,?,?,?,?,?,?,?,?);`,
         [
             customerId,
@@ -29,5 +29,5 @@ export async function createPolicy(
             premiumAmount,
         ]
     );
-    return result;
+    return results;
 }

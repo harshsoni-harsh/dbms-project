@@ -23,8 +23,7 @@ export async function GET(req: NextRequest) {
     });
 
     try {
-        // @ts-expect-error it exists
-        const result = await viewStaff(parseInt(session.user.uid));
+        const result = await viewStaff(session.user.uid);
 
         return NextResponse.json({
             message: 'success',

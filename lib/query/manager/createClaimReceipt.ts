@@ -13,11 +13,11 @@ export async function createClaimReceipt(
         insert into claim_receipt (claim_id, created_at, amount, txn_id)
         values (?,?,?,?)
     `;
-  const result = await conn.query(queryStatement, [
+  const [results] = await conn.query(queryStatement, [
     claimId,
     createdAt,
     amount,
     txnId,
   ]);
-  return result;
+  return results;
 }
