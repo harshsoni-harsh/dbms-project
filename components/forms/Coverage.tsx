@@ -17,6 +17,9 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { useState } from "react";
+import { usePolicies } from "@/hooks/customer/usePolicies";
+import { toast } from "sonner";
+import { useQueryClient } from "@tanstack/react-query";
 
 
 type CoverageProps = {
@@ -27,18 +30,32 @@ type CoverageProps = {
 
 
 const CoverageForm = ({ policyTypes, back, formData, setFormData }: { policyTypes: db.PolicyType[] } & CoverageProps) => {
-  
+
+  const queryClient = useQueryClient();
+
   const [selected, setSelected] = useState(formData.policy_type_id || policyTypes[0].policy_type_id);
   
-  const onSubmit = () => {
+  const onSubmit = async () => {
     setFormData({
       ...formData,
       policy_type_id: selected
     });
-    console.log({
+    const body = {
       ...formData,
       policy_type_id: selected
-    })
+    }; // do not use formData's value yet
+    const res = await fetch("/api/customer/policies", {
+      method: 'PUT',
+      body: JSON.stringify(body),
+    });
+    if (!res.ok) {
+      toast("Something went wrong!");
+      setTimeout(() => window.location.reload(), 1000);
+    } else {
+      toast("Success!");
+      queryClient.invalidateQueries({ queryKey: ['customer/policies'] });
+      window.location.href = "/customer/policy/all";
+    }
   }
 
   const onBack = () => {

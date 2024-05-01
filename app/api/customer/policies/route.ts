@@ -4,7 +4,8 @@ import { viewPolicyTypes } from '@/lib/query/util/viewPolicyTypes';
 import { User } from "@/types/dbSchema";
 import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
-import { z } from 'zod';
+import { VehicleSchema } from "@/lib/utils/form-schema/vehicle";
+
 
 export const GET = async () => {
     
@@ -46,16 +47,6 @@ export const GET = async () => {
 
 }
 
-const putBodySchema = z.object({
-    policyTypeId: z.coerce.number(),
-    vehicleManufacturer: z.string(),
-    vehicleType: z.string(),
-    vehicleMake: z.string(),
-    registrationYear: z.coerce.number().positive(),
-    registrationMonth: z.coerce.number().positive(),
-    vehicleNumber: z.string(),
-    vehiclePrice: z.coerce.number().positive()
-});
 
 export async function PUT(req: NextRequest) {
     const session = await getServerSession();
@@ -71,7 +62,7 @@ export async function PUT(req: NextRequest) {
     }
 
     const body = await req.json();
-    const parseResult = putBodySchema.safeParse(body);
+    const parseResult = VehicleSchema.safeParse(body);
 
     if (!parseResult.success) {
         return NextResponse.json({
@@ -85,7 +76,7 @@ export async function PUT(req: NextRequest) {
         const data = parseResult.data;
         const policyTypesResult = await viewPolicyTypes();
         // @ts-expect-error its an array
-        const pType = policyTypesResult.find(v => v.policy_type_id === data.policyTypeId);
+        const pType = policyTypesResult.find(v => v.policy_type_id === body.policy_type_id);
         if(!pType) return NextResponse.json({
             error: 'Invalid policy type id'
         }, {
@@ -93,18 +84,21 @@ export async function PUT(req: NextRequest) {
         });
 
         const result = await createPolicy(
-            session.user.uid,
-            data.policyTypeId,
-            data.vehicleManufacturer,
-            data.vehicleType,
-            data.vehicleMake,
-            data.registrationYear,
-            data.registrationMonth,
-            data.vehicleNumber,
-            data.vehiclePrice,
-            data.vehiclePrice * pType.coverage / 100
-        );
+            // @ts-expect-error it exists
+            JSON.parse(session.user.name).uid,
+            body.policy_type_id,
+            data.vehicle_manufacturer,
 
+            data.vehicle_type,
+            data.vehicle_make,
+            data.registration_year,
+
+            data.registration_month,
+            data.vehicle_number,
+            data.vehicle_price,
+            // @ts-expect-error it exists
+            pType.coverage * data.vehicle_price / 100,
+        );
         return NextResponse.json({
             message: 'success',
             data: result
