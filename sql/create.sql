@@ -15,26 +15,25 @@ CREATE TABLE user (
 
 CREATE TABLE customer (
     customer_id INT PRIMARY KEY,
-    user_id INT,
     first_name VARCHAR(255),
     last_name VARCHAR(255),
     email VARCHAR(255),
     phone_no CHAR(10),
     gender CHAR(1),
     pan_no CHAR(10),
-    FOREIGN KEY (user_id) REFERENCES user(uid)
+    FOREIGN KEY customer(customer_id) REFERENCES user(uid)
 );
+DROP table customer;
 
 CREATE TABLE staff (
     staff_id INT PRIMARY KEY,
-    user_id INT,
     role VARCHAR(255),
     first_name VARCHAR(255),
     last_name VARCHAR(255),
     phone_no CHAR(10),
     email VARCHAR(255),
     gender CHAR(1),
-    FOREIGN KEY (user_id) REFERENCES user(uid)
+    FOREIGN KEY staff(staff_id) REFERENCES user(uid)
 );
 
 CREATE TABLE policy_type (
@@ -116,11 +115,11 @@ INSERT INTO user VALUES
 (4, '$2b$10$4aEcjoBCg9w7CtVybHjgyOGKmY0zm3My47ttD8TlhUFIe.vIWlFX2', 'customer@gmail.com', 'customer', CURDATE());
  
 INSERT INTO customer VALUES
-(4, 4, 'Mario', 'Luigi', 'customer@gmail.com', '9876543210', 'M', '1234567890');
+(4, 'Mario', 'Luigi', 'customer@gmail.com', '9876543210', 'M', '1234567890');
  
 INSERT INTO staff VALUES
-(1, 1, 'dbadmin', 'Pata', 'Nahi', '4564564560', 'dbadmin@gmail.com', 'M'),
-(2, 2, 'inspector', 'Big', 'Smoke', '1231231230', 'inspector@gmail.com', 'M'),
-(3, 3, 'manager', 'Tommy', 'Vercetti', '9879879870', 'manager@gmail.com', 'M');
+(1, 'dbadmin', 'Pata', 'Nahi', '4564564560', 'dbadmin@gmail.com', 'M'),
+(2, 'inspector', 'Big', 'Smoke', '1231231230', 'inspector@gmail.com', 'M'),
+(3, 'manager', 'Tommy', 'Vercetti', '9879879870', 'manager@gmail.com', 'M');
 
 DESCRIBE claim;
