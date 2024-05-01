@@ -111,9 +111,8 @@ const data = {
 };
 
 export default function Page({ params }: any) {
-  const { policies, quotes, claims } = data;
+  const { policies, claims } = data;
   const topPolicies = policies.slice(0, 2);
-  let topQuotes = quotes.slice(0, 2);
   let topClaims = claims.slice(0, 2);
   return (
     <div className="p-4 flex flex-col gap-6 overflow-auto">
@@ -156,43 +155,6 @@ export default function Page({ params }: any) {
         {topPolicies.length !== policies.length ? (
           <Link
             href={`/customer/all-policies`}
-            className="w-fit bg-zinc-800 rounded-md px-4 p-2 hover:bg-zinc-400 hover:text-zinc-950"
-          >
-            View more
-          </Link>
-        ) : (
-          ""
-        )}
-      </div>
-      <div className="w-full flex flex-col gap-3">
-        {quotes.length !== 0 && <p className="text-2xl">Quotes</p>}
-        <div className="flex gap-4 flex-wrap">
-          {topQuotes.map((quote) => (
-            <Link
-              key={quote.quoteId}
-              href={`/customer/quote/${quote.quoteId}`}
-              className="w-96 max-sm:w-full"
-            >
-              <Card className="border-2 bg-zinc-900">
-                <CardHeader>
-                  <CardTitle className="text-base">
-                    Application Id: {quote.applicationId}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <p className="truncate">{quote.description}</p>
-                  <div className="flex max-md:flex-col justify-between text-xs">
-                    <div>Issued date: {quote.issueDate}</div>
-                    <div>Valid Till: {quote.validTill}</div>
-                  </div>
-                </CardContent>
-              </Card>
-            </Link>
-          ))}
-        </div>
-        {topQuotes.length !== quotes.length ? (
-          <Link
-            href={`/customer/all-quotes`}
             className="w-fit bg-zinc-800 rounded-md px-4 p-2 hover:bg-zinc-400 hover:text-zinc-950"
           >
             View more
