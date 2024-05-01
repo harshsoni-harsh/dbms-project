@@ -1,17 +1,12 @@
-"use client"
-import { useState } from "react";
-import { Button } from "./ui/button";
 import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
 import { Separator } from "./ui/separator";
-import { Textarea } from "./ui/textarea";
 
 interface Props {
   props: string,
-  description: string | undefined,
   onAccept: () => void,
   onReject: () => void,
 }
-const DamageReview = ({ props, description, onAccept, onReject }: Props) => {
+const DamageReview = ({ props, onAccept, onReject }: Props) => {
   const data = JSON.parse(props)
   return (
     <Dialog>
@@ -23,25 +18,12 @@ const DamageReview = ({ props, description, onAccept, onReject }: Props) => {
           <DialogTitle className="text-center text-xl mb-4">{"Incident ID " + data.incident_id}</DialogTitle>
         </DialogHeader>
         <div className="grid grid-cols-2 gap-4">
-          <div className="font-bold">
-            Incident Id
-          </div>
-          <div>
-            {data.incident_id}
-          </div>
-          <Separator className="col-span-2" />
-          <div className="font-bold">
-            Incident Type
-          </div>
-          <div>
-            {data.damage_type}
-          </div>
-          <Separator className="col-span-2" />
           <div className="col-span-2 text-center text-lg font-bold">
             Incident Description
           </div>
+          <Separator className="col-span-2" />
           <div>
-            {description}
+            {data.damage_description}
           </div>
           <Separator className="col-span-2" />
         </div>
