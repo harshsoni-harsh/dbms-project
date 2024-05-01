@@ -3,7 +3,7 @@ import car from "@/public/images/car-broken.jpg";
 import Link from "next/link";
 
 export default function Home() {
-  const about = "Welcome to ########, where we specialize in providing peace of mind through our comprehensive insurance coverage. With years of experience and a commitment to customer satisfaction, we're here to safeguard what matters most to you";
+  const about = "Welcome to Motor Insurance, where we specialize in providing peace of mind through our comprehensive insurance coverage. With years of experience and a commitment to customer satisfaction, we're here to safeguard what matters most to you";
   const heading = "Insure Your Journey: Navigate Life's Roads Safely with Our Vehicle Insurance!"
   return (
     <div className="flex items-center justify-start text-justify w-full h-full overflow-hidden">
