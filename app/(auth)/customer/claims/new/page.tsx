@@ -23,6 +23,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const formSchema = z.object({
   claimAmount: z.coerce.number().int().positive(),
@@ -128,7 +129,14 @@ const Page = () => {
   const handleSubmit = form.handleSubmit(onSubmit);
 
   if (loading) {
-    console.log("Loading...");
+    return (
+      <div className="h-full w-full flex flex-col justify-center items-center">
+        <div className="flex flex-col gap-2">
+          <Skeleton className="h-72 w-96 rounded-xl" />
+          <Skeleton className="h-32 w-72" />
+        </div>
+      </div>
+    );
   } else {
     return (
       <div className="h-full w-full flex flex-col justify-center items-center">
