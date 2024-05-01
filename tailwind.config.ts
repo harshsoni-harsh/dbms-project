@@ -18,9 +18,6 @@ const config = {
       },
     },
     extend: {
-      backgroundImage: {
-        'cars': "url('../public/images/car3.png')"
-      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
