@@ -121,7 +121,7 @@ const privacyPage = () => {
         Usage Data is collected automatically when using the Service.
       </p>
       <p className="mb-4">
-        Usage Data may include information such as Your Device's Internet
+        Usage Data may include information such as Your Device&aposs Internet
         Protocol address (e.g. IP address), browser type, browser version, the
         pages of our Service that You visit, the time and date of Your visit,
         the time spent on those pages, unique device identifiers and other
@@ -247,7 +247,7 @@ const privacyPage = () => {
       </p>
       <h3 className="mb-2">Transfer of Your Personal Data</h3>
       <p className="mb-4">
-        Your information, including Personal Data, is processed at the Company's
+        Your information, including Personal Data, is processed at the Company&aposs
         operating offices and in any other places where the parties involved in
         the processing are located. It means that this information may be
         transferred to — and maintained on — computers located outside of Your
@@ -326,7 +326,7 @@ const privacyPage = () => {
         means to protect Your Personal Data, We cannot guarantee its absolute
         security.
       </p>
-      <h2 className=" text-xl font-bold mt-4 mb-4">Children's Privacy</h2>
+      <h2 className=" text-xl font-bold mt-4 mb-4">Children&aposs Privacy</h2>
       <p>
         Our Service does not address anyone under the age of 13. We do not
         knowingly collect personally identifiable information from anyone under
@@ -339,14 +339,14 @@ const privacyPage = () => {
       <p>
         If We need to rely on consent as a legal basis for processing Your
         information and Your country requires consent from a parent, We may
-        require Your parent's consent before We collect and use that
+        require Your parent&aposs consent before We collect and use that
         information.
       </p>
       <h2 className=" text-xl font-bold mt-4 mb-4">Links to Other Websites</h2>
       <p>
         Our Service may contain links to other websites that are not operated by
         Us. If You click on a third party link, You will be directed to that
-        third party's site. We strongly advise You to review the Privacy Policy
+        third party&aposs site. We strongly advise You to review the Privacy Policy
         of every site You visit.
       </p>
       <p>
