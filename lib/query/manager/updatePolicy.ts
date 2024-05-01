@@ -1,4 +1,1 @@
-export async function updatePolicy(
-    policyId: number,
-    status: string
-) {}
+export async function updatePolicy(policyId: number, status: string) {}

@@ -1,4 +1,1 @@
-export async function updateClaim(
-    claimId: number,
-    status: string
-) {}
+export async function updateClaim(claimId: number, status: string) {}
