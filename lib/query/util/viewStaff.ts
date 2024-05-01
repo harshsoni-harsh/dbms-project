@@ -5,9 +5,11 @@ export async function viewStaff(staffId: number) {
   await conn.connect();
 
   const queryStatement = `
-    select * from staff;
+    select * 
+    from staff 
+    WHERE staff.staff_id = ?;
   `;
 
-  const [results] = await conn.query(queryStatement);
+  const [results] = await conn.query(queryStatement, [staffId]);
   return results;
 }
