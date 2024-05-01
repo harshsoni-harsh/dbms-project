@@ -1,8 +1,7 @@
 import { viewPolicies } from "@/lib/query/customer/viewPolicies";
 import { User } from "@/types/dbSchema";
 import { getServerSession } from 'next-auth';
-import { NextResponse } from 'next/server';
-
+import { NextRequest, NextResponse } from 'next/server';
 
 export const GET = async () => {
     
@@ -41,5 +40,9 @@ export const GET = async () => {
             { status: 400 },
         );
     }
+
+}
+
+export function PUT(req: NextRequest) {
 
 }
