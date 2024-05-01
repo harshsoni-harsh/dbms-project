@@ -23,22 +23,35 @@ type CoverageProps = {
   back: () => void,
   formData: PolicyForm,
   setFormData: React.Dispatch<React.SetStateAction<PolicyForm>>
+  submit: () => unknown
 };
 
 
-const CoverageForm = ({ policyTypes, back, formData, setFormData }: { policyTypes: db.PolicyType[] } & CoverageProps) => {
+const CoverageForm = ({ policyTypes, back, formData, setFormData, submit }: { policyTypes: db.PolicyType[] } & CoverageProps) => {
   
-  const [selected, setSelected] = useState(formData.policy_type_id || policyTypes[0].policy_type_id);
+  const [selected, _setSelected] = useState(formData.policy_type_id || policyTypes[0].policy_type_id);
+
+  // console.log('selected:', selected);
+
+  const setSelected = (v: number) => {
+    // console.log('setSel', v);
+    setFormData(f => {
+      f.policy_type_id = v;
+      return {...f}; 
+    });
+    _setSelected(v);
+  }
   
   const onSubmit = () => {
-    setFormData({
-      ...formData,
-      policy_type_id: selected
-    });
-    console.log({
-      ...formData,
-      policy_type_id: selected
-    })
+    // setFormData({
+    //   ...formData,
+    //   policy_type_id: selected
+    // });
+    submit()
+    // console.log({
+    //   ...formData,
+    //   policy_type_id: selected
+    // })
   }
 
   const onBack = () => {

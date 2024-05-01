@@ -26,8 +26,9 @@ export async function createPolicy(
             registration_month,
             vehicle_number,
             vehicle_price,
-            premium_amount
-        ) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
+            premium_amount,
+            status
+        ) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending');`,
         [
             customerId,
             policyTypeId,
