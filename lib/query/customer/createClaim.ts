@@ -1,3 +1,4 @@
+import dbConn from "@/lib/dbConnector";
 export async function createClaim(
     customerId: string,
     policyId: string,
