@@ -22,7 +22,8 @@ export async function GET(req: NextRequest) {
     });
 
     try {
-        const result = await viewCustomer(session.user.uid);
+        const profile = JSON.parse(session.user.name!);
+        const result = await viewCustomer(profile.uid);
 
         return NextResponse.json({
             message: 'success',

@@ -92,8 +92,9 @@ export async function PUT(req: NextRequest) {
             status: 400
         });
 
+        const profile = JSON.parse(session.user.name!);
         const result = await createPolicy(
-            session.user.uid,
+            profile.uid,
             data.policyTypeId,
             data.vehicleManufacturer,
             data.vehicleType,

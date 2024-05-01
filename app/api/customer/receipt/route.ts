@@ -18,7 +18,8 @@ export async function GET(req: NextRequest) {
     }
 
     try {
-        const result = await viewReceipts(session.user.uid);
+        const profile = JSON.parse(session.user.name!);
+        const result = await viewReceipts(profile.uid);
 
         return NextResponse.json({
             message: 'success',
