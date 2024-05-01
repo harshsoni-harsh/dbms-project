@@ -1,6 +1,23 @@
+import dbConn from "@/lib/dbConnector";
+
 export async function createClaimReceipt(
-    claimId: number,
-    createAt: Date,
-    amount: number,
-    txnId: number
-) {}
+  claimId: number,
+  createdAt: Date,
+  amount: number,
+  txnId: number
+) {
+  const conn = await dbConn;
+  await conn.connect();
+
+  const queryStatement = `
+        insert into claim_receipt (claim_id, created_at, amount, txn_id)
+        values (?,?,?,?)
+    `;
+  const result = await conn.query(queryStatement, [
+    claimId,
+    createdAt,
+    amount,
+    txnId,
+  ]);
+  return result;
+}
