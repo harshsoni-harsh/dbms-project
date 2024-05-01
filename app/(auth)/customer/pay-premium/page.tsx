@@ -1,265 +1,97 @@
-"use client";
-import { Progress } from "@/components/ui/progress";
-import React, { useState } from "react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Input } from "@/components/ui/input";
-import Payment from "@/components/forms/Payment";
-import { Check } from "lucide-react";
-import { useRouter } from "next/navigation";
+'use client';
 
-const RenderForms = () => {
-  const [formNo, setFormNo] = useState(1);
-  const [edit, setEdit] = useState(false);
-  const [policies, setPolicies] = useState([
-    {
-      aggrementId: "1qaxcvhi8765r",
-      applicationId: "1234567890",
-      vehicleType: "Two wheeler",
-      policyNum: "1234-5678-3456",
-      vehicleMake: "Nothing",
-      vehicleModel: "Google",
-      vehicleNum: "UI 98 Y 8765",
-      endDate: "2-Jul-2023",
-    },
-    {
-      aggrementId: "9876rdcvbjko9",
-      applicationId: "1234567890",
-      vehicleType: "Four wheeler",
-      policyNum: "2452-5678-3456",
-      vehicleMake: "Micromax",
-      vehicleModel: "GOOD",
-      vehicleNum: "QA 14 E 8765",
-      endDate: "4-May-2026",
-    },
-    {
-      aggrementId: "fghjk8765rtyu",
-      applicationId: "2345678901",
-      vehicleType: "Two wheeler",
-      policyNum: "5678-1234-9012",
-      vehicleMake: "Something",
-      vehicleModel: "Apple",
-      vehicleNum: "ZX 12 R 3456",
-      endDate: "10-Oct-2024",
-    },
-  ]);
-  const [vehicleNumber, setVehicleNumber] = useState(policies[0]?.vehicleNum);
-  const [selectedPolicy, setSelectedPolicy] = useState(policies[0]?.policyNum);
-  const [isPaid, setIsPaid] = useState<boolean>(false);
-  const router = useRouter();
+import { DatePicker } from '@/components/DatePicker';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { usePolicies } from '@/hooks/customer/usePolicies';
+import { useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { toast } from 'sonner';
 
-  const onBack = () => {
-    if (formNo <= 1) return;
-    else setFormNo(formNo - 1);
-  };
+export default function PremiumPage() {
+    const queryClient = useQueryClient();
+    const policies = usePolicies();
+    const [policyId, setPolicyId] = useState<string | undefined>();
+    const [date, setDate] = useState<Date | undefined>();
+    const router = useRouter();
 
-  const onNext = () => {
-    if (formNo >= 4) return;
-    else setFormNo(formNo + 1);
-  };
+    if (!policies.isSuccess || !policies.data) return <></>;
 
-  const selectPolicy = (e: string) => {
-    setSelectedPolicy(e);
-  };
+    const policy = policies.data.find(p => p.policy_id === parseInt(policyId!));
 
-  const updateDetails = () => {
-    setEdit(false);
-    setPolicies(
-      policies.map((policy) =>
-        policy.policyNum === selectedPolicy
-          ? { ...policy, vehicleNum: vehicleNumber }
-          : policy
-      )
-    );
-  };
+    const pay = async () => {
+        if (!policy) return;
 
-  const handleSub = (isValid: boolean) => {
-    setIsPaid(isValid);
-  };
+        try {
+            toast('Processing Payment');
+            const res = await fetch('/api/customer/receipt', {
+                method: 'PUT',
+                body: JSON.stringify({
+                    policyId: policyId,
+                    amount: policy.premium_amount,
+                    txnId: Math.floor(Math.random() * 1e8)
+                })
+            })
+            if(!res.ok) throw res.statusText;
+            const json = res.json();
+            if('error' in json) throw json.error;
 
-  const handleLabelClick = () => {
-    if (isPaid) onNext();
-  };
+            toast('Success');
+            router.push('/customer/view-receipts');
+        } catch (err) {
+            toast('Something went wrong');
+        }
+    }
 
-  switch (formNo) {
-    case 1:
-      return (
-        <>
-          <Progress value={(formNo / 4) * 100} />
-          <div className="w-full flex flex-col items-center gap-3">
-            <Label>Please select a policy</Label>
-            <Select
-              onValueChange={selectPolicy}
-              defaultValue={policies[0]?.policyNum}
-            >
-              <SelectTrigger className="w-[180px]">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {policies.map((policy) => (
-                  <SelectItem key={policy.policyNum} value={policy.policyNum}>
-                    {policy.policyNum}
-                  </SelectItem>
-                ))}
-              </SelectContent>
+    return (
+        <div className='w-full h-full p-4 flex flex-col items-center justify-center gap-4'>
+            <div>Select Policy</div>
+            <Select onValueChange={setPolicyId}>
+                <SelectTrigger className="w-[180px]">
+                    <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                    {policies.data.map((policy) => (
+                        <SelectItem key={policy.policy_id} value={policy.policy_id.toString()}>
+                            {policy.policy_id}
+                        </SelectItem>
+                    ))}
+                </SelectContent>
             </Select>
-          </div>
+            <div className='flex flex-row items-center gap-4'>
+                <Card className='h-full'>
+                    <CardContent className='grid grid-cols-2 gap-x-4 p-6'>
+                        <div className='font-bold text-right'>Id:</div> <div>{policy && policy.policy_id}</div>
+                        <div className='font-bold text-right'>Policy Type:</div> <div>{policy && policy.policy_type_id}</div>
+                        <div className='font-bold text-right'>Premium amount:</div> <div>{policy && policy.premium_amount}</div>
+                        <div className='font-bold text-right'>Registration user:</div> <div>{policy && policy.registration_year}</div>
+                        <div className='font-bold text-right'>Registration month</div> <div>{policy && policy.registration_month}</div>
+                        <div className='font-bold text-right'>Status:</div> <div>{policy && policy.status}</div>
+                        <div className='font-bold text-right'>Vehicle Manufacturer:</div> <div>{policy && policy.vehicle_manufacturer}</div>
+                        <div className='font-bold text-right'>Vehicle Make:</div> <div>{policy && policy.vehicle_make}</div>
+                        <div className='font-bold text-right'>Vehicle number:</div> <div>{policy && policy.vehicle_number}</div>
+                        <div className='font-bold text-right'>Vehicle Price:</div> <div>{policy && policy.vehicle_price}</div>
+                        <div className='font-bold text-right'>Vehicle type:</div> <div>{policy && policy.vehicle_type}</div>
+                    </CardContent>
+                </Card>
+                <div className='flex flex-col items-center gap-4'>
+                    <Card className='flex flex-col gap-4 p-6'>
+                        <Input placeholder='Card Number' />
+                        <Input placeholder='Card Holder Name' />
+                        <Input placeholder='CVV' />
+                        <Input placeholder='Billing Address' />
+                        <div className='flex flex-col gap-2'>
+                            <div>Expiration Date</div>
+                            <DatePicker date={date} setDate={setDate} />
+                        </div>
 
-          <div className="flex justify-between self-end w-full">
-            <Button variant="default" onClick={onBack}>
-              Back
-            </Button>
-            <Button variant="default" onClick={onNext}>
-              Next
-            </Button>
-          </div>
-        </>
-      );
-
-    case 2:
-      return (
-        <>
-          <Progress value={(formNo / 4) * 100} />
-
-          <div className="max-w-full overflow-auto">
-            <Table>
-              <TableCaption>Please review your policy details.</TableCaption>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-[100px]">Policy Number</TableHead>
-                  <TableHead>Agreement ID</TableHead>
-                  <TableHead>Application ID</TableHead>
-                  <TableHead>Vehicle Make</TableHead>
-                  <TableHead>Vehicle Model</TableHead>
-                  <TableHead>Vehicle Type</TableHead>
-                  <TableHead>Vehicle Number</TableHead>
-                  <TableHead className="text-right">End Date</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {policies
-                  .filter((policy) => policy.policyNum === selectedPolicy)
-                  .map((policy) => (
-                    <TableRow key={policy.policyNum}>
-                      <TableCell>{policy.policyNum}</TableCell>
-                      <TableCell>{policy.aggrementId}</TableCell>
-                      <TableCell>{policy.applicationId}</TableCell>
-                      <TableCell>{policy.vehicleMake}</TableCell>
-                      <TableCell>{policy.vehicleModel}</TableCell>
-                      <TableCell>{policy.vehicleType}</TableCell>
-                      <TableCell>
-                        {!edit ? (
-                          policy.vehicleNum
-                        ) : (
-                          <Input
-                            onChange={(e) => setVehicleNumber(e.target.value)}
-                            className="bg-zinc-800"
-                            name={policy.policyNum}
-                            defaultValue={policy.vehicleNum}
-                          />
-                        )}
-                      </TableCell>
-                      <TableCell>{policy.endDate}</TableCell>
-                    </TableRow>
-                  ))}
-              </TableBody>
-            </Table>
-          </div>
-
-          <div className="flex justify-between w-full">
-            <Button variant="default" onClick={onBack}>
-              Back
-            </Button>
-            {!edit ? (
-              <Button
-                variant="outline"
-                className="min-w-18"
-                onClick={() => setEdit(true)}
-              >
-                Edit
-              </Button>
-            ) : (
-              <Button
-                variant="outline"
-                className="min-w-18"
-                onClick={updateDetails}
-              >
-                Done
-              </Button>
-            )}
-            <Button variant="default" onClick={onNext}>
-              Next
-            </Button>
-          </div>
-        </>
-      );
-
-    case 3:
-      return (
-        <>
-          <Progress value={(formNo / 4) * 100} />
-
-          <Payment id="cardForm" onSub={handleSub} />
-
-          <div className="flex justify-between w-full">
-            <Button variant="default" onClick={onBack}>
-              Back
-            </Button>
-
-            <label
-              className="min-w-18 bg-zinc-100 text-zinc-800 p-2 px-4 rounded-md"
-              htmlFor="cardForm"
-              onClick={handleLabelClick}
-            >
-              Submit and Pay
-            </label>
-          </div>
-        </>
-      );
-
-    case 4:
-      return (
-        <>
-          <Progress value={(formNo / 4) * 100} />
-
-          <div className="flex flex-col gap-3 justify-center items-center">
-            <Check height={400} width={400} />
-            <Label style={{ fontSize: "40px" }}>Payment successful!</Label>
-          </div>
-
-          <div className="flex justify-center w-full">
-            <Button
-              variant="default"
-              onClick={() => router.push(`/customer`)}
-            >
-              Go Home
-            </Button>
-          </div>
-        </>
-      );
-  }
-};
-
-export default function Page() {
-  return (
-    <div className="max-w-3/5 p-8 h-full w-full flex flex-col justify-between items-center gap-3">
-      {RenderForms()}
-    </div>
-  );
+                        <Button onClick={pay}>Pay</Button>
+                    </Card>
+                </div>
+            </div>
+        </div>
+    )
 }
