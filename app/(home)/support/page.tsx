@@ -6,7 +6,7 @@ const Supportpage = () => {
     <div className='grid justify-center align-middle grid-rows-2 h-full gap-32 bg-gradient-to-br from-blue-gray-800 via-blue-gray-900 to-black bg-opacity-70'>      
       <div className='grid grid-cols-2 mt-[32px] h-full gap-4  ' >
         <div className='relative h-full w-full rounded-lg'>
-        <Image src="images/support.svg" className="h-[350px]" alt="support image"/>
+        <Image src="images/support.svg" className="h-[350px]" alt="support image" width={350} height={350}/>
         </div>
         <div className='text-center text-3xl pt-16 align-text-bottom h-full bg-gradient-to-br from-gray-800 via-gray-900 to-black bg-opacity-50 rounded-lg'>
           Need Help? <br></br><br></br><br></br>Reach out to us 24/7 
