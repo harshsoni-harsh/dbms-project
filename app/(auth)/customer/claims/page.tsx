@@ -13,7 +13,7 @@ import Link from "next/link";
 export default function Page({ params }: any) {
   const claimsQuery = useClaims();
 
-  if(!claimsQuery.isSuccess || !claimsQuery.data) return <></>;
+  if (!claimsQuery.isSuccess || !claimsQuery.data) return <></>;
 
   return (
     <div className="p-4 flex flex-col gap-6 overflow-auto w-full">
@@ -28,30 +28,24 @@ export default function Page({ params }: any) {
       </div>
       <div className="flex gap-4 flex-wrap w-full">
         {claimsQuery.data.map((claim) => (
-          <Link
-            key={claim.claim_id}
-            href={`/customer/claim/${claim.claim_id}`}
-            className="w-72 max-sm:w-full"
-          >
-            <Card className="border-2 bg-zinc-900">
-              <CardHeader>
-                <CardTitle>
-                  <p>{claim.claim_id}</p>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-xs space-y-2">
-                  <div className="flex flex-col justify-between gap-2 flex-wrap">
-                    <p>Claim amount: {claim.claim_amount}</p>
-                    <p>Created at: {claim.created_at}</p>
-                    <p>Incident Id: {claim.incident_id}</p>
-                    <p>Policy Id: {claim.policy_id}</p>
-                    <p>Status: {claim.status}</p>
-                  </div>
+          <Card key={claim.claim_id} className="border-2 bg-zinc-900">
+            <CardHeader>
+              <CardTitle>
+                <p>{claim.claim_id}</p>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-xs space-y-2">
+                <div className="flex flex-col justify-between gap-2 flex-wrap">
+                  <p>Claim amount: {claim.claim_amount}</p>
+                  <p>Created at: {claim.created_at}</p>
+                  <p>Incident Id: {claim.incident_id}</p>
+                  <p>Policy Id: {claim.policy_id}</p>
+                  <p>Status: {claim.status}</p>
                 </div>
-              </CardContent>
-            </Card>
-          </Link>
+              </div>
+            </CardContent>
+          </Card>
         ))}
       </div>
     </div>
