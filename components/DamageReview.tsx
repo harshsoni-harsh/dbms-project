@@ -28,12 +28,12 @@ const DamageReview = ({ props, onAccept, onReject }: Props) => {
           <Separator className="col-span-2" />
         </div>
         <DialogClose
-          className="flex items-center justify-center text-background rounded-md text-sm font-medium  bg-foreground disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 hover:bg-green-500"
+          className="flex items-center justify-center text-background rounded-md text-sm font-medium bg-foreground h-10 px-4 py-2"
           onClick={onAccept}>
           Accept
         </DialogClose>
         <DialogClose
-          className="flex items-center  justify-center text-background rounded-md text-sm font-medium  bg-foreground disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 hover:bg-red-500"
+          className="flex items-center  justify-center text-background rounded-md text-sm font-medium bg-foreground h-10 px-4 py-2 hover:bg-destructive"
           onClick={onReject}>
           Reject
         </DialogClose>
