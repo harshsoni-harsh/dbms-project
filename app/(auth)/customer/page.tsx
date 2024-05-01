@@ -5,6 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { useQuery } from '@tanstack/react-query';
 import Link from "next/link";
 
 const data = {

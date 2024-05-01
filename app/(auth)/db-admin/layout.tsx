@@ -11,7 +11,7 @@ export default async function RootLayout({
   if(!session || !session.user) redirect('/login');
   // @ts-expect-error wonky code
   session.user = JSON.parse(session.user.name);
-  if(session!.user!.role !== 'db-admin') redirect(`/${session!.user!.role}`);
+  if(session!.user!.role !== 'dbadmin') redirect(`/${session!.user!.role}`);
   return (
     <>
       <div className="shrink-0 w-64 max-md:hidden"></div>
