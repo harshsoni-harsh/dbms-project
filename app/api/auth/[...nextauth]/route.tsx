@@ -24,20 +24,20 @@ const authOptions: NextAuthOptions = {
         const conn = await dbConn;
         await conn.connect();
         const [results, fields] = (await conn.query(
-          `select * from USER where email = '${credentials.email}'`
+          `select * from user where email = '${credentials.email}'`
         )) as [RowDataPacket[], FieldPacket[]];
-        
+
         if (!results) return null;
-        
+
         const user = results[0] as RowDataPacket & { id: string; role: string };
         user.id = user.uid.toString();
         user.name = JSON.stringify(user);
-        
+
         const hash = user.pwd_hash;
         delete user.pwd_hash;
         delete user.name;
         user.name = JSON.stringify(user);
-        
+
         if (compareSync(credentials.password, hash)) return user;
         return null;
       },
