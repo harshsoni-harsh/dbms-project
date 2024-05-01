@@ -23,7 +23,6 @@ CREATE TABLE customer (
     pan_no CHAR(10),
     FOREIGN KEY customer(customer_id) REFERENCES user(uid)
 );
-DROP table customer;
 
 CREATE TABLE staff (
     staff_id INT PRIMARY KEY,
@@ -121,5 +120,3 @@ INSERT INTO staff VALUES
 (1, 'dbadmin', 'Pata', 'Nahi', '4564564560', 'dbadmin@gmail.com', 'M'),
 (2, 'inspector', 'Big', 'Smoke', '1231231230', 'inspector@gmail.com', 'M'),
 (3, 'manager', 'Tommy', 'Vercetti', '9879879870', 'manager@gmail.com', 'M');
-
-DESCRIBE claim;
