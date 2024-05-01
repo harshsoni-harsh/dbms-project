@@ -40,14 +40,15 @@ export async function PUT(req: NextRequest) {
     }
 
     try {
+        const profile = JSON.parse(session.user.name!);
         const data = parseResult.data;
         const resultIncident = await createIncidentReport(data.damageType, data.damageDescription)
         const result = await createClaim(
-            session.user.uid,
+            profile.uid,
             data.policyId,
             data.claimAmount,
             // @ts-expect-error it exists (probably)
-            resultIncident.data.insertId,
+            resultIncident.insertId,
             new Date()
         );
 
@@ -78,7 +79,8 @@ export async function GET(req: NextRequest) {
     }
 
     try {
-        const result = await viewClaims(session.user.uid);
+        const profile = JSON.parse(session.user.name!);
+        const result = await viewClaims(profile.uid);
 
         return NextResponse.json({
             message: 'success',

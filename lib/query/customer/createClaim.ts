@@ -11,7 +11,7 @@ export async function createClaim(
 
     const [results] = await conn.query(
         `insert into claim(customer_id, policy_id,claim_amount,incident_id,created_at,status) values (?,?,?,?,?,'pending')`,
-        [customerId, claimAmount, policyId, incidentId, createdAt]
+        [customerId, policyId, claimAmount, incidentId, createdAt]
     );
     return results;
 }

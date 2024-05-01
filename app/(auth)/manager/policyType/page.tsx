@@ -39,9 +39,9 @@ export default function ManagerPolicyTypesPage() {
 
     const queryClient = useQueryClient();
     const policyTypes = useQuery({
-        queryKey: ['manager/policies'],
+        queryKey: ['manager/policyType'],
         queryFn: async () => {
-            const res = await fetch('/api/util/policyTypes');
+            const res = await fetch('/api/util/policyType');
             if (!res.ok) throw res.statusText;
             const json = await res.json();
             if ('error' in json) throw json.error;
@@ -61,13 +61,12 @@ export default function ManagerPolicyTypesPage() {
             if (!res.ok) throw res.statusText;
             const json = await res.json();
             if ('error' in json) throw json.error;
-
-            queryClient.invalidateQueries({
-                queryKey: ['manager/policies']
-            });
+        },
+        onSuccess: () => {
+            toast('Success');
+            queryClient.invalidateQueries({ queryKey: ['manager/policyType'] });
         },
         onError: (e) => toast(`${e}`),
-        onSuccess: () => toast('Success')
     });
 
     const updateMutation = useMutation({
@@ -80,13 +79,12 @@ export default function ManagerPolicyTypesPage() {
             if (!res.ok) throw res.statusText;
             const json = await res.json();
             if ('error' in json) throw json.error;
-
-            queryClient.invalidateQueries({
-                queryKey: ['manager/policies']
-            });
+        },
+        onSuccess: () => {
+            toast('Success');
+            queryClient.invalidateQueries({ queryKey: ['manager/policyType'] });
         },
         onError: (e) => toast(`${e}`),
-        onSuccess: () => toast('Success')
     })
 
     const createMutation = useMutation({
@@ -99,13 +97,12 @@ export default function ManagerPolicyTypesPage() {
             if (!res.ok) throw res.statusText;
             const json = await res.json();
             if ('error' in json) throw json.error;
-
-            queryClient.invalidateQueries({
-                queryKey: ['manager/policies']
-            });
+        },
+        onSuccess: () => {
+            toast('Success');
+            queryClient.invalidateQueries({ queryKey: ['manager/policyType'] });
         },
         onError: (e) => toast(`${e}`),
-        onSuccess: () => toast('Success')
     })
 
     if (!policyTypes.isSuccess || !policyTypes.data) return <div></div>;

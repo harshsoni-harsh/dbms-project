@@ -15,7 +15,19 @@ export async function createPolicy(
     await conn.connect();
 
     const [results]= await conn.query(
-        `insert into policy(customer_id,policy_type,vehicle_number,vehicle_type,vehicle_make,registration_year,registration_month,vehicle_number,vehicle_price,premium_amount) values (?,?,?,?,?,?,?,?,?);`,
+        // `insert into policy(customer_id,policy_type_id,vehicle_number,vehicle_type,vehicle_make,registration_year,registration_month,vehicle_number,vehicle_price,premium_amount) values (?,?,?,?,?,?,?,?,?);`,
+        `insert into policy(
+            customer_id,
+            policy_type_id,
+            vehicle_manufacturer,
+            vehicle_type,
+            vehicle_make,
+            registration_year,
+            registration_month,
+            vehicle_number,
+            vehicle_price,
+            premium_amount
+        ) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
         [
             customerId,
             policyTypeId,
@@ -26,7 +38,7 @@ export async function createPolicy(
             registrationMonth,
             vehicleNumber,
             vehiclePrice,
-            premiumAmount,
+            premiumAmount
         ]
     );
     return results;

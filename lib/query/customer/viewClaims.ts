@@ -7,7 +7,7 @@ export async function viewClaims(customerId: number) {
   const queryStatement = `
     select *
     from claim
-        left JOIN claim_receipt on claim.claim_id = claim_receipt.claim_id
+        natural left JOIN claim_receipt
     where
         claim.customer_id = ?;
   `;
