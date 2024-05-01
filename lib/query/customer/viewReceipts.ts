@@ -11,6 +11,6 @@ export async function viewReceipts(customerId: string) {
     premium_receipt.policy_id = policy.policy_id;
   `;
 
-    const [res] = await conn.query(queryStatement, [customerId]);
-    return res;
+    const [results] = await conn.query(queryStatement, [customerId]);
+    return results;
 }

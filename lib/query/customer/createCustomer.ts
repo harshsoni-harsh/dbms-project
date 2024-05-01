@@ -14,10 +14,10 @@ export async function createCustomer(
     const conn = await dbConn;
     await conn.connect();
 
-    const result = await conn.query(
+    const [results] = await conn.query(
         `insert into customer( customer_id ,first_name, last_name,email, phone_no, gender, pan_no) values (?,?,?,?,?,?,?)`,
         [customerId, firstName, lastName, email, phoneNo, gender, panNo]
     );
 
-    return result;
+    return results;
 }

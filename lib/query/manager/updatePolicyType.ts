@@ -25,6 +25,6 @@ export async function updatePolicyType(
   }
   query += " WHERE policy_type_id = ?";
 
-  const result = conn.query(query, [...updateValues, policyTypeId]);
-  return result;
+  const [results] = await conn.query(query, [...updateValues, policyTypeId]);
+  return results;
 }

@@ -7,7 +7,7 @@ export async function updateIncidentReport(
     const conn = await dbConn;
     await conn.connect();
 
-    const [result] = await conn.query(
+    const [results] = await conn.query(
         `
         UPDATE incident_report
         SET status = ?
@@ -17,5 +17,5 @@ export async function updateIncidentReport(
     );
 
     // @ts-expect-error cant narrow it
-    return result.affectedRows > 0;
+    return results.affectedRows > 0;
 }

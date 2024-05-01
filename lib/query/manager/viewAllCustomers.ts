@@ -8,6 +8,6 @@ export async function viewAllCustomers() {
     select * from customer;
   `;
 
-  const [res] = await conn.query(queryStatement);
-  return res;
+  const [results] = await conn.query(queryStatement);
+  return results;
 }
