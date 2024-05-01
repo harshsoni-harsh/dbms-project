@@ -1,5 +1,6 @@
 import { createClaim } from '@/lib/query/customer/createClaim';
 import { createIncidentReport } from '@/lib/query/customer/createIncidentReport';
+import { viewClaims } from '@/lib/query/customer/viewClaims';
 import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
@@ -15,53 +16,82 @@ const putBodySchema = z.object({
 });
 
 export async function PUT(req: NextRequest) {
-    // const session = await getServerSession();
-    // if (!session || !session.user) {
-    //     return NextResponse.json(
-    //         {
-    //             error: "Not signed in",
-    //         },
-    //         {
-    //             status: 403,
-    //         }
-    //     );
-    // }
+    const session = await getServerSession();
+    if (!session || !session.user) {
+        return NextResponse.json(
+            {
+                error: "Not signed in",
+            },
+            {
+                status: 403,
+            }
+        );
+    }
 
-    // const body = await req.json();
-    // const parseResult = putBodySchema.safeParse(body);
+    const body = await req.json();
+    const parseResult = putBodySchema.safeParse(body);
 
-    // if (!parseResult.success) {
-    //     return NextResponse.json({
-    //         error: 'Invalid body: ' + parseResult.error.message
-    //     }, {
-    //         status: 400
-    //     });
-    // }
+    if (!parseResult.success) {
+        return NextResponse.json({
+            error: 'Invalid body: ' + parseResult.error.message
+        }, {
+            status: 400
+        });
+    }
 
-    // try {
-    //     const data = parseResult.data;
-    //     // @ts-expect-error it exists
-    //     const r1 = await createIncidentReport(data.damageType, data.damageDescription)
-    //     const result = await createClaim(
-    //         session.user.uid,
-    //         data.policyId,
-    //         data.claimAmount,
-    //         data.
-    //     )
+    try {
+        const data = parseResult.data;
+        const resultIncident = await createIncidentReport(data.damageType, data.damageDescription)
+        const result = await createClaim(
+            // @ts-expect-error it exists
+            session.user.uid,
+            data.policyId,
+            data.claimAmount,
+            // @ts-expect-error it exists (probably)
+            resultIncident.data.insertId,
+            new Date()
+        );
 
-    //     return NextResponse.json({
-    //         message: 'success',
-    //         data: result
-    //     });
-    // } catch (err) {
-    //     return NextResponse.json({
-    //         error: err
-    //     }, {
-    //         status: 500
-    //     });
-    // }
+        return NextResponse.json({
+            message: 'success',
+            data: result
+        });
+    } catch (err) {
+        return NextResponse.json({
+            error: err
+        }, {
+            status: 500
+        });
+    }
 }
 
-export function GET(req: NextRequest) {
+export async function GET(req: NextRequest) {
+    const session = await getServerSession();
+    if (!session || !session.user) {
+        return NextResponse.json(
+            {
+                error: "Not signed in",
+            },
+            {
+                status: 403,
+            }
+        );
+    }
 
+    try {
+        // @ts-expect-error it exists
+        const result = await viewClaims(session.user.uid);
+
+        return NextResponse.json({
+            message: 'success',
+            data: result
+        });
+    } catch (err) {
+        return NextResponse.json({
+            error: err
+        }, {
+            status: 500
+        });
+    }
 }
+
