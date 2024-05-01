@@ -11,9 +11,9 @@ export async function createUser(
 
   const hashedPassword = hashSync(password, 10);
 
-  const result = await conn.query(
+  const [results] = await conn.query(
     `insert into user(email, pwd_hash, created_at,role) values (?, ?, now(), ?);`,
     [email, hashedPassword, role]
   );
-  return result;
+  return results;
 }
