@@ -10,69 +10,6 @@ import { Textarea } from '@/components/ui/textarea';
 import { DialogClose } from '@radix-ui/react-dialog';
 import { toast } from 'sonner';
 
-const incident_report: Db.IncidentReport[] = [
-  {
-    "incident_id": 1,
-    "damage_type": "Scratch",
-    "damage_description": "Small scratch on the car door",
-    "status": "pending"
-  },
-  {
-    "incident_id": 2,
-    "damage_type": "Dent",
-    "damage_description": "Dent on the car fender",
-    "status": "pending"
-  },
-  {
-    "incident_id": 3,
-    "damage_type": "Broken Glass",
-    "damage_description": "Broken rear window",
-    "status": "pending"
-  },
-  {
-    "incident_id": 4,
-    "damage_type": "Accident",
-    "damage_description": "Rear-end collision",
-    "status": "pending"
-  },
-  {
-    "incident_id": 5,
-    "damage_type": "Theft",
-    "damage_description": "Stolen car",
-    "status": "pending"
-  },
-  {
-    "incident_id": 6,
-    "damage_type": "Scratch",
-    "damage_description": "Small scratch on the car door",
-    "status": "pending"
-  },
-  {
-    "incident_id": 7,
-    "damage_type": "Dent",
-    "damage_description": "Dent on the car fender",
-    "status": "pending"
-  },
-  {
-    "incident_id": 8,
-    "damage_type": "Broken Glass",
-    "damage_description": "Broken rear window",
-    "status": "pending"
-  },
-  {
-    "incident_id": 9,
-    "damage_type": "Accident",
-    "damage_description": "Rear-end collision",
-    "status": "pending"
-  },
-  {
-    "incident_id": 10,
-    "damage_type": "Theft",
-    "damage_description": "Stolen car",
-    "status": "pending"
-  }
-]
-
 const DamageInspector = () => {
   const queryClient = useQueryClient();
   const incidentQuery = useQuery({
