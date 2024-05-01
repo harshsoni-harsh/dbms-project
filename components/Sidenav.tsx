@@ -235,19 +235,15 @@ export default function Sidenav() {
         <Popover>
           <PopoverTrigger>
             <div className="p-2 flex items-center">
-              <Avatar>
-                <AvatarImage src="https://github.com/shadcn.png" />
-                <AvatarFallback>CN</AvatarFallback>
-              </Avatar>
-              <div className="grow px-4 flex justify-between">
-                <p className="truncate">{session?.user?.name}</p>
+                <div className="grow px-4 flex justify-between">
+                <p className="truncate">{session?.user?.email}</p>
                 <ChevronRight />
               </div>
             </div>
           </PopoverTrigger>
           <PopoverContent asChild side="right" sideOffset={0}>
             <div className="w-full p-0 mb-2 bg-transparent border-0">
-              <Link href={`/${pathname.split("/")[1]}/profile`}>
+              <Link href={`/${session?.user?.role}/profile`}>
                 <Button className="w-full rounded-b-none flex gap-2 items-center justify-start bg-zinc-300 hover:bg-zinc-400 text-zinc-800">
                   <UserRound className="h-4" />
                   <p>Profile</p>
