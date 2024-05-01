@@ -1,10 +1,10 @@
 import dbConn from "@/lib/dbConnector";
 
 export async function viewClaims(customerId: number) {
-  const conn = await dbConn;
-  await conn.connect();
+    const conn = await dbConn;
+    await conn.connect();
 
-  const queryStatement = `
+    const queryStatement = `
     select claim.*, 
     case 
       when claim.status = 'accepted' 
@@ -14,6 +14,6 @@ export async function viewClaims(customerId: number) {
     where claim.customer_id = ? and claim.claim_id = claim_receipt.claim_id;
   `;
 
-  const [res] = await conn.query(queryStatement, [customerId]);
-  return res;
+    const [results] = await conn.query(queryStatement, [customerId]);
+    return results;
 }

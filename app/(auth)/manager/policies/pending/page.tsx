@@ -1,12 +1,13 @@
 'use client';
 
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type * as Db from '@/types/dbSchema';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 
 export default function ManagerPendingPoliciesPage() {
+    const queryClient = useQueryClient();
     const policiesQuery = useQuery({
         queryKey: ['manager/policies/pending'],
         queryFn: async () => {
@@ -30,27 +31,15 @@ export default function ManagerPendingPoliciesPage() {
             });
             if (!res.ok) throw res.statusText;
         },
-        onSuccess: () => toast('Success'),
+        onSuccess: () => {
+            toast('Success');
+            queryClient.invalidateQueries({ queryKey: ['manager/policies'] });
+            queryClient.invalidateQueries({ queryKey: ['manager/policies/pending'] });
+        },
         onError: (err) => toast('Error ' + err)
     });
 
     if (!policiesQuery.isSuccess || !policiesQuery.data) return <div></div>;
-
-    const data: Db.Policy[] = [
-        {
-            policy_id: 1,
-            customer_id: 4,
-            policy_type_id: 2,
-            premium_amount: 100,
-            registration_month: 3,
-            registration_year: 2010,
-            status: 'pending',
-            vehicle_make: 'Diesel',
-            vehicle_manufacturer: 'Honda',
-            vehicle_number: 'abcd1234',
-            vehicle_type: 'Car'
-        }
-    ];
 
     return (
         <div className='p-4'>
@@ -70,7 +59,7 @@ export default function ManagerPendingPoliciesPage() {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {data.map(policy => (
+                    {policiesQuery.data.map(policy => (
                         <TableRow key={policy.policy_id}>
                             <TableCell className="font-medium">{policy.policy_id}</TableCell>
                             <TableCell>{policy.customer_id}</TableCell>
@@ -93,7 +82,7 @@ export default function ManagerPendingPoliciesPage() {
                                     disabled={updatePolicy.isPending}
                                     variant='destructive' 
                                     className='w-1/2'
-                                    onClick={() => updatePolicy.mutate({ status: 'reject', policyId: policy.policy_id })}
+                                    onClick={() => updatePolicy.mutate({ status: 'rejected', policyId: policy.policy_id })}
                                 >
                                     Reject
                                 </Button>

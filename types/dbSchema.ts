@@ -47,6 +47,7 @@ export type Policy = {
     registration_month: number
     vehicle_number: string
     premium_amount: number
+    vehicle_price: number
     status: string
 };
 
