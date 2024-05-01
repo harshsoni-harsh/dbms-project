@@ -24,7 +24,7 @@ const authOptions: NextAuthOptions = {
         const conn = await dbConn;
         await conn.connect();
         const [results, fields] = (await conn.query(
-          `select * from USER where email = '${credentials.email}'`
+          `select * from user where email = '${credentials.email}'`
         )) as [RowDataPacket[], FieldPacket[]];
         
         if (!results) return null;

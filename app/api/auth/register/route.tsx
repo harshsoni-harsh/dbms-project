@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
   await conn.connect();
 
   let [results, fields] = (await conn.query(
-    `select * from USER where email is not null and email =  '${body.email}' `
+    `select * from user where email is not null and email =  '${body.email}' `
   )) as [RowDataPacket[], FieldPacket[]];
   if (results && results[0])
     return NextResponse.json({ error: "user already exists" }, { status: 401 });
@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
       [body.email, hashedPassword]
     );
     [results] = (await conn.query(
-      `select * from USER where email is not null and email = ?`,
+      `select * from user where email is not null and email = ?`,
       [body.email]
     )) as [RowDataPacket[], FieldPacket[]];
     const user = results[0] as RowDataPacket & User;
