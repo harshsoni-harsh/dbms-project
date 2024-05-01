@@ -48,7 +48,7 @@ CREATE TABLE policy_type (
     renew_duration INT,
     title VARCHAR(255) NOT NULL DEFAULT(""),
     description TEXT DEFAULT(""),
-    coverage NUMERIC(2,2)
+    coverage NUMERIC(4,2)
 );
  
 CREATE TABLE policy (
