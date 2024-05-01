@@ -29,7 +29,7 @@ const authOptions: NextAuthOptions = {
 
         if (!results) return null;
 
-        const user = results[0] as RowDataPacket & { id: string; role: string };
+        const user = results[0] as RowDataPacket & { id: string; role: string; uid: number };
         user.id = user.uid.toString();
         user.name = JSON.stringify(user);
 

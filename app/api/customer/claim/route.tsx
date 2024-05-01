@@ -43,7 +43,6 @@ export async function PUT(req: NextRequest) {
         const data = parseResult.data;
         const resultIncident = await createIncidentReport(data.damageType, data.damageDescription)
         const result = await createClaim(
-            // @ts-expect-error it exists
             session.user.uid,
             data.policyId,
             data.claimAmount,
@@ -79,7 +78,6 @@ export async function GET(req: NextRequest) {
     }
 
     try {
-        // @ts-expect-error it exists
         const result = await viewClaims(session.user.uid);
 
         return NextResponse.json({

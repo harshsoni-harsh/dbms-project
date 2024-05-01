@@ -24,6 +24,11 @@ import {
   BookText,
   CirclePlus,
   IndianRupee,
+  NotebookPen,
+  Users,
+  NotebookTabs,
+  BookType,
+  PersonStanding,
 } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
@@ -144,43 +149,43 @@ const managerLinksList: LinksList = [
     link: '/manager/claims',
     id: uuid(),
     displayText: 'All claims',
-    icon: <></>
+    icon: <BookText className="h-4" />,
   },
   {
     link: '/manager/claims/pending',
     id: uuid(),
     displayText: 'Review pending claims',
-    icon: <></>,
+    icon: <NotebookPen className="h-4" />,
   },
   {
     link: '/manager/customers',
     id: uuid(),
     displayText: 'All customers',
-    icon: <></>,
+    icon: <Users className="h-4" />,
   },
   {
     link: '/manager/policies',
     id: uuid(),
     displayText: 'All policies',
-    icon: <></>,
+    icon: <NotebookTabs className="h-4" />,
   },
   {
     link: '/manager/policies/pending',
     id: uuid(),
     displayText: 'Review pending policies',
-    icon: <></>,
+    icon: <NotebookPen className="h-4" />,
   },
   {
     link: '/manager/policyType',
     id: uuid(),
     displayText: 'All policy types',
-    icon: <></>,
+    icon: <BookType className="h-4" />,
   },
   {
     link: '/manager/staff',
     id: uuid(),
     displayText: 'View all staff',
-    icon: <></>,
+    icon: <PersonStanding className="h-4" />,
   },
 ];
 

@@ -1,6 +1,4 @@
 import dbConn from "@/lib/dbConnector";
-import { FieldPacket, RowDataPacket } from "mysql2";
-import { resourceLimits } from "worker_threads";
 
 export async function createCustomer(
     customerId: number,

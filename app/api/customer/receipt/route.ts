@@ -18,7 +18,6 @@ export async function GET(req: NextRequest) {
     }
 
     try {
-        // @ts-expect-error it exists
         const result = await viewReceipts(session.user.uid);
 
         return NextResponse.json({
