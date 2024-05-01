@@ -11,5 +11,4 @@ export async function viewAllPendingClaims() {
   `;
   const [res] = await conn.query(queryStatement);
   return res;
-
 }

@@ -12,5 +12,4 @@ export async function viewAllPendingPolicies() {
 
   const [res] = await conn.query(queryStatement);
   return res;
-
 }

@@ -143,55 +143,37 @@ const managerLinksList: LinksList = [
   {
     link: '/manager/claims',
     id: uuid(),
-    displayText: 'View all claims',
+    displayText: 'All claims',
     icon: <></>
   },
   {
     link: '/manager/claims/pending',
     id: uuid(),
-    displayText: 'View pending claims',
+    displayText: 'Review pending claims',
     icon: <></>,
   },
   {
     link: '/manager/customers',
     id: uuid(),
-    displayText: 'View all customers',
+    displayText: 'All customers',
     icon: <></>,
   },
   {
     link: '/manager/policies',
     id: uuid(),
-    displayText: 'View all policies',
+    displayText: 'All policies',
     icon: <></>,
   },
   {
     link: '/manager/policies/pending',
     id: uuid(),
-    displayText: 'View pending policies',
+    displayText: 'Review pending policies',
     icon: <></>,
   },
   {
     link: '/manager/policyType',
     id: uuid(),
-    displayText: 'View all policy types',
-    icon: <></>,
-  },
-  {
-    link: '/manager/policyType/create',
-    id: uuid(),
-    displayText: 'Create policy type',
-    icon: <></>,
-  },
-  {
-    link: '/manager/policyType/update',
-    id: uuid(),
-    displayText: 'Update policy type',
-    icon: <></>,
-  },
-  {
-    link: '/manager/policyType/delte',
-    id: uuid(),
-    displayText: 'Delete policy type',
+    displayText: 'All policy types',
     icon: <></>,
   },
   {

@@ -48,7 +48,8 @@ export default function ManagerPendingPoliciesPage() {
             vehicle_make: 'Diesel',
             vehicle_manufacturer: 'Honda',
             vehicle_number: 'abcd1234',
-            vehicle_type: 'Car'
+            vehicle_type: 'Car',
+            vehicle_price: 0
         }
     ];
 
