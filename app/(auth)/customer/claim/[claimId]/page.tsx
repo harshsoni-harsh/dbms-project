@@ -1,36 +1,14 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useClaims } from '@/hooks/customer/useClaims';
 
-const Page = ({ params }: { params: { claimId: string } }) => {
-  const claims = [
-    {
-      claimId: "CLM-001",
-      agreementId: "AGR-123",
-      claimAmount: 500,
-      damageType: "Vehicle Collision",
-      dateOfClaim: "2024-04-05",
-      claimStatus: "Pending",
-    },
-    {
-      claimId: "CLM-002",
-      agreementId: "AGR-124",
-      claimAmount: 1000,
-      damageType: "Property Damage",
-      dateOfClaim: "2024-04-08",
-      claimStatus: "Approved",
-    },
-    {
-      claimId: "CLM-003",
-      agreementId: "AGR-125",
-      claimAmount: 750,
-      damageType: "Theft",
-      dateOfClaim: "2024-04-10",
-      claimStatus: "Rejected",
-    },
-  ];
+const Page = ({ params }: { params: { claimId: number } }) => {
+  const claimsQuery = useClaims();
 
-  const currClaim = claims.find((claim) => claim.claimId === params.claimId);
+  if(!claimsQuery.isSuccess || !claimsQuery.data) return <></>;
+
+  const claim = claimsQuery.data.find(v => v.claim_id === params.claimId)!;
 
   return (
     <div className="overflow-auto flex flex-col items-center justify-center w-full h-full p-4">
@@ -40,22 +18,22 @@ const Page = ({ params }: { params: { claimId: string } }) => {
         </CardHeader>
         <CardContent className="grid grid-cols-1 lg:grid-cols-2 place-items-center gap-4 p-6 w-full">
           <p className="border-2 rounded-lg p-2 w-full">
-            claim ID: {currClaim?.claimId}
+            Claim Id: {claim.claim_id}
           </p>
           <p className="border-2 rounded-lg p-2 w-full">
-            Agreement ID: {currClaim?.agreementId}
+            Claim amount: {claim.claim_amount}
           </p>
           <p className="border-2 rounded-lg p-2 w-full">
-            Damage Type: {currClaim?.damageType}
+            Created at: {claim.created_at}
           </p>
           <p className="border-2 rounded-lg p-2 w-full">
-            Date Of Claim: {currClaim?.dateOfClaim}
+            Incident Id: {claim.incident_id}
           </p>
           <p className="border-2 rounded-lg p-2 w-full">
-            Claim Amount: {currClaim?.claimAmount}
+            Policy Id: {claim.policy_id}
           </p>
           <p className="border-2 rounded-lg p-2 w-full">
-            Claim Status: {currClaim?.claimStatus}
+            Claim Status: {claim.status}
           </p>
         </CardContent>
       </Card>

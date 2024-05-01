@@ -7,7 +7,7 @@ export async function createIncidentReport(
     await conn.connect();
 
     const [results] = await conn.query(
-        `insert into incident_report(damage_type,damage_description) values (?,?,'pending')`,
+        `insert into incident_report(damage_type, damage_description, status) values ( ? , ? , 'pending' )`,
         [damageType, damageDescription]
     );
     return results;
