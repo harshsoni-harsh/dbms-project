@@ -9,8 +9,9 @@ import {
 } from "@/components/ui/table"
 import DamageReview from "@/components/DamageReview"
 import { useState } from "react"
+import type * as Db from '@/types/dbSchema';
 
-const incident_report = [
+const incident_report: Db.IncidentReport[] = [
   {
     "incident_id": 1,
     "damage_type": "Scratch",
@@ -123,7 +124,7 @@ const DamageInspector = () => {
                     onAccept={() =>
                       onAccept(data.incident_id)
                     }
-                    props={JSON.stringify(data)}
+                    incident={data}
                   />
                 </TableCell>
               </TableRow>

@@ -1,42 +1,36 @@
-import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
-import { Separator } from "./ui/separator";
+import { Button } from './ui/button';
+import { Dialog, DialogClose, DialogContent, DialogFooter, DialogTrigger } from "./ui/dialog";
+import { Input } from './ui/input';
+import { Textarea } from './ui/textarea';
+import type * as Db from '@/types/dbSchema';
 
 interface Props {
-  props: string,
-  onAccept: () => void,
-  onReject: () => void,
+  incident: Db.IncidentReport,
+  onAccept: () => unknown,
+  onReject: () => unknown,
 }
-const DamageReview = ({ props, onAccept, onReject }: Props) => {
-  const data = JSON.parse(props)
+const DamageReview = ({ incident, onAccept, onReject }: Props) => {
   return (
     <Dialog>
-      <DialogTrigger className="border rounded-lg p-2 bg-accent hover:bg-foreground hover:text-background  hover:border-background">
-        Review
+      <DialogTrigger asChild>
+        <Button>Review</Button>
       </DialogTrigger>
       <DialogContent>
-        <DialogHeader >
-          <DialogTitle className="text-center text-xl mb-4">{"Incident ID " + data.incident_id}</DialogTitle>
-        </DialogHeader>
-        <div className="grid grid-cols-2 gap-4">
-          <div className="col-span-2 text-center text-lg font-bold">
-            Incident Description
-          </div>
-          <Separator className="col-span-2" />
-          <div>
-            {data.damage_description}
-          </div>
-          <Separator className="col-span-2" />
-        </div>
-        <DialogClose
-          className="flex items-center justify-center text-background rounded-md text-sm font-medium bg-foreground h-10 px-4 py-2"
-          onClick={onAccept}>
-          Accept
-        </DialogClose>
-        <DialogClose
-          className="flex items-center  justify-center text-background rounded-md text-sm font-medium bg-foreground h-10 px-4 py-2 hover:bg-destructive"
-          onClick={onReject}>
-          Reject
-        </DialogClose>
+        <div>Incident Id</div>
+        <Input readOnly className='w-full' defaultValue={incident.incident_id} />
+        <div>Damage Type</div>
+        <Input readOnly className='w-full' defaultValue={incident.damage_type} />
+        <div>Damage Description</div>
+        <Textarea readOnly className='w-full' defaultValue={incident.damage_description} />
+
+        <DialogFooter>
+          <DialogClose onClick={onAccept}>
+            <Button className='w-full'>Accept</Button>
+          </DialogClose>
+          <DialogClose onClick={onReject}>
+            <Button className='w-full' variant='destructive'>Reject</Button>
+          </DialogClose>
+        </DialogFooter>
       </DialogContent>
     </Dialog >
   )
