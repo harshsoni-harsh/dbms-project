@@ -6,14 +6,14 @@ export default function Home() {
   const about = "Welcome to ########, where we specialize in providing peace of mind through our comprehensive insurance coverage. With years of experience and a commitment to customer satisfaction, we're here to safeguard what matters most to you";
   const heading = "Insure Your Journey: Navigate Life's Roads Safely with Our Vehicle Insurance!"
   return (
-    <div className="flex items-center justify-start text-center w-full h-full overflow-hidden">
-      <div className="flex flex-col items-center justify-between w-1/2 gap-2 h-1/2 rounded-md p-2">
+    <div className="flex items-center justify-start text-justify w-full h-full overflow-hidden">
+      <div className="flex flex-col items-center justify-between w-full md:w-1/2 gap-2 h-1/2 rounded-md p-2">
         <span
           className="text-3xl font-extrabold justify-self-start mb-4"
         >
           {heading}
         </span>
-        <p className="text-xl text-justify">
+        <p className="text-xl ">
           {about}
         </p>
         <Link
@@ -23,7 +23,6 @@ export default function Home() {
           About Us
         </Link>
       </div>
-
       <div className="absolute -z-10">
         <Image src={car} alt={"Car Image"} />
       </div>
