@@ -93,7 +93,6 @@ export async function PUT(req: NextRequest) {
         });
 
         const result = await createPolicy(
-            // @ts-expect-error it exists
             session.user.uid,
             data.policyTypeId,
             data.vehicleManufacturer,

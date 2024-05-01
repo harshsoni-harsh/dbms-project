@@ -22,8 +22,7 @@ export async function GET(req: NextRequest) {
     });
 
     try {
-        // @ts-expect-error it exists
-        const result = await viewCustomer(parseInt(session.user.uid));
+        const result = await viewCustomer(session.user.uid);
 
         return NextResponse.json({
             message: 'success',

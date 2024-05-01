@@ -1,6 +1,6 @@
 import dbConn from "@/lib/dbConnector";
 
-export async function viewReceipts(customerId: string) {
+export async function viewReceipts(customerId: number) {
     const conn = await dbConn;
     await conn.connect();
 
