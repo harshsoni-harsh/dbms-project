@@ -120,3 +120,9 @@ INSERT INTO staff VALUES
 (1, 'dbadmin', 'Pata', 'Nahi', '4564564560', 'dbadmin@gmail.com', 'M'),
 (2, 'inspector', 'Big', 'Smoke', '1231231230', 'inspector@gmail.com', 'M'),
 (3, 'manager', 'Tommy', 'Vercetti', '9879879870', 'manager@gmail.com', 'M');
+
+INSERT INTO policy_type (maturity_duration, renew_duration, title, description, coverage) VALUES 
+(1, 1, 'Comprehensive Coverage', 'Covers damages to your car from accidents, theft, and natural disasters.', 95.50), 
+(1, 1, 'Third-Party Liability', 'Covers damages to another person’s property or injuries to others in an accident.', 75.25), 
+(1, 1, 'Collision Coverage', 'Covers damages to your car from a collision, regardless of who is at fault.', 85.00), 
+(1, 1, 'Personal Injury Protection', 'Covers medical expenses and lost wages for you and your passengers after an accident.', 90.75);
